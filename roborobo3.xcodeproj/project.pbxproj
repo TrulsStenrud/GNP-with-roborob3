@@ -86,6 +86,12 @@
 		37BA27591BC3D014002DF5DC /* SwitchObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37BA27071BC3D014002DF5DC /* SwitchObject.cpp */; };
 		37C810401E28AF1F00A71E6F /* TemplateMedeaConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37C8103F1E28AF1F00A71E6F /* TemplateMedeaConfigurationLoader.cpp */; };
 		37E870AA1E799B20003D6DD8 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E870A91E799B20003D6DD8 /* SDL2_image.framework */; };
+		FB7A658D25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658C25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp */; };
+		FB7A659225D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h in Sources */ = {isa = PBXBuildFile; fileRef = FB7A659125D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h */; };
+		FB7A659925D6C5DE00A28264 /* MyTestProjectAgentObserver.h in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658625D6C19800A28264 /* MyTestProjectAgentObserver.h */; };
+		FB7A659A25D6C5DE00A28264 /* MyTestProjectController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658825D6C19800A28264 /* MyTestProjectController.cpp */; };
+		FB7A659B25D6C5DE00A28264 /* MyTestProjectAgentObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658925D6C19800A28264 /* MyTestProjectAgentObserver.cpp */; };
+		FB7A659C25D6C5DE00A28264 /* MyTestProjectWorldObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658A25D6C19800A28264 /* MyTestProjectWorldObserver.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -281,6 +287,15 @@
 		37C810411E28AF2700A71E6F /* TemplateMedeaConfigurationLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateMedeaConfigurationLoader.h; sourceTree = "<group>"; };
 		37E870A91E799B20003D6DD8 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../../../../../../Volumes/SDL2_image/SDL2_image.framework; sourceTree = "<group>"; };
 		37EAECC71FE1236D002E5C81 /* foragingregions.properties */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = foragingregions.properties; sourceTree = "<group>"; };
+		FB7A658425D6C19800A28264 /* MyTestProjectWorldObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectWorldObserver.h; sourceTree = "<group>"; };
+		FB7A658525D6C19800A28264 /* MyTestProjectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectController.h; sourceTree = "<group>"; };
+		FB7A658625D6C19800A28264 /* MyTestProjectAgentObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectAgentObserver.h; sourceTree = "<group>"; };
+		FB7A658825D6C19800A28264 /* MyTestProjectController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MyTestProjectController.cpp; sourceTree = "<group>"; };
+		FB7A658925D6C19800A28264 /* MyTestProjectAgentObserver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MyTestProjectAgentObserver.cpp; sourceTree = "<group>"; };
+		FB7A658A25D6C19800A28264 /* MyTestProjectWorldObserver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MyTestProjectWorldObserver.cpp; sourceTree = "<group>"; };
+		FB7A658B25D6C21400A28264 /* mytestproject.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = mytestproject.properties; sourceTree = "<group>"; };
+		FB7A658C25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MyTestProjectConfigurationLoader.cpp; sourceTree = "<group>"; };
+		FB7A659125D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectConfigurationLoader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -361,6 +376,7 @@
 		3705F0891BC67B7C001A016D /* config */ = {
 			isa = PBXGroup;
 			children = (
+				FB7A658B25D6C21400A28264 /* mytestproject.properties */,
 				3751779121786D3A00B68E59 /* tutorial.properties */,
 				37EAECC71FE1236D002E5C81 /* foragingregions.properties */,
 				37753A981ECB295C0039BF21 /* movingobjects.properties */,
@@ -745,6 +761,7 @@
 				3751779021786CF400B68E59 /* TutorialConfigurationLoader.h */,
 				3766DF761E2914160069E44C /* TemplateEEConfigurationLoader.h */,
 				3705F0561BC66E03001A016D /* TemplateBoidsConfigurationLoader.h */,
+				FB7A659125D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h */,
 				3705F0581BC66E03001A016D /* TemplateWanderConfigurationLoader.h */,
 				3739761C1BCEAA6200A007BF /* TemplateRandomwalkConfigurationLoader.h */,
 				37C810411E28AF2700A71E6F /* TemplateMedeaConfigurationLoader.h */,
@@ -775,6 +792,7 @@
 				3751778521786BCF00B68E59 /* Tutorial */,
 				37B450691FE0757B00B50263 /* ForagingRegions */,
 				3766DF671E29125D0069E44C /* TemplateVanillaEE */,
+				FB7A658225D6C19800A28264 /* MyTestProject */,
 				376C24581E28BBA800E70850 /* TemplateMedea */,
 				376C24491E28BB8800E70850 /* TemplateEE */,
 				3739761E1BCFAED500A007BF /* TemplateRandomwalk */,
@@ -860,6 +878,7 @@
 		37BA26FB1BC3D014002DF5DC /* ext */ = {
 			isa = PBXGroup;
 			children = (
+				FB7A658C25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp */,
 				3766DF771E29141E0069E44C /* TemplateEEConfigurationLoader.cpp */,
 				37B4505B1FE074D600B50263 /* ForagingRegionsConfigurationLoader.cpp */,
 				37BA26FE1BC3D014002DF5DC /* ConfigurationLoader.cpp */,
@@ -878,6 +897,35 @@
 				37A9F91A1E28AA7E00006059 /* TemplateVanillaEEConfigurationLoader.cpp */,
 			);
 			path = ext;
+			sourceTree = "<group>";
+		};
+		FB7A658225D6C19800A28264 /* MyTestProject */ = {
+			isa = PBXGroup;
+			children = (
+				FB7A658325D6C19800A28264 /* include */,
+				FB7A658725D6C19800A28264 /* src */,
+			);
+			path = MyTestProject;
+			sourceTree = "<group>";
+		};
+		FB7A658325D6C19800A28264 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				FB7A658425D6C19800A28264 /* MyTestProjectWorldObserver.h */,
+				FB7A658525D6C19800A28264 /* MyTestProjectController.h */,
+				FB7A658625D6C19800A28264 /* MyTestProjectAgentObserver.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		FB7A658725D6C19800A28264 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FB7A658825D6C19800A28264 /* MyTestProjectController.cpp */,
+				FB7A658925D6C19800A28264 /* MyTestProjectAgentObserver.cpp */,
+				FB7A658A25D6C19800A28264 /* MyTestProjectWorldObserver.cpp */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -919,6 +967,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 37BA260D1BC3C782002DF5DC;
@@ -936,6 +985,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB7A659925D6C5DE00A28264 /* MyTestProjectAgentObserver.h in Sources */,
+				FB7A659A25D6C5DE00A28264 /* MyTestProjectController.cpp in Sources */,
+				FB7A659B25D6C5DE00A28264 /* MyTestProjectAgentObserver.cpp in Sources */,
+				FB7A659C25D6C5DE00A28264 /* MyTestProjectWorldObserver.cpp in Sources */,
+				FB7A659225D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h in Sources */,
+				FB7A658D25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp in Sources */,
 				3751779821786E1C00B68E59 /* TutorialAgentObserver.cpp in Sources */,
 				3751779921786E1C00B68E59 /* TutorialController.cpp in Sources */,
 				3751779A21786E1C00B68E59 /* TutorialWorldObserver.cpp in Sources */,

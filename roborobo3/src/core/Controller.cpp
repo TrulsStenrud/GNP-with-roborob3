@@ -65,9 +65,9 @@ void Controller::refreshInputs(){
     //      - green value
     //      - blue value
     // - relative distance and/or orientation of either the closest landmark (if any, zero if none)
-    
+
     lastRefreshIteration = gWorld->getIterations();
-    
+
     distanceSensors.clear();
     objectDetectors.clear();
     objectTypeDetectors.clear();
@@ -75,22 +75,22 @@ void Controller::refreshInputs(){
     robotGroupDetector.clear();
     robotRelativeOrientationDetectors.clear();
     wallDetectors.clear();
-    
+
     redGroundDetectors = -1;
     greenGroundDetectors = -1;
     blueGroundDetectors = -1;
 
     landmark_closest_DirectionDetector = -1;
     landmark_closest_DistanceDetector = -1;
-    
+
     // camera sensors
-    
+
     for(int i  = 0; i < _wm->_cameraSensorsNb; i++)
     {
         distanceSensors.push_back(_wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i));
-        
+
         int objectId = _wm->getObjectIdFromCameraSensor(i);
-        
+
         if ( gSensoryInputs_physicalObjectType )
         {
             // input: physical object? which type?
@@ -109,7 +109,7 @@ void Controller::refreshInputs(){
                 }
             }
         }
-        
+
         if ( gSensoryInputs_isOtherAgent )
         {
             // input: another agent? If yes: same group?
@@ -118,13 +118,13 @@ void Controller::refreshInputs(){
                 // this is an agent
                 int targetRobotId = gWorld->getRobot(objectId-gRobotIndexStartOffset)->getWorldModel()->getId();
                 robotDetectors.push_back( targetRobotId );
-                
+
                 if ( gSensoryInputs_otherAgentGroup )
                 {
                     int targetRobotGroup = gWorld->getRobot(objectId-gRobotIndexStartOffset)->getWorldModel()->getGroupId();
                     robotGroupDetector.push_back( targetRobotGroup );
                 }
-                
+
                 if ( gSensoryInputs_otherAgentOrientation )
                 {
                     // relative orientation? (ie. angle difference wrt. current agent)
@@ -158,7 +158,7 @@ void Controller::refreshInputs(){
                 }
             }
         }
-        
+
         if ( gSensoryInputs_isWall )
         {
             // input: wall or empty?
@@ -171,20 +171,20 @@ void Controller::refreshInputs(){
                 wallDetectors.push_back( 0 ); // nothing. (objectId=-1)
             }
         }
-        
+
     }
-    
+
     // floor sensor
-    
+
     if ( gSensoryInputs_groundSensors )
     {
         redGroundDetectors = (double)_wm->getGroundSensor_redValue()/255.0;
         greenGroundDetectors = (double)_wm->getGroundSensor_greenValue()/255.0;
         blueGroundDetectors = (double)_wm->getGroundSensor_blueValue()/255.0;
     }
-    
+
     // closest landmark
-    
+
     if ( gNbOfLandmarks > 0 )  // if ( gSensoryInputs_landmarkTrackerMode == 1 ) // register closest landmark
     {
         _wm->updateLandmarkSensor(); // update with closest landmark
@@ -398,5 +398,5 @@ Controller* Controller::getRobotControllerAt ( int sensorId )
     if ( checkRefresh() == false ) { refreshInputs(); }
     Controller* targetRobotController = dynamic_cast<Controller*>(gWorld->getRobot(getRobotIdAt(sensorId))->getController());
     return targetRobotController;
-    
+
 }

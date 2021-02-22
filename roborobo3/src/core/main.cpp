@@ -25,7 +25,7 @@ void displayGeneralInformation()
 	std::cout << " =-= Current build name      : " << gCurrentBuildInfo << std::endl;
 	std::cout << " =-= Official version tag    : " << gVersion << std::endl;
 	std::cout << " =-= Compilation version tag : " << gCompileDate << " - " << gCompileTime << std::endl;
-    
+
 	std::cout << std::endl;
 }
 
@@ -86,21 +86,21 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& v)
 int main(int argc, char* argv[])
 {
     bool commandline_propertiesfilename = false;
-    
+
 	// Install signal handler, to handle Ctrl-C and 'kill' signals
 	signal(SIGINT, quit);
 	signal(SIGTERM, quit);
-    
+
     // Parse Command line parameters (in argv), using getopt
-    
+
     displayGeneralInformation();
-    
+
     int c = getopt (argc, argv, "vhsl:o:");
-    
+
     if ( c  == -1 ) // no arguments? display usage.
     {
         //usage(argv[0]);
-        
+
         std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << std::endl;
         std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << std::endl;
         std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << std::endl;
@@ -121,25 +121,25 @@ int main(int argc, char* argv[])
         std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << std::endl;
         std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << std::endl;
         std::cout << std::endl;
-        
+
         // roborobo -s (...)
         gVerbose = false;
         gVerbose_commandlineargument = true;
-        
+
         //return -1;
     }
-    
+
     while ( c  != -1 )
     {
         //std::cout << "Argument: " << (int)c << " ; " << (char)c << std::endl; //todo :: DEBUG
-        
+
         switch (c)
         {
             case 'v':
                 versionInfos();
                 return -1;
                 break;
-                
+
             case 'l':
                 if ( commandline_propertiesfilename == false )
                 {
@@ -152,7 +152,7 @@ int main(int argc, char* argv[])
                     std::cout << "[INFO] Command-line parameter: properties file already set (\"" <<  gPropertiesFilename << "\"). Ignored." << std::endl;
                 }
                 break;
-                
+
             case 'o':
                 if ( gLogDirectoryname_commandlineargument == false ) // take only the first into account
                 {
@@ -165,17 +165,17 @@ int main(int argc, char* argv[])
                     std::cout << "[INFO] Command-line parameter: logs directory already set (\"" <<  gLogDirectoryname << "\"). Ignored." << std::endl;
                 }
                 break;
-                
+
             case 's':
                 gVerbose = false;
                 gVerbose_commandlineargument = true;
                 break;
-                
+
             case 'h':
                 usage(argv[0]);
                 return -1;
                 break;
-            
+
             case 'b':
                 gBatchMode = true;
                 gDisplayMode = 2;
@@ -185,16 +185,16 @@ int main(int argc, char* argv[])
             case '?':
                 //std::cout << "[INFO] Unknown argument \"" << (char)optopt << "\" detected, and ignored." << std::endl;
                 break;
-                
+
             default:
                 usage(argv[0]);
                 return -1;
                 break;
         }
-        
+
         c = getopt (argc, argv, "vhsbl:o:");
     }
-    
+
     /**/
     char *path = NULL;
     size_t size = 0;
@@ -202,12 +202,12 @@ int main(int argc, char* argv[])
     std::cout << "[INFO] Current location : " << path << std::endl;
     //delete path;
     /**/
-    
+
 	std::cout << std::endl << std::endl;
-    
+
 	int returnValue = 0;
 	returnValue = launchRoborobo();
-    
+
 	return returnValue;
 }
 

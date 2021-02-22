@@ -101,12 +101,9 @@ void Controller::refreshInputs(){
             }
             else
             {
-                // not a physical object. But: should still fill in the inputs (with zeroes)
-                int nbOfTypes = PhysicalObjectFactory::getNbOfTypes();
-                for ( int i = 0 ; i != nbOfTypes ; i++ )
-                {
-                    objectDetectors.push_back( 0 );
-                }
+                // not a physical object. But: should still fill in the inputs (with zero and minus one)
+                objectDetectors.push_back( 0 );
+                objectTypeDetectors.push_back( -1 );
             }
         }
 

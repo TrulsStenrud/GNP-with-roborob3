@@ -38,6 +38,7 @@ void TemplateRandomwalkWorldObserver::stepPre()
     // REMOVE OR COMMENT THE FOLLOWING TO AVOID RESETTING POSITIONS EVERY 100 ITERATIONS
     //
     
+    
     if ( gWorld->getIterations() % 100 == 0 )
     {
         if ( gVerbose && gDisplayMode == 0 )

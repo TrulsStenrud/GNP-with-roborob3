@@ -20,6 +20,7 @@ class MyTestProjectController : public Controller
 		
 		void reset();
 		void step();
+    int getNoEnergyitemDistance(int sensorId);
 
 };
 

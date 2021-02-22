@@ -92,6 +92,13 @@
 		FB7A659A25D6C5DE00A28264 /* MyTestProjectController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658825D6C19800A28264 /* MyTestProjectController.cpp */; };
 		FB7A659B25D6C5DE00A28264 /* MyTestProjectAgentObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658925D6C19800A28264 /* MyTestProjectAgentObserver.cpp */; };
 		FB7A659C25D6C5DE00A28264 /* MyTestProjectWorldObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658A25D6C19800A28264 /* MyTestProjectWorldObserver.cpp */; };
+		FB7A65C625E281F800A28264 /* MyTestEESharedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65C225E281F800A28264 /* MyTestEESharedData.cpp */; };
+		FB7A65C725E281F800A28264 /* MyTestEEWorldObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65C325E281F800A28264 /* MyTestEEWorldObserver.cpp */; };
+		FB7A65C825E281F800A28264 /* MyTestEEController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65C425E281F800A28264 /* MyTestEEController.cpp */; };
+		FB7A65C925E281F800A28264 /* MyTestEEAgentObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65C525E281F800A28264 /* MyTestEEAgentObserver.cpp */; };
+		FB7A65CD25E282AD00A28264 /* MyTestEEConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65CC25E282AD00A28264 /* MyTestEEConfigurationLoader.cpp */; };
+		FB7A65D125E29E5600A28264 /* ForagingObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65CF25E29E5600A28264 /* ForagingObject.cpp */; };
+		FB7A65D625E3DE8700A28264 /* NestObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65D425E3DE8700A28264 /* NestObject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -296,6 +303,21 @@
 		FB7A658B25D6C21400A28264 /* mytestproject.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = mytestproject.properties; sourceTree = "<group>"; };
 		FB7A658C25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MyTestProjectConfigurationLoader.cpp; sourceTree = "<group>"; };
 		FB7A659125D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectConfigurationLoader.h; sourceTree = "<group>"; };
+		FB7A65BA25E281D000A28264 /* mytestEE.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = mytestEE.properties; sourceTree = "<group>"; };
+		FB7A65BD25E281F800A28264 /* MyTestEESharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTestEESharedData.h; sourceTree = "<group>"; };
+		FB7A65BE25E281F800A28264 /* MyTestEEWorldObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTestEEWorldObserver.h; sourceTree = "<group>"; };
+		FB7A65BF25E281F800A28264 /* MyTestEEAgentObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTestEEAgentObserver.h; sourceTree = "<group>"; };
+		FB7A65C025E281F800A28264 /* MyTestEEController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTestEEController.h; sourceTree = "<group>"; };
+		FB7A65C225E281F800A28264 /* MyTestEESharedData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyTestEESharedData.cpp; sourceTree = "<group>"; };
+		FB7A65C325E281F800A28264 /* MyTestEEWorldObserver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyTestEEWorldObserver.cpp; sourceTree = "<group>"; };
+		FB7A65C425E281F800A28264 /* MyTestEEController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyTestEEController.cpp; sourceTree = "<group>"; };
+		FB7A65C525E281F800A28264 /* MyTestEEAgentObserver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyTestEEAgentObserver.cpp; sourceTree = "<group>"; };
+		FB7A65CB25E2827900A28264 /* MyTestEEConfigurationLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTestEEConfigurationLoader.h; sourceTree = "<group>"; };
+		FB7A65CC25E282AD00A28264 /* MyTestEEConfigurationLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MyTestEEConfigurationLoader.cpp; sourceTree = "<group>"; };
+		FB7A65CF25E29E5600A28264 /* ForagingObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ForagingObject.cpp; sourceTree = "<group>"; };
+		FB7A65D025E29E5600A28264 /* ForagingObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForagingObject.h; sourceTree = "<group>"; };
+		FB7A65D425E3DE8700A28264 /* NestObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NestObject.cpp; sourceTree = "<group>"; };
+		FB7A65D525E3DE8700A28264 /* NestObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NestObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -376,6 +398,7 @@
 		3705F0891BC67B7C001A016D /* config */ = {
 			isa = PBXGroup;
 			children = (
+				FB7A65BA25E281D000A28264 /* mytestEE.properties */,
 				FB7A658B25D6C21400A28264 /* mytestproject.properties */,
 				3751779121786D3A00B68E59 /* tutorial.properties */,
 				37EAECC71FE1236D002E5C81 /* foragingregions.properties */,
@@ -762,6 +785,7 @@
 				3766DF761E2914160069E44C /* TemplateEEConfigurationLoader.h */,
 				3705F0561BC66E03001A016D /* TemplateBoidsConfigurationLoader.h */,
 				FB7A659125D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h */,
+				FB7A65CB25E2827900A28264 /* MyTestEEConfigurationLoader.h */,
 				3705F0581BC66E03001A016D /* TemplateWanderConfigurationLoader.h */,
 				3739761C1BCEAA6200A007BF /* TemplateRandomwalkConfigurationLoader.h */,
 				37C810411E28AF2700A71E6F /* TemplateMedeaConfigurationLoader.h */,
@@ -789,6 +813,7 @@
 			isa = PBXGroup;
 			children = (
 				37BA26D61BC3D014002DF5DC /* readme.txt */,
+				FB7A65BB25E281F800A28264 /* MyTestEE */,
 				3751778521786BCF00B68E59 /* Tutorial */,
 				37B450691FE0757B00B50263 /* ForagingRegions */,
 				3766DF671E29125D0069E44C /* TemplateVanillaEE */,
@@ -879,6 +904,7 @@
 			isa = PBXGroup;
 			children = (
 				FB7A658C25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp */,
+				FB7A65CC25E282AD00A28264 /* MyTestEEConfigurationLoader.cpp */,
 				3766DF771E29141E0069E44C /* TemplateEEConfigurationLoader.cpp */,
 				37B4505B1FE074D600B50263 /* ForagingRegionsConfigurationLoader.cpp */,
 				37BA26FE1BC3D014002DF5DC /* ConfigurationLoader.cpp */,
@@ -924,6 +950,41 @@
 				FB7A658825D6C19800A28264 /* MyTestProjectController.cpp */,
 				FB7A658925D6C19800A28264 /* MyTestProjectAgentObserver.cpp */,
 				FB7A658A25D6C19800A28264 /* MyTestProjectWorldObserver.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		FB7A65BB25E281F800A28264 /* MyTestEE */ = {
+			isa = PBXGroup;
+			children = (
+				FB7A65BC25E281F800A28264 /* include */,
+				FB7A65C125E281F800A28264 /* src */,
+			);
+			path = MyTestEE;
+			sourceTree = "<group>";
+		};
+		FB7A65BC25E281F800A28264 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				FB7A65D525E3DE8700A28264 /* NestObject.h */,
+				FB7A65D025E29E5600A28264 /* ForagingObject.h */,
+				FB7A65BD25E281F800A28264 /* MyTestEESharedData.h */,
+				FB7A65BE25E281F800A28264 /* MyTestEEWorldObserver.h */,
+				FB7A65BF25E281F800A28264 /* MyTestEEAgentObserver.h */,
+				FB7A65C025E281F800A28264 /* MyTestEEController.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		FB7A65C125E281F800A28264 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FB7A65C225E281F800A28264 /* MyTestEESharedData.cpp */,
+				FB7A65C325E281F800A28264 /* MyTestEEWorldObserver.cpp */,
+				FB7A65C425E281F800A28264 /* MyTestEEController.cpp */,
+				FB7A65C525E281F800A28264 /* MyTestEEAgentObserver.cpp */,
+				FB7A65CF25E29E5600A28264 /* ForagingObject.cpp */,
+				FB7A65D425E3DE8700A28264 /* NestObject.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -989,6 +1050,7 @@
 				FB7A659A25D6C5DE00A28264 /* MyTestProjectController.cpp in Sources */,
 				FB7A659B25D6C5DE00A28264 /* MyTestProjectAgentObserver.cpp in Sources */,
 				FB7A659C25D6C5DE00A28264 /* MyTestProjectWorldObserver.cpp in Sources */,
+				FB7A65C925E281F800A28264 /* MyTestEEAgentObserver.cpp in Sources */,
 				FB7A659225D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h in Sources */,
 				FB7A658D25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp in Sources */,
 				3751779821786E1C00B68E59 /* TutorialAgentObserver.cpp in Sources */,
@@ -1007,6 +1069,7 @@
 				3705F0811BC66E3B001A016D /* TemplateBoidsWorldObserver.cpp in Sources */,
 				37BA27431BC3D014002DF5DC /* Misc.cpp in Sources */,
 				37BA27521BC3D014002DF5DC /* EnergyItem.cpp in Sources */,
+				FB7A65CD25E282AD00A28264 /* MyTestEEConfigurationLoader.cpp in Sources */,
 				37BA27311BC3D014002DF5DC /* MLP.cpp in Sources */,
 				37BA27341BC3D014002DF5DC /* Perceptron.cpp in Sources */,
 				37BA27591BC3D014002DF5DC /* SwitchObject.cpp in Sources */,
@@ -1038,6 +1101,7 @@
 				376C24661E28BBA800E70850 /* TemplateMedeaWorldObserver.cpp in Sources */,
 				3766DF731E29125D0069E44C /* TemplateVanillaEEController.cpp in Sources */,
 				37BA27351BC3D014002DF5DC /* ReservoirNeuralNetwork.cpp in Sources */,
+				FB7A65C725E281F800A28264 /* MyTestEEWorldObserver.cpp in Sources */,
 				37BA27301BC3D014002DF5DC /* LayeredNeuralNetwork.cpp in Sources */,
 				3751778F21786CD900B68E59 /* TutorialConfigurationLoader.cpp in Sources */,
 				37BA274B1BC3D014002DF5DC /* World.cpp in Sources */,
@@ -1049,19 +1113,23 @@
 				37B4507A1FE0760400B50263 /* ForagingRegionsWorldObserver.cpp in Sources */,
 				373976291BCFAED500A007BF /* TemplateRandomwalkWorldObserver.cpp in Sources */,
 				37B4505C1FE074D600B50263 /* ForagingRegionsConfigurationLoader.cpp in Sources */,
+				FB7A65C625E281F800A28264 /* MyTestEESharedData.cpp in Sources */,
 				37BA27541BC3D014002DF5DC /* LandmarkObject.cpp in Sources */,
 				376C24571E28BB8800E70850 /* TemplateEEWorldObserver.cpp in Sources */,
 				37000B452084E00C009CDA00 /* ESNEigen.cpp in Sources */,
+				FB7A65D125E29E5600A28264 /* ForagingObject.cpp in Sources */,
 				37BA27491BC3D014002DF5DC /* SquareObject.cpp in Sources */,
 				376C24551E28BB8800E70850 /* TemplateEEController.cpp in Sources */,
 				37BA27331BC3D014002DF5DC /* NeuralNetworkException.cpp in Sources */,
 				373976281BCFAED500A007BF /* TemplateRandomwalkController.cpp in Sources */,
 				37BA27501BC3D014002DF5DC /* ConfigurationLoader.cpp in Sources */,
 				376C24651E28BBA800E70850 /* TemplateMedeaSharedData.cpp in Sources */,
+				FB7A65D625E3DE8700A28264 /* NestObject.cpp in Sources */,
 				3766DF721E29125D0069E44C /* TemplateVanillaEEAgentObserver.cpp in Sources */,
 				37BA272F1BC3D014002DF5DC /* Elman.cpp in Sources */,
 				37BA27481BC3D014002DF5DC /* RobotWorldModel.cpp in Sources */,
 				37BA27421BC3D014002DF5DC /* main.cpp in Sources */,
+				FB7A65C825E281F800A28264 /* MyTestEEController.cpp in Sources */,
 				376C24631E28BBA800E70850 /* TemplateMedeaAgentObserver.cpp in Sources */,
 				37BA27451BC3D014002DF5DC /* PhysicalObject.cpp in Sources */,
 				37BA273F1BC3D014002DF5DC /* Graphics.cpp in Sources */,
@@ -1173,7 +1241,7 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				HEADER_SEARCH_PATHS = (
 					roborobo3/prj,
 					roborobo3/include/ext,
@@ -1184,7 +1252,6 @@
 					/usr/local/include/eigen3/,
 				);
 				OTHER_CPLUSPLUSFLAGS = "";
-				"OTHER_CPLUSPLUSFLAGS[arch=*]" = "$(OTHER_CFLAGS)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1207,7 +1274,6 @@
 					/usr/local/include/eigen3/,
 				);
 				OTHER_CPLUSPLUSFLAGS = "";
-				"OTHER_CPLUSPLUSFLAGS[arch=*]" = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

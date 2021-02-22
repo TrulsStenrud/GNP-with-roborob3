@@ -4,3 +4,7 @@ logs/
 !roborobo3/roborobo
 .DS_Store
 *.xcuserstate
+roborobo3.xcodeproj/xcuserdata/trulsstenrud.xcuserdatad/xcschemes/xcschememanagement.plist
+roborobo3.xcodeproj/xcuserdata/trulsstenrud.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+roborobo3.xcodeproj/xcshareddata/xcschemes/roborobo3.xcscheme
+roborobo3.xcodeproj/xcuserdata/trulsstenrud.xcuserdatad/xcschemes/xcschememanagement.plist

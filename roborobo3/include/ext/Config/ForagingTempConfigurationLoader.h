@@ -12,8 +12,8 @@ class ForagingTempConfigurationLoader : public ConfigurationLoader
 	private:
 
 	public:
-		enum controller:int{GNP, NEAT, MPFA};
-		controller controller;
+		enum CONTROLLER:int{GNP, NEAT, MPFA};
+		CONTROLLER controller;
 
 		ForagingTempConfigurationLoader();
 		~ForagingTempConfigurationLoader();

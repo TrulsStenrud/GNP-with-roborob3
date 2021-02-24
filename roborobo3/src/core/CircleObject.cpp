@@ -96,10 +96,7 @@ void CircleObject::show(SDL_Surface *surface) // display on screen (called in th
 {
     //  draw footprint
     
-    Uint8 r = 0xF0;
-    Uint8 g = 0xF0;
-    Uint8 b = 0xF0;
-    Uint32 color = SDL_MapRGBA(surface->format,r,g,b,SDL_ALPHA_OPAQUE);
+    Uint32 color = SDL_MapRGBA(surface->format,_footprintColorRed,_footprintColorGreen,_footprintColorBlue,SDL_ALPHA_OPAQUE);
     
     for (Sint16 xColor = getXCenterPixel() - Sint16(_footprintRadius) ; xColor < getXCenterPixel() + Sint16(_footprintRadius) ; xColor++)
     {

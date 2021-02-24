@@ -11,22 +11,40 @@
 #include "MyTestEEController.h"
 #include "World/World.h"
 
-ForagingObject::ForagingObject(int __id) : EnergyItem( __id ){
-    //_radius = 8;
-    //_footprintRadius = 16;
+ForagingObject::ForagingObject(int __id) : CircleObject( __id ){
+    _radius = 4;
+    _footprintRadius = 8;
+    setType(0);
 }
 
-
+void ForagingObject::step()
+{
+    stepPhysicalObject();
+}
 
 void ForagingObject::isWalked(int __idAgent){
+std::cout << "im walked" << std::endl;
+}
+
+void ForagingObject::isTouched(int __idAgent){
     
-    auto targetRobotController = dynamic_cast<MyTestEEController*>(gWorld->getRobot(__idAgent)->getController());
-    if(targetRobotController->isCarrying()){
-        std::cout << "Cant pick up\n";
+}
+
+void ForagingObject::isPushed(int __idAgent, std::tuple<double, double> __speed){
+
+    auto targetRobotController = dynamic_cast<MyTestEEController*>(gWorld->getRobot(__idAgent-gRobotIndexStartOffset)->getController());
+    if(!targetRobotController->isCarrying()){
+        //EnergyItem::isWalked(__idAgent);
+        
+        regrowTime = regrowTimeMax;
+        unregisterObject();
+        registered = false;
+        hide();
+        _visible = false;
+        
+        targetRobotController->setCarrying(_id);
     }
     else{
-        std::cout << "Pick up\n";
-        EnergyItem::isWalked(__idAgent);
-        targetRobotController->setCarrying(_id);
+        
     }
 }

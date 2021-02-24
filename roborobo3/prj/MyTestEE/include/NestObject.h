@@ -19,7 +19,10 @@ public:
     ~NestObject() {}
     
     void isWalked( int __idAgent ) override;
+    void resetValues();
     
+protected:
+    int _collectedGoods;
 };
 
 #endif /* NestObject_hpp */

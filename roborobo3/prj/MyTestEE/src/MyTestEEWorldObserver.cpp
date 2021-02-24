@@ -10,6 +10,7 @@
 #include "MyTestEE/include/NestObject.h"
 #include "WorldModels/RobotWorldModel.h"
 #include "World/World.h"
+#include "World/MovableObject.h"
 #include "RoboroboMain/roborobo.h"
 
 MyTestEEWorldObserver::MyTestEEWorldObserver( World* world ) : TemplateEEWorldObserver( world )
@@ -26,36 +27,58 @@ MyTestEEWorldObserver::~MyTestEEWorldObserver()
     // superclass destructor called before
 }
 
+
+
 void MyTestEEWorldObserver::initPre()
 {
     TemplateEEWorldObserver::initPre();
     
     {
         int id = PhysicalObjectFactory::getNextId();
-        
         auto nest = new NestObject(id);
-        gPhysicalObjects.push_back(nest);
-        nest->relocate();
-    }
-    {
-        int id = PhysicalObjectFactory::getNextId();
         
-        auto nest = new NestObject(id);
+        nest->unregisterObject();
+        nest->setCoordinates(1000, 600);
+        nest->registerObject();
+        
         gPhysicalObjects.push_back(nest);
-        nest->relocate();
+        
     }
     
     int nbOfObjects = 20;
     
+    placeGridOfObjects(50, 50, 20, 20);
     for(int i = 0; i < nbOfObjects; i++){
-        int id = PhysicalObjectFactory::getNextId();
-        
-        auto newItem = new ForagingObject(id);
-        gPhysicalObjects.push_back(newItem);
-        newItem->setDisplayColor(255,128,64);
-        newItem->relocate();
+//        int id = PhysicalObjectFactory::getNextId();
+//
+//        auto newItem = new ForagingObject(id);
+//        gPhysicalObjects.push_back(newItem);
+//        newItem->setDisplayColor(255,128,64);
+//        newItem->relocate();
     }
     
+}
+
+void MyTestEEWorldObserver::placeGridOfObjects(int x, int y, int columns, int rows){
+    int cellWidth = 20;
+    int cellHeight = 20;
+    
+    for(int i = 0; i < columns; i++){
+        for(int j = 0; j < rows; j++){
+            placeObject(x + i * cellWidth, y + j * cellHeight);
+        }
+    }
+}
+
+void MyTestEEWorldObserver::placeObject(double x, double y){
+    int id = PhysicalObjectFactory::getNextId();
+    
+    auto newItem = new ForagingObject(id);
+    gPhysicalObjects.push_back(newItem);
+    newItem->setDisplayColor(255,128,64);
+    newItem->unregisterObject();
+    newItem->setCoordinates(x, y);
+    newItem->registerObject();
 }
 
 void MyTestEEWorldObserver::initPost()

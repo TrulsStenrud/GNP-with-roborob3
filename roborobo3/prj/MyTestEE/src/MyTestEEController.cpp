@@ -35,7 +35,6 @@ void MyTestEEController::unLoad(){
 void MyTestEEController::setCarrying(int objectId){
     if (objectId >= gPhysicalObjectIndexStartOffset
         && objectId < gPhysicalObjectIndexStartOffset + gPhysicalObjects.size()){
-        std::cout << "Picked up this thing\n";
         _carriedObjectId = objectId;
     }
     else{

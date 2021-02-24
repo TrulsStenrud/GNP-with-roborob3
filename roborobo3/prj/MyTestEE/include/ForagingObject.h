@@ -10,9 +10,9 @@
 #define ForagingObject_hpp
 
 #include <stdio.h>
-#include "World/EnergyItem.h"
+#include "World/CircleObject.h"
 
-class ForagingObject : public EnergyItem {
+class ForagingObject : public CircleObject {
 private:
     bool isCarried;
     
@@ -20,7 +20,10 @@ public:
     ForagingObject( int __id );
     ~ForagingObject() {}
     
+    void step() override;
     void isWalked ( int __idAgent ) override; // callback, triggered by agent
+    void isTouched ( int __idAgent ) override; // callback, triggered by agent
+    void isPushed( int __id, std::tuple<double, double> __speed ) override;
     
 };
 

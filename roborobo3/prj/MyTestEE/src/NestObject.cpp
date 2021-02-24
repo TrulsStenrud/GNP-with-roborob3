@@ -17,12 +17,18 @@ NestObject::NestObject(int __id ) : EnergyItem( __id ){
     setDisplayColor(0, 0, 100);
     _radius = 0;
     _footprintRadius = 80;
+    
+    resetValues();
 }
 
 
+void NestObject::resetValues(){
+    _collectedGoods = 0;
+}
 void NestObject::isWalked(int __idAgent ){
     auto targetRobotController = dynamic_cast<MyTestEEController*>(gWorld->getRobot(__idAgent)->getController());
     if(targetRobotController->isCarrying()){
         targetRobotController->unLoad();
+        _collectedGoods++;
     }
 }

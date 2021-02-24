@@ -14,13 +14,18 @@
 
 NestObject::NestObject(int __id ) : EnergyItem( __id ){
     
-    setDisplayColor(0, 0, 100);
     _radius = 0;
     _footprintRadius = 80;
-    
+    _footprintColorRed = 0xFF;
+    _footprintColorGreen = 0xC0;
+    _footprintColorBlue = 0xC0;
+    _collectedGoods = 0;
     resetValues();
 }
 
+int NestObject::getCollectedGoods(){
+    return _collectedGoods;
+}
 
 void NestObject::resetValues(){
     _collectedGoods = 0;

@@ -1,12 +1,15 @@
 #pragma once
 
-#include <iostream>
+#include "common.h"
+#include "DataListener.h"
 
 
-class MscMain{
+class MscMain : public DataListener{
 
 	public:
-		MscMain();
+		MscMain(int argc, char* argv[]);
 		~MscMain();
+		void onGenerationDone(DataPacket* data) override;
+		void onSimulationDone() override;
 };
 

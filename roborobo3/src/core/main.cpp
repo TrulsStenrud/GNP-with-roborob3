@@ -1,12 +1,13 @@
-#include <stdlib.h>
-#include <iostream>
+#include "RoboroboMain/common.h"
 #include "main.h"
-#include "RoboroboMain/main2.h"
 #include "../masterthesis/MscMain.h"
 
+/*
+ * This class is purely for redirecting program flow to another folder.
+ */
+
 int main(int argc, char* argv[]){
-	std::cout<<"hei"<<std::endl;
-	MscMain* test;
-	test = new MscMain();
-	roboroboMain(argc, argv);
+	MscMain* mscMain = new MscMain(argc, argv);
+	delete mscMain;
+	std::exit(0);
 }

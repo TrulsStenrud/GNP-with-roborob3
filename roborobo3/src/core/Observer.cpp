@@ -6,7 +6,6 @@
  *  Copyright 2009. All rights reserved.
  *
  */
-
 #include "Observers/Observer.h"
 
 Observer::Observer( )
@@ -26,5 +25,5 @@ void Observer::stepPre()
 
 void Observer::stepPost()
 {
-    // nothing to do.
+	 // nothing to do.
 }

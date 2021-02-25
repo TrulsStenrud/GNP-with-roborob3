@@ -129,7 +129,7 @@ std::string gRobotDisplayImageFilename =		"data/agent-mask.png";
 std::string gRobotSpecsImageFilename =			"data/agent-specs.png";
 std::string gForegroundImageFilename =			"data/foreground.png";   // MANDATORY: use png (avoid jpg approximation)
 std::string gEnvironmentImageFilename =			"data/environment.png";
-std::string gBackgroundImageFilename =			"data/background.png";			
+std::string gBackgroundImageFilename =			"data/background.png";
 std::string gFootprintImageFilename =           "data/ground.png";
 
 //general purpose
@@ -142,7 +142,7 @@ bool gBatchMode = false;
 int gScreenBPP = 32; // bits per pixel color (32 bits)
 int gFramesPerSecond = 60; // frame rate
 
-int gLocationFinderMaxNbOfTrials = 100; 
+int gLocationFinderMaxNbOfTrials = 100;
 bool gLocationFinderExitOnFail = true; // true: exit, false: wait another turn and retry.
 
 int gPhysicalObjectsInitAreaX = 0;
@@ -189,7 +189,7 @@ int gVirtualOutputs = 0;
 bool gPauseMode = false;
 bool gStepByStep = false;
 bool gInspectorMode = false; // manual control mode -- false: agent-centered ; true: envt centered (ie. if inspector agent exists)
-bool gInspectorAgent = false; // is there an inspector agent? 
+bool gInspectorAgent = false; // is there an inspector agent?
 
 int gMaxIt = 0; // note: value *must* be defined in the properties file. ("-1" (ie. infinite) is a nice default setting).
 
@@ -337,12 +337,12 @@ void clean_up()
     SDL_FreeSurface( gRobotDisplayImage );
     SDL_FreeSurface( gForegroundImage );
 	SDL_FreeSurface( gEnvironmentImage );
-    
+
 	if ( gBackgroundImage != NULL )
 		SDL_FreeSurface( gBackgroundImage );
 	SDL_FreeSurface( gFootprintImage );
     SDL_FreeSurface( gFootprintImageBackup );
-    
+
     if ( gTrajectoryMonitor )
     {
         if ( gVerbose ) std::cout << "[EXIT] Stopping recording trajectory/ies." << std::endl;
@@ -351,13 +351,13 @@ void clean_up()
     }
 
 	if ( inspectorAgent != NULL ) delete(inspectorAgent);
-    
+
     delete gWorld;
 }
 
 
 void displayHelp()
-{	
+{
 	//if ( gVerbose && !gBatchMode)
 	if ( !gBatchMode)
 	{
@@ -369,7 +369,7 @@ void displayHelp()
 
 		std::cout << " >>>> Keys:" << std::endl;
 		std::cout << "       h : help! (ie. this text)" << std::endl;
-		
+
 		std::cout << "       d : set display mode (shift+d: reverse)" << std::endl;
         std::cout << "       \t (0) default-60-fps;" << std::endl;
         std::cout << "       \t (1) fast;" << std::endl;
@@ -388,7 +388,7 @@ void displayHelp()
         std::cout << "       \t inspection can also be performed by mouse clicking." << std::endl;
 		std::cout << "       j : show/hide sensor raycasting and visual markers (display mode)" << std::endl;
 		std::cout << "       l : show/hide LED color on top of the robots (display mode)" << std::endl;
-		
+
         std::cout << "       o : take screenshot" << std::endl;
         std::cout << "       \t save image to disk (in ./logs) (display mode)" << std::endl;
 		std::cout << "       O : video recording start/stop" << std::endl;
@@ -401,7 +401,7 @@ void displayHelp()
         std::cout << "       \t save image to disk (in ./logs) (any mode)" << std::endl;
         std::cout << "       \t screenshot provided only with display mode 0 or 1)" << std::endl;
         std::cout << "       R : full logger recording start/stop" << std::endl;
-        
+
 		std::cout << "   <tab> : switch focus to next agent (shift+o: previous agent)" << std::endl;
 		std::cout << " <enter> : (in agent following mode) trigger manual agent control mode" << std::endl;
 		std::cout << " <enter> : (inspector mode) display sensor values at current location" << std::endl;
@@ -418,10 +418,10 @@ void displayHelp()
 void inspectAtPixel(int xIns, int yIns)
 {
     std::cout << "## Inspector Agent ##" << std::endl; //"Inspector virtual sensors:"
-    
+
     // location
     std::cout << "\tcoordinates: (" << xIns << "," << yIns << ")" << std::endl;
-    
+
     // virtual range sensor
     Uint32 inspectorSensorValue = getPixel32(gEnvironmentImage, xIns, yIns);
     Uint8 r, g, b;
@@ -431,7 +431,7 @@ void inspectAtPixel(int xIns, int yIns)
     if ( inspectorSensorValue == 0xFFFFFF ) // either nothing or unregistered agent(s).
     {
         std::cout << "0xFFFFFF (nothing)" << std::endl;
-        
+
         // Agents may not be visible in the internal scene buffer due to optimization
         // Hence, we scan the list of agents to compare actual inspector location and agent location
         // Results from this scan should be interpreted as a list of either
@@ -439,7 +439,7 @@ void inspectAtPixel(int xIns, int yIns)
         //  - agent precisely at this location, but not registered
         // note: registering Agent in the internal scene buffer is not mandatory if it is sure
         //       that it is not within the perceptual range of any other agents (speed up simulation).
-        
+
         int radiusMax = gRobotWidth > gRobotHeight ? ( gRobotWidth + 1 ) / 2 : ( gRobotHeight + 1 ) / 2; // assume an upper bound for dimension.
         for ( int i = 0 ; i != gNbOfRobots ; i++ ) // test for agents proximity based on localization
         {
@@ -467,13 +467,13 @@ void inspectAtPixel(int xIns, int yIns)
             std::cout << physicalObject->inspect("\t");
         }
     }
-    
+
     // virtual floor sensor
     inspectorSensorValue = getPixel32( gFootprintImage, xIns, yIns);
     SDL_GetRGB(inspectorSensorValue,gFootprintImage->format,&r,&g,&b);
-    
+
     int value = ((int)r)*256*256 + ((int)g)*256 + (int)b;
-    
+
     std::cout << "\tvirtual floor sensor: ( " << value << " : " << (int)r << "," << (int)g << "," << (int)b << ")" << std::endl;
 }
 
@@ -513,7 +513,7 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 	{
 		if ( gVerbose )
 			std::cout << std::endl << "Terminated by user!" << std::endl;
-			
+
 		SDL_Delay(PAUSE_COMMAND);
 		return true;
 	}
@@ -533,14 +533,14 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 		SDL_Delay(PAUSE_COMMAND);
 	}
 
-	if ( gDisplayMode == 0 || gDisplayMode == 1 )	
+	if ( gDisplayMode == 0 || gDisplayMode == 1 )
 	{
         if ( gStepByStep == true )
         {
             gPauseMode = true;
             gStepByStep = false;
         }
-        
+
         if ( gPauseMode == true && keyboardStates[ SDL_SCANCODE_SPACE ] )
         {
             SDL_Delay(PAUSE_COMMAND); // 200ms delay
@@ -548,7 +548,7 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
             gStepByStep = true;
             std::cout << "step #" << gWorld->getIterations() << std::endl;
         }
-        
+
         if ( keyboardStates[ SDL_SCANCODE_P ] )
 		{
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
@@ -561,13 +561,13 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 					std::cout << "pause mode is OFF." << std::endl;
 			}
 		}
-        
+
 		if ( keyboardStates[ SDL_SCANCODE_H ] )
 		{
 			displayHelp();
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
-        
+
 		if ( keyboardStates[ SDL_SCANCODE_O ] ) // screenshot and movie recording
 		{
 			if ( keyboardStates[ SDL_SCANCODE_RSHIFT ] || keyboardStates[ SDL_SCANCODE_LSHIFT ] )
@@ -575,7 +575,7 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 				// start/stop movie recording
 
 				gVideoRecording = !gVideoRecording;
-				
+
 				if ( gVerbose )
 				{
 					if ( gVideoRecording )
@@ -589,23 +589,23 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 				// save screenshot
 
 				saveRenderScreenshot();
-			
+
 				if ( gVerbose )
 					std::cout << "Screenshot saved." << std::endl;
 			}
-			
+
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
-        
-        
+
+
         if ( keyboardStates[ SDL_SCANCODE_R ] ) // full logger screenshot and sequence (used for 3rd-party rendering/analysing)
         {
             if ( keyboardStates[ SDL_SCANCODE_RSHIFT ] || keyboardStates[ SDL_SCANCODE_LSHIFT ] )
             {
                 // start/stop recording of full logger information
-                
+
                 gFullLoggerRecording = !gFullLoggerRecording;
-                
+
                 if ( gVerbose )
                 {
                     if ( gFullLoggerRecording )
@@ -617,23 +617,23 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
             else
             {
                 // save screenshot
-                
+
                 saveFullLoggerScreenshot();
-                
+
                 if ( gVerbose )
                     std::cout << "Full log saved." << std::endl;
             }
-            
+
             SDL_Delay(PAUSE_COMMAND); // 200ms delay
         }
 
-        
+
 		if ( keyboardStates[ SDL_SCANCODE_T ] ) // build/dump image with robot trajectories
 		{
             if ( !gTrajectoryMonitor ) // check if start or stop
             {
                 // start.
-                
+
                 initTrajectoriesMonitor();
 
                 if ( keyboardStates[ SDL_SCANCODE_RSHIFT ] || keyboardStates[ SDL_SCANCODE_LSHIFT ] )
@@ -655,10 +655,10 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
                 saveTrajectoryImage();
                 if ( gVerbose ) std::cout << "Image file created (see ./logs)." << std::endl;
             }
-            
+
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
-				
+
 		if ( keyboardStates[ SDL_SCANCODE_V ] )
 		{
 			gVerbose = !gVerbose;
@@ -670,12 +670,12 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
-		
+
 		if ( keyboardStates[ SDL_SCANCODE_G ] )
 		{
 			gInspectorMode = !gInspectorMode;
 			if ( gInspectorMode == true && gUserCommandMode == true )
-				gUserCommandMode = false;					
+				gUserCommandMode = false;
 
 			if ( gVerbose )
 			{
@@ -687,7 +687,7 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
-		
+
 		if ( keyboardStates[ SDL_SCANCODE_RETURN ] )
 		{
 			if ( gInspectorMode == false )  // (1) on/off take command of the robot OR (2) display id at inspector target
@@ -702,16 +702,16 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 				}
 			}
 			else
-			{	
+			{
 				if ( gVerbose )
 				{
 					// * inspector mode. Return key trigger sensor display. (note: non-collision enabled robot cannot be seen)
-			
+
                     int xIns, yIns;
                     inspectorAgent->getCoord(xIns, yIns);
                     inspectAtPixel(xIns, yIns);
 				}
-			}				
+			}
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
 
@@ -728,25 +728,25 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
 
-        
+
 		if ( keyboardStates[ SDL_SCANCODE_L ] )
 		{
 			gRobotLEDdisplay = !gRobotLEDdisplay;
-			
+
 			if ( gVerbose )
 			{
 				if ( gRobotLEDdisplay )
 					std::cout << "Robots' color LED (RGB) is displayed." << std::endl;
 				else
 					std::cout << "Robots' color LED (RGB) is *not* displayed." << std::endl;
-			}			
+			}
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
-		
+
 		if ( keyboardStates[ SDL_SCANCODE_X ] )
 		{
 			gNiceRendering = !gNiceRendering;
-			
+
 			if ( gVerbose )
 			{
 				if ( gNiceRendering )
@@ -754,10 +754,10 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 				else
 					std::cout << "Render mode is \"x-ray\" mode (ie. world as seen by robot(s))." << std::endl;
 			}
-			
+
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
-		
+
 		if ( keyboardStates[ SDL_SCANCODE_J ] )
 		{
             if ( keyboardStates[ SDL_SCANCODE_RSHIFT ] || keyboardStates[ SDL_SCANCODE_LSHIFT ] )
@@ -765,7 +765,7 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
             else
                 gDisplaySensors = (gDisplaySensors+1)%4;
 
-			
+
 			if ( gVerbose )
 			{
 				switch ( gDisplaySensors )
@@ -784,10 +784,10 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
                         break;
                 }
 			}
-			
+
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
-        
+
         if ( keyboardStates[ SDL_SCANCODE_K ] )
         {
             gDisplayTail = !gDisplayTail;
@@ -801,17 +801,17 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 
             SDL_Delay(PAUSE_COMMAND); // 200ms delay
         }
-		
+
 		if ( keyboardStates[ SDL_SCANCODE_TAB ] )
 		{
 			if ( keyboardStates[ SDL_SCANCODE_RSHIFT ] || keyboardStates[ SDL_SCANCODE_LSHIFT ] )
 				gRobotIndexFocus = ( (gRobotIndexFocus-1) + gNbOfRobots )  % gNbOfRobots;
 			else
 				gRobotIndexFocus = (gRobotIndexFocus+1) % gNbOfRobots;
-			
+
 			if ( gVerbose )
 				std::cout << "Agent #" << gRobotIndexFocus << " is selected." << std::endl;
-					
+
 			SDL_Delay(PAUSE_COMMAND); // 200ms delay
 		}
 
@@ -840,11 +840,11 @@ bool handleKeyEvent(const Uint8 *keyboardStates)
 
 			SDL_Delay(PAUSE_COMMAND);
 		}
-        
+
 		if ( gSlowMotionMode )
 			SDL_Delay( 100 );
 	}/**/
-		
+
 	return false;
 }
 
@@ -858,7 +858,7 @@ void updateDisplay() // display is called starting when gWorld->getIterations > 
             inspectorAgent->set_camera();
         else
             gWorld->getRobot(gRobotIndexFocus)->set_camera();
-        
+
         //Show the background image and foreground image (active borders) [note: this is what costs a lot wrt. computation time]
         if ( gNiceRendering )
         {
@@ -876,7 +876,7 @@ void updateDisplay() // display is called starting when gWorld->getIterations > 
             apply_surface( 0, 0, gFootprintImage, gScreen, &gCamera );
             apply_surface( 0, 0, gEnvironmentImage, gScreen, &gCamera );
         }
-        
+
         if ( gNiceRendering ) // + ( gDisplayMode != 2 || gSnapshot...? || gVideoRecording...? )   // !n
         {
             // Show landmark(s) on the screen
@@ -887,7 +887,7 @@ void updateDisplay() // display is called starting when gWorld->getIterations > 
                     gLandmarks[i]->show();
                 }
             }
-            
+
             // Show object(s) on the screen
             {
                 for ( int i = 0 ; i != gNbOfPhysicalObjects ; i++ )
@@ -898,23 +898,23 @@ void updateDisplay() // display is called starting when gWorld->getIterations > 
                     }
                 }
             }
-            
+
             // Show agent(s) on the screen
             for ( int i = 0 ; i != gNbOfRobots ; i++ )
             {
                 if ( gWorld->isRobotRegistered(i) )
                     gWorld->getRobot(i)->unregisterRobot(); // remove agent from memory so as to correctly cast sensors (otw: may see itself)
-                
+
                 gWorld->getRobot(i)->show(); // show sensor rays.
-                
+
                 // re-registering agents (post-display)
                 if ( gWorld->isRobotRegistered(i) )
                     gWorld->getRobot(i)->registerRobot();
             }
         }
-        
+
         // * Snapshots: take screenshots of first and ~ultimate iteration
-        
+
         if ( gWorld->getIterations() == 1 )
         {
             saveCustomScreenshot("firstIteration");
@@ -922,7 +922,7 @@ void updateDisplay() // display is called starting when gWorld->getIterations > 
             saveFullLoggerScreenshot("firstIteration");
             saveEnvironmentScreenshot("firstIteration");
             saveFootprintScreenshot("firstIteration");
-            
+
         }
         else
         {
@@ -935,12 +935,12 @@ void updateDisplay() // display is called starting when gWorld->getIterations > 
                 saveFootprintScreenshot("lastIteration");
             }
         }
-        
-        
+
+
         // show inspector agent location (single point)
         if ( gInspectorMode )
             inspectorAgent->show();
-        
+
         if ( !gBatchMode )
         {
             SDL_UpdateTexture(gScreenTexture, NULL, gScreen->pixels, gScreen->pitch);
@@ -948,24 +948,24 @@ void updateDisplay() // display is called starting when gWorld->getIterations > 
             SDL_RenderCopy(gScreenRenderer, gScreenTexture, NULL, NULL);
             SDL_RenderPresent(gScreenRenderer);
         }
-        
+
         //Cap the frame rate
         if( fps.get_ticks() < 1000 / gFramesPerSecond )
         {
             SDL_Delay( ( 1000 / gFramesPerSecond ) - fps.get_ticks() );
         }
         /**/
-        
+
         // video capture (sync with screen update)
         if ( gVideoRecording == true )
             saveRenderScreenshot("movie");
-        
+
     }
 
     // Full logger capture: all images + log
     if ( gFullLoggerRecording == true )
         saveFullLoggerScreenshot("sequence"); // note that screen will be blank if display mode is 2
-    
+
     if ( gWorld->getIterations() == 1 )
         gDisplayMode = backup_gDisplayMode;
     else
@@ -977,12 +977,12 @@ void updateDisplay() // display is called starting when gWorld->getIterations > 
 void initLogging()
 {
 	// test log directory.
-    
+
     /*
-     
+
     // notes, 2014-09-02: unfortunatly, boost::filesystem is not a header-only boost library...
     // http://www.boost.org/doc/libs/1_53_0/more/getting_started/windows.html#header-only-libraries
-     
+
     boost::filesystem::path dir (gLogDirectoryname);
     try
     {
@@ -1013,20 +1013,20 @@ void initLogging()
 		std::cout << ex.what() << std::endl;
 		exit (-1);
 	}
-     
+
     */
-    
-    
+
+
     // init log file
-    
+
     gLogFullFilename = gLogDirectoryname + "/" + gLogFilename;
-    
+
 	gLogFile.open(gLogFullFilename.c_str());//, std::ofstream::out | std::ofstream::app);
-	
-	if(!gLogFile) { 
+
+	if(!gLogFile) {
 		std::cout << "[CRITICAL] Cannot open log file " << gLogFullFilename << "." << std::endl << std::endl;
 		exit(-1);
-	} 
+	}
 
 	gLogFile << "# =-=-=-=-=-=-=-=-=-=-=" << std::endl;
 	gLogFile << "# LOG DATA " << std::endl;
@@ -1041,7 +1041,7 @@ void initLogging()
     gLogFile << "# process ID                  : " << getpidAsReadableString() << std::endl;
 	gLogFile << "#" << std::endl;
 
-	//gLogFile << "# log comment      : " << gLogCommentText << std::endl; 
+	//gLogFile << "# log comment      : " << gLogCommentText << std::endl;
 
     gLogManager = LogManager::make_DefaultLogManager(); // it is recommended (though not forced) to use gLogManager instead of gLogFile.
 }
@@ -1058,11 +1058,11 @@ void initMonitor( bool __isInspectorAgent ) // default argument value is false
 	//The frame rate regulator -- dont use them before SDL is initialized.
 	timeWatch.start();
 	timetag = timeWatch.get_ticks();
-	
+
 	if ( __isInspectorAgent )
 	{
 		gInspectorAgent = true;
-		inspectorAgent = new InspectorAgent();	
+		inspectorAgent = new InspectorAgent();
 	}
 	else
 	{
@@ -1089,7 +1089,7 @@ void updateMonitor(const Uint8* __keyboardStates)
 			timetag = timetag2;
 		}
 	}
-	
+
 	if ( gInspectorAgent == true )
 	{
 		// update inspector agent
@@ -1099,7 +1099,7 @@ void updateMonitor(const Uint8* __keyboardStates)
 				inspectorAgent->stepBehavior(__keyboardStates);
 				inspectorAgent->move();
 			}
-	}	
+	}
 }
 
 
@@ -1108,9 +1108,9 @@ bool loadProperties( std::string __propertiesFilename )
 	bool returnValue = true;
 
 	std::ifstream in(__propertiesFilename.c_str());
-    
+
     // * check main file for imports
-    
+
     if ( !in.is_open() )
         return false;
     std::string target("import(");
@@ -1138,16 +1138,16 @@ bool loadProperties( std::string __propertiesFilename )
 
     in.clear();
     in.seekg(0, std::ios::beg); // reposition to beginning -- so as to avoid to call in.close();
-    
+
     // * handle main file content
-    
+
     if ( !in.is_open() )
 		return false;
 	gProperties.load(in);
     in.close();
-    
+
     // Load properties given in the config file
-	
+
     std::string s;
 	if ( gProperties.hasProperty("ConfigurationLoaderObjectName") )
 	{
@@ -1164,7 +1164,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] ConfigurationLoaderObjectName string value is missing.\n";
 		returnValue = false;
 	}
-    
+
 	if ( gProperties.hasProperty("gNumberOfRobotGroups") )
     {
 		convertFromString<int>(gNumberOfRobotGroups, gProperties.getProperty("gNumberOfRobotGroups"), std::dec);
@@ -1176,7 +1176,7 @@ bool loadProperties( std::string __propertiesFilename )
     }
 	else
 		std::cerr << "[MISSING] gNumberOfRobotGroups value is missing. Assume default value (" << gNumberOfRobotGroups << ").\n";
-	
+
 	if ( gProperties.hasProperty("gInspectorAgentXStart") )
 		convertFromString<int>(gInspectorAgentXStart, gProperties.getProperty("gInspectorAgentXStart"), std::dec);
 	else
@@ -1184,7 +1184,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gInspectorAgentXStart value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gInspectorAgentYStart") )
 		convertFromString<int>(gInspectorAgentYStart, gProperties.getProperty("gInspectorAgentYStart"), std::dec);
 	else
@@ -1192,7 +1192,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gInspectorAgentYStart value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gDisplayMode") )
     {
 		convertFromString<int>(backup_gDisplayMode, gProperties.getProperty("gDisplayMode"), std::dec);
@@ -1203,7 +1203,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gDisplayMode value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gFastDisplayModeSpeed") )
 		convertFromString<int>(gFastDisplayModeSpeed, gProperties.getProperty("gFastDisplayModeSpeed"), std::dec);
 	else
@@ -1211,7 +1211,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gFastDisplayModeSpeed value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gFramesPerSecond") )
 		convertFromString<int>(gFramesPerSecond, gProperties.getProperty("gFramesPerSecond"), std::dec);
 	else
@@ -1219,7 +1219,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gFramesPerSecond value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gLocomotionMode") )
 		convertFromString<int>(gLocomotionMode, gProperties.getProperty("gLocomotionMode"), std::dec);
 	else
@@ -1227,7 +1227,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gLocomotionMode value is missing.\n";
 		returnValue = false;
 	}
-		
+
 	if ( gProperties.hasProperty("gInspectorCursorMaxSpeedOnXaxis") )
 		convertFromString<int>(gInspectorCursorMaxSpeedOnXaxis, gProperties.getProperty("gInspectorCursorMaxSpeedOnXaxis"), std::dec);
 	else
@@ -1235,7 +1235,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gInspectorCursorMaxSpeedOnXaxis value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gInspectorCursorMaxSpeedOnYaxis") )
 		convertFromString<int>(gInspectorCursorMaxSpeedOnYaxis, gProperties.getProperty("gInspectorCursorMaxSpeedOnYaxis"), std::dec);
 	else
@@ -1243,7 +1243,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gInspectorCursorMaxSpeedOnYaxis value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gMaxTranslationalSpeed") )
 		convertFromString<float>(gMaxTranslationalSpeed, gProperties.getProperty("gMaxTranslationalSpeed"), std::dec);
 	else
@@ -1251,7 +1251,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gMaxTranslationalSpeed value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gMaxTranslationalDeltaValue") ) // ie. max update (delta) btw current speed and desired speed
 		convertFromString<float>(gMaxTranslationalDeltaValue, gProperties.getProperty("gMaxTranslationalDeltaValue"), std::dec);
 	else
@@ -1259,7 +1259,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gMaxTranslationalDeltaValue value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gMaxRotationalSpeed") )
 		convertFromString<float>(gMaxRotationalSpeed, gProperties.getProperty("gMaxRotationalSpeed"), std::dec);
 	else
@@ -1275,7 +1275,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gInspectorCursorVerticalSpeed value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gInspectorCursorHorizontalSpeed") )
 		convertFromString<int>(gInspectorCursorHorizontalSpeed, gProperties.getProperty("gInspectorCursorHorizontalSpeed"), std::dec);
 	else
@@ -1291,7 +1291,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gMaxIt value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gNbOfLandmarks") )
 		convertFromString<int>(gNbOfLandmarks, gProperties.getProperty("gNbOfLandmarks"), std::dec);
 	else
@@ -1307,7 +1307,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gNbOfPhysicalObjects value is missing.\n";
 		returnValue = false;
 	}
-    
+
     if ( gProperties.hasProperty("gPhysicalObjectDefaultRadius") )
 		convertFromString<int>(gPhysicalObjectDefaultRadius, gProperties.getProperty("gPhysicalObjectDefaultRadius"), std::dec);
 	else
@@ -1337,14 +1337,14 @@ bool loadProperties( std::string __propertiesFilename )
 	{
 		std::cerr << "[MISSING] gPhysicalObjectDefaultDisplayColorGreen value is missing. Assume value is " << gPhysicalObjectDefaultDisplayColorGreen << ".\n";
 	}
-    
+
     if ( gProperties.hasProperty("gPhysicalObjectDefaultDisplayColorBlue") )
 		convertFromString<int>(gPhysicalObjectDefaultDisplayColorBlue, gProperties.getProperty("gPhysicalObjectDefaultDisplayColorBlue"), std::dec);
 	else
 	{
 		std::cerr << "[MISSING] gPhysicalObjectDefaultDisplayColorBlue value is missing. Assume value is " << gPhysicalObjectDefaultDisplayColorBlue << ".\n";
 	}
-    
+
     if ( gProperties.hasProperty("gPhysicalObjectDefaultSolid_w") )
 		convertFromString<int>(gPhysicalObjectDefaultSolid_w, gProperties.getProperty("gPhysicalObjectDefaultSolid_w"), std::dec);
 	else
@@ -1352,7 +1352,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[MISSING] gPhysicalObjectDefaultSolid_w value is missing. Assume value is 16.\n";
 		gPhysicalObjectDefaultSolid_w = 16;
 	}
-    
+
     if ( gProperties.hasProperty("gPhysicalObjectDefaultSolid_h") )
 		convertFromString<int>(gPhysicalObjectDefaultSolid_h, gProperties.getProperty("gPhysicalObjectDefaultSolid_h"), std::dec);
 	else
@@ -1360,7 +1360,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[MISSING] gPhysicalObjectDefaultSolid_h value is missing. Assume value is 16.\n";
 		gPhysicalObjectDefaultSolid_h = 16;
 	}
-    
+
     if ( gProperties.hasProperty("gPhysicalObjectDefaultSoft_w") )
 		convertFromString<int>(gPhysicalObjectDefaultSoft_w, gProperties.getProperty("gPhysicalObjectDefaultSoft_w"), std::dec);
 	else
@@ -1376,7 +1376,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[MISSING] gPhysicalObjectDefaultSoft_h value is missing. Assume value is 22.\n";
 		gPhysicalObjectDefaultSoft_h = 22;
 	}
-    
+
     if ( gProperties.hasProperty("gPhysicalObjectDefaultType") )
 		convertFromString<int>(gPhysicalObjectDefaultType, gProperties.getProperty("gPhysicalObjectDefaultType"), std::dec);
 	else
@@ -1392,7 +1392,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[MISSING] gPhysicalObjectDefaultRegrowTimeMax value is missing. Assume value is -1 (instant regrow, if applicable).\n";
 		gPhysicalObjectDefaultRegrowTimeMax = -1;
 	}
-    
+
     if ( gProperties.hasProperty("gPhysicalObjectsInitAreaX") )
         convertFromString<int>(gPhysicalObjectsInitAreaX, gProperties.getProperty("gPhysicalObjectsInitAreaX"), std::dec);
     else
@@ -1416,7 +1416,7 @@ bool loadProperties( std::string __propertiesFilename )
         std::cerr << "[MISSING] gPhysicalObjectsInitAreaWidth value is missing. Assume value is gAreaWidth-10.\n";
         gPhysicalObjectsInitAreaWidth = -1;  // initialized when gAreaWidth is known
     }
-    
+
     if ( gProperties.hasProperty("gPhysicalObjectsInitAreaHeight") )
         convertFromString<int>(gPhysicalObjectsInitAreaHeight, gProperties.getProperty("gPhysicalObjectsInitAreaHeight"), std::dec);
     else
@@ -1424,8 +1424,8 @@ bool loadProperties( std::string __propertiesFilename )
         std::cerr << "[MISSING] gPhysicalObjectsInitAreaHeight value is missing. Assume value is gAreaHeight-10.\n";
         gPhysicalObjectsInitAreaHeight = -1;  // initialized when gAreaHeight is known
     }
-    
-    
+
+
     if ( gProperties.hasProperty("gAgentsInitAreaX") )
         convertFromString<int>(gAgentsInitAreaX, gProperties.getProperty("gAgentsInitAreaX"), std::dec);
     else
@@ -1433,7 +1433,7 @@ bool loadProperties( std::string __propertiesFilename )
         std::cerr << "[MISSING] gAgentsInitAreaX value is missing. Assume value is 0.\n";
         gAgentsInitAreaX = 0;
     }
-    
+
     if ( gProperties.hasProperty("gAgentsInitAreaY") )
         convertFromString<int>(gAgentsInitAreaY, gProperties.getProperty("gAgentsInitAreaY"), std::dec);
     else
@@ -1441,7 +1441,7 @@ bool loadProperties( std::string __propertiesFilename )
         std::cerr << "[MISSING] gAgentsInitAreaY value is missing. Assume value is 0.\n";
         gAgentsInitAreaY = 0;
     }
-    
+
     if ( gProperties.hasProperty("gAgentsInitAreaWidth") )
         convertFromString<int>(gAgentsInitAreaWidth, gProperties.getProperty("gAgentsInitAreaWidth"), std::dec);
     else
@@ -1449,7 +1449,7 @@ bool loadProperties( std::string __propertiesFilename )
         std::cerr << "[MISSING] gAgentsInitAreaWidth value is missing. Assume value is gAreaWidth-10.\n";
         gAgentsInitAreaWidth = -1;  // initialized when gAreaWidth is known to gAreaWidth-10
     }
-    
+
     if ( gProperties.hasProperty("gAgentsInitAreaHeight") )
         convertFromString<int>(gAgentsInitAreaHeight, gProperties.getProperty("gAgentsInitAreaHeight"), std::dec);
     else
@@ -1459,7 +1459,7 @@ bool loadProperties( std::string __propertiesFilename )
     }
 
     gProperties.checkAndGetPropertyValue("gFootprintImage_restoreOriginal",&gFootprintImage_restoreOriginal,false);
-    
+
     gProperties.checkAndGetPropertyValue("gSensoryInputs_distanceToContact",&gSensoryInputs_distanceToContact,false);
     gProperties.checkAndGetPropertyValue("gSensoryInputs_physicalObjectType",&gSensoryInputs_physicalObjectType,false);
     gProperties.checkAndGetPropertyValue("gSensoryInputs_isOtherAgent",&gSensoryInputs_isOtherAgent,false);
@@ -1477,9 +1477,9 @@ bool loadProperties( std::string __propertiesFilename )
     gProperties.checkAndGetPropertyValue("gSensoryInputs_distanceToLandmark",&gSensoryInputs_distanceToLandmark,false);
     gProperties.checkAndGetPropertyValue("gSensoryInputs_orientationToLandmark",&gSensoryInputs_orientationToLandmark,false);
     gProperties.checkAndGetPropertyValue("gSensoryInputs_energyLevel",&gSensoryInputs_energyLevel,false);
-    
+
     gProperties.checkAndGetPropertyValue("gEnergyLevel",&gEnergyLevel,false);
-    
+
     gProperties.checkAndGetPropertyValue("gEnergyRefill",&gEnergyRefill,false);
 
     gProperties.checkAndGetPropertyValue("gEnergyMax",&gEnergyMax,false);
@@ -1489,11 +1489,11 @@ bool loadProperties( std::string __propertiesFilename )
     gProperties.checkAndGetPropertyValue("gEnergyItemDefaultInit",&gEnergyItemDefaultInit,false);
 
     gProperties.checkAndGetPropertyValue("gEnergyItemDefaultMode",&gEnergyItemDefaultMode,false);
-    
+
     gProperties.checkAndGetPropertyValue("gReentrantMapping_motorOutputs",&gReentrantMapping_motorOutputs,false);
-    
+
     gProperties.checkAndGetPropertyValue("gReentrantMapping_virtualOutputs",&gReentrantMapping_virtualOutputs,false);
-    
+
     if ( gProperties.hasProperty("gVirtualOutputs") )
     {
         convertFromString<int>(gVirtualOutputs, gProperties.getProperty("gVirtualOutputs"), std::dec);
@@ -1503,7 +1503,7 @@ bool loadProperties( std::string __propertiesFilename )
         std::cerr << "[MISSING] gVirtualOutputs value is missing. Assume value is 0.\n";
         gVirtualOutputs = 0;  // none
     }
-    
+
 	if ( gProperties.hasProperty("gInitialNumberOfRobots") )
     {
 		convertFromString<int>(gInitialNumberOfRobots, gProperties.getProperty("gInitialNumberOfRobots"), std::dec);
@@ -1513,7 +1513,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gInitialNumberOfRobots value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gLocationFinderMaxNbOfTrials") )
     {
 		convertFromString<int>(gLocationFinderMaxNbOfTrials, gProperties.getProperty("gLocationFinderMaxNbOfTrials"), std::dec);
@@ -1543,29 +1543,29 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gRobotIndexStartOffset value is missing.\n";
 		returnValue = false;
 	}
-    
+
 	if ( gProperties.hasProperty("gRandomSeed") )
 	{
 		convertFromString<int>(gRandomSeed, gProperties.getProperty("gRandomSeed"), std::dec);
-		
+
 		if ( gRandomSeed == -1 ) // value = -1 means random seed. set seed, then update content of properties.
 		{
 			// set seed value
-            
+
             // METHOD 1
             // use time in microseconds + PID to try to avoid duplicate when running multiple instances of roborobo (e.g. multiple experiences on a cluster).
             struct timeval tv;
             gettimeofday(&tv,NULL);
             unsigned long time_in_microsec = 1000000 * tv.tv_sec + tv.tv_usec;
             gRandomSeed = (int)time_in_microsec + getpid();
-            
+
             // METHOD 2 (not used, left here for information)
             // use non-deterministic hardware-based random device
             // NOT USED because it may be deterministic on some systems!
             // cf.  https://stackoverflow.com/questions/18880654/why-do-i-get-the-same-sequence-for-every-run-with-stdrandom-device-with-mingw
             //std::random_device rdseed;
             //gRandomSeed = rdseed();
-            
+
 			// update properties
 			gProperties.setProperty("gRandomSeed",convertToString(gRandomSeed)); // update value.
 		}
@@ -1575,7 +1575,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gRandomSeed value is missing.\n";
 		returnValue = false;
 	}
-		
+
 	if ( gProperties.hasProperty("gScreenHeight") )
     {
 		convertFromString<int>(gScreenHeight, gProperties.getProperty("gScreenHeight"), std::dec);
@@ -1585,7 +1585,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gScreenHeight value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gScreenWidth") )
     {
 		convertFromString<int>(gScreenWidth, gProperties.getProperty("gScreenWidth"), std::dec);
@@ -1595,7 +1595,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gScreenWidth value is missing.\n";
 		returnValue = false;
 	}
-	
+
     if ( gProperties.hasProperty("gScreenDisplayHeight") )
     {
         convertFromString<int>(gScreenDisplayHeight, gProperties.getProperty("gScreenDisplayHeight"), std::dec);
@@ -1605,7 +1605,7 @@ bool loadProperties( std::string __propertiesFilename )
         std::cerr << "[INFO] gScreenDisplayHeight not defined, using gScreenDisplayHeight value.\n";
         gScreenDisplayHeight = gScreenHeight;
     }
-    
+
     if ( gProperties.hasProperty("gScreenDisplayWidth") )
     {
         convertFromString<int>(gScreenDisplayWidth, gProperties.getProperty("gScreenDisplayWidth"), std::dec);
@@ -1625,7 +1625,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gSensorRange value is missing.\n";
 		returnValue = false;
 	}
-    
+
     if ( gProperties.hasProperty("gTailLength") )
     {
         convertFromString<int>(gTailLength, gProperties.getProperty("gTailLength"), std::dec);
@@ -1634,7 +1634,7 @@ bool loadProperties( std::string __propertiesFilename )
     {
         std::cerr << "[MISSING] gTailLength value is missing. Assume default value (" << gTailLength << ").\n";
     }
-    
+
 	if ( gProperties.hasProperty("gDisplaySensors") )
 	{
         convertFromString<int>(gDisplaySensors, gProperties.getProperty("gDisplaySensors"), std::dec);
@@ -1650,7 +1650,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gDisplaySensors value is missing.\n";
 		returnValue = false;
 	}
-    
+
     s = gProperties.getProperty("gLocationFinderExitOnFail");
     if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1712,7 +1712,7 @@ bool loadProperties( std::string __propertiesFilename )
     {
         std::cout << "[INFO] gBatchMode value set as command-line paramater.\n";
     }
-		
+
 	s = gProperties.getProperty("gTrajectoryMonitor");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1730,7 +1730,7 @@ bool loadProperties( std::string __propertiesFilename )
 			//returnValue = false;
 		}
     }
-    
+
 	s = gProperties.getProperty("gVideoRecording");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1748,7 +1748,7 @@ bool loadProperties( std::string __propertiesFilename )
 			//returnValue = false;
 		}
     }
-    
+
     s = gProperties.getProperty("gOutputImageFormat");
     if ( s == "BMP" || s == "bmp" )
     {
@@ -1767,7 +1767,7 @@ bool loadProperties( std::string __propertiesFilename )
             //returnValue = false;
         }
     }
-    
+
 	s = gProperties.getProperty("gRobotLEDdisplay");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1785,7 +1785,7 @@ bool loadProperties( std::string __propertiesFilename )
 			//returnValue = false;
 		}
     }
-    
+
 	s = gProperties.getProperty("gDisplayTail");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1803,7 +1803,7 @@ bool loadProperties( std::string __propertiesFilename )
 			//returnValue = false;
 		}
     }
-    
+
 	s = gProperties.getProperty("gPhysicalObjectsRedraw");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1839,7 +1839,7 @@ bool loadProperties( std::string __propertiesFilename )
 			returnValue = false;
 		}
     }
-    
+
 	s = gProperties.getProperty("gInspectorAgent");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1857,7 +1857,7 @@ bool loadProperties( std::string __propertiesFilename )
 			returnValue = false;
 		}
     }
-    
+
 	s = gProperties.getProperty("gInspectorMode");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1875,7 +1875,7 @@ bool loadProperties( std::string __propertiesFilename )
 			returnValue = false;
 		}
     }
-    
+
 	s = gProperties.getProperty("gNiceRendering");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1911,7 +1911,7 @@ bool loadProperties( std::string __propertiesFilename )
 			returnValue = false;
 		}
     }
-    
+
 	s = gProperties.getProperty("gUserCommandMode");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1929,7 +1929,7 @@ bool loadProperties( std::string __propertiesFilename )
 			returnValue = false;
 		}
     }
-    
+
     if ( gVerbose_commandlineargument == false ) // command line argument overrules properties file
     {
         s = gProperties.getProperty("gVerbose");
@@ -1952,7 +1952,7 @@ bool loadProperties( std::string __propertiesFilename )
     }
     else
         std::cout << "[INFO] gVerbose value set as command-line paramater.\n";
-    
+
 	s = gProperties.getProperty("gPhysicalObjectDefaultRelocate");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1968,7 +1968,7 @@ bool loadProperties( std::string __propertiesFilename )
             //returnValue = false;
         }
     }
-    
+
 	s = gProperties.getProperty("gPhysicalObjectDefaultOverwrite");
 	if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -1986,7 +1986,7 @@ bool loadProperties( std::string __propertiesFilename )
 			//returnValue = false;
 		}
     }
-	
+
 	if ( gProperties.hasProperty("gTrajectoryMonitor") ) // optional
     {
         s = gProperties.getProperty("gTrajectoryMonitor");
@@ -2004,7 +2004,7 @@ bool loadProperties( std::string __propertiesFilename )
                 std::cerr << "[ERROR] gTrajectoryMonitor should be boolean (\"true\" or \"false\").\n";
                 returnValue = false;
             }
-        
+
         if ( gProperties.hasProperty("gTrajectoryMonitorMode") ) // optional
         {
             convertFromString<int>(gTrajectoryMonitorMode, gProperties.getProperty("gTrajectoryMonitorMode"), std::dec);
@@ -2046,7 +2046,7 @@ bool loadProperties( std::string __propertiesFilename )
             //returnValue = false;
         }
     }
-        
+
     s = gProperties.getProperty("gCustomSnapshot_showObjects");
     if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -2082,7 +2082,7 @@ bool loadProperties( std::string __propertiesFilename )
             //returnValue = false;
         }
     }
-    
+
     s = gProperties.getProperty("gCustomSnapshot_showSensorRays");
     if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -2100,7 +2100,7 @@ bool loadProperties( std::string __propertiesFilename )
             //returnValue = false;
         }
     }
-    
+
     s = gProperties.getProperty("gMovableObjects");
     if ( s == "true" || s == "True" || s == "TRUE" )
     {
@@ -2128,7 +2128,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gRobotMaskImageFilename string value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gRobotDisplayImageFilename") )
     {
 		gRobotDisplayImageFilename = gProperties.getProperty("gRobotDisplayImageFilename");
@@ -2138,7 +2138,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cout << "[WARNING] gRobotDisplayImageFilename string value is missing (value will be copied from gRobotMaskImageFilename).\n";
         gRobotDisplayImageFilename = gProperties.getProperty("gRobotMaskImageFilename");
 	}
-	
+
     if ( gProperties.hasProperty("gRobotSpecsImageFilename") )
     {
 		gRobotSpecsImageFilename = gProperties.getProperty("gRobotSpecsImageFilename");
@@ -2148,7 +2148,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gRobotSpecsImageFilename string value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gBackgroundImageFilename") )
     {
 		gBackgroundImageFilename = gProperties.getProperty("gBackgroundImageFilename");
@@ -2158,7 +2158,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gBackgroundImageFilename string value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gEnvironmentImageFilename") )
     {
 		gEnvironmentImageFilename = gProperties.getProperty("gEnvironmentImageFilename");
@@ -2168,7 +2168,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gEnvironmentImageFilename string value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gForegroundImageFilename") )
     {
 		gForegroundImageFilename = gProperties.getProperty("gForegroundImageFilename");
@@ -2178,7 +2178,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gForegroundImageFilename string value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gLogCommentText") )
     {
 		gLogCommentText = gProperties.getProperty("gLogCommentText");
@@ -2188,7 +2188,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gLogCommentText string value is missing.\n";
 		returnValue = false;
 	}
-	
+
 	if ( gProperties.hasProperty("gLogFilename") )
     {
 		gLogFilename = gProperties.getProperty("gLogFilename");
@@ -2212,7 +2212,7 @@ bool loadProperties( std::string __propertiesFilename )
         {
             gLogDirectoryname = "logs/";
             gProperties.setProperty("gLogDirectoryname",gLogDirectoryname);
-            
+
             std::cout << "[INFO] No default gLogDirectoryname string value. Log data will be written in \"" << gLogDirectoryname << "\"\n";
             //returnValue = false;
         }
@@ -2221,7 +2221,7 @@ bool loadProperties( std::string __propertiesFilename )
     {
         std::cout << "[INFO] gLogDirectoryname value set as command-line paramater.\n";
     }
-    
+
 	if ( gProperties.hasProperty("gFootprintImageFilename") )
     {
 		gFootprintImageFilename = gProperties.getProperty("gFootprintImageFilename");
@@ -2231,7 +2231,7 @@ bool loadProperties( std::string __propertiesFilename )
 		std::cerr << "[ERROR] gFootprintImageFilename string value is missing.\n";
 		returnValue = false;
 	}
-	
+
 
 
 	// * Dump a raw copy of the properties file from gProperties, ie. as it was parsed and understood.
@@ -2244,11 +2244,11 @@ bool loadProperties( std::string __propertiesFilename )
     outputFileNameTmp += "_";
     outputFileNameTmp += getpidAsReadableString();
 	outputFileNameTmp += ".txt";
-	
+
 	// open file
 	const std::string outputFile = outputFileNameTmp;
-	std::ofstream out(outputFile.c_str());	
-	
+	std::ofstream out(outputFile.c_str());
+
 	// dump header information
 	out << "# =-=-=-=-=-=-=-=-=-=-=" << std::endl;
 	out << "# PROPERTIES FILE DUMP " << std::endl;
@@ -2264,13 +2264,13 @@ bool loadProperties( std::string __propertiesFilename )
 	out << "# Original Properties file    : " << __propertiesFilename << std::endl;
 	out << "#" << std::endl;
 	out << std::endl << std::endl;
-		
+
 	// dump properties content
-	gProperties.store(out); 
-	
+	gProperties.store(out);
+
 	// close file
 	out.close();
-	
+
 	return returnValue;
 }
 
@@ -2280,7 +2280,7 @@ bool loadProperties( std::string __propertiesFilename )
 
 void initRoborobo()
 {
-    
+
 	// load properties
 	if ( loadProperties(gPropertiesFilename) == false )
 	{
@@ -2290,9 +2290,9 @@ void initRoborobo()
 
 	if ( gBatchMode == false && gVerbose == true )
 		displayHelp(); // display welcome text and help commands
-	
-	// * Initialize SDL	
-	
+
+	// * Initialize SDL
+
 	gCamera.x = 0;
 	gCamera.y = 0;
 	gCamera.w = gScreenWidth;
@@ -2303,19 +2303,19 @@ void initRoborobo()
 		std::cout << "[CRITICAL] cannot initialize SDL: " << SDL_GetError() << std::endl << std::endl;
 		exit(-2);
 	}
-    
+
 	// * Initialize log file(s)
-	
+
 	initLogging();
-	
-    
+
+
 	// * Initialize Random seed -- loaded, or initialized, in loadProperties(...)
-	
+
     engine.seed(gRandomSeed);
     randint.seed(gRandomSeed);
-    
+
 	//srand(gRandomSeed); // fixed seed - useful to reproduce results (ie. deterministic sequence of random values)
-	gLogFile << "# random seed             : " << gRandomSeed << std::endl; 
+	gLogFile << "# random seed             : " << gRandomSeed << std::endl;
 
 	gWorld = new World();
 
@@ -2330,14 +2330,14 @@ bool runRoborobo(int __maxIt) // default parameter is -1 (infinite)
 {
 	bool quit = false;
 	int currentIt = 0;
-	while( quit == false && ( currentIt < __maxIt || __maxIt == -1 ) )
+	while( quit == false && ( currentIt <= __maxIt || __maxIt == -1 ) )
 	{
 		if ( gBatchMode )
 		{
 			gWorld->updateWorld();
 			if ( gWorld->getIterations()%10000 == 0 )
 				if ( gVerbose ) std::cout << ".";
-            
+
             // monitor trajectories (if needed)
             if ( gTrajectoryMonitor == true )
                 updateTrajectoriesMonitor();
@@ -2346,10 +2346,10 @@ bool runRoborobo(int __maxIt) // default parameter is -1 (infinite)
 		{
 			const Uint8 *keyboardStates = SDL_GetKeyboardState( NULL );
 			quit = checkEvent() | handleKeyEvent(keyboardStates);
-            
+
 			//Start the frame timer
 			fps.start();
-			
+
 			if ( gPauseMode == false )
 			{
 				if ( gUserCommandMode == true && gInspectorMode == false )
@@ -2357,27 +2357,27 @@ bool runRoborobo(int __maxIt) // default parameter is -1 (infinite)
 				else
 					gWorld->updateWorld();
 			}
-            
+
 			//Update the screen
 			updateDisplay();
-            
+
             // monitor trajectories (if needed)
             if ( gPauseMode == false )
                 if ( gTrajectoryMonitor == true )
                     updateTrajectoriesMonitor();
-            
+
 			updateMonitor(keyboardStates);
 		}
-		
+
         if ( gPauseMode == false )
             currentIt++;
-        
+
 		if (gWorld->getNbOfRobots() <= 0)
 		{
 			quit = true;
 		}
     }
-    
+
 	return quit;
 }
 
@@ -2385,7 +2385,7 @@ bool runRoborobo(int __maxIt) // default parameter is -1 (infinite)
 void closeRoborobo()
 {
 	// * clean up and quit
-    
+
     gStopTime = getCurrentTimeAsReadableString();
     gStopTimeRawFormat = time(0);
 
@@ -2397,7 +2397,7 @@ void closeRoborobo()
     minutes = minutes - (hours * 60 );
     int days = hours/24;
     hours = hours - (days*24);
-    
+
     gLogFile << "# Started: " << gStartTime << std::endl;
     gLogFile << "# Stopped: " << gStopTime << std::endl;
     gLogFile << "# Elapsed: ";
@@ -2412,7 +2412,7 @@ void closeRoborobo()
         gLogFile << "s";
     gLogFile << "." << std::endl;
 
-    
+
 	stopLogging();
 	clean_up();
 	SDL_Quit();
@@ -2450,24 +2450,24 @@ void updateTrajectoriesMonitor()
 {
     int indexStart = 0;
     int indexStop = gNbOfRobots;
-    
+
     if ( gTrajectoryMonitorMode == 1 ) // exception: monitor only agent with focus
-    {   
+    {
         indexStart = gRobotIndexFocus;
         indexStop = indexStart+1;
     }
-    
-    for ( int i = indexStart ; i != indexStop ; i++ ) // test for agents proximity based on localization 
+
+    for ( int i = indexStart ; i != indexStop ; i++ ) // test for agents proximity based on localization
     {
         int x = (int)(gWorld->getRobot(i)->getWorldModel()->getXReal());
         int y = (int)(gWorld->getRobot(i)->getWorldModel()->getYReal());
-        
+
         Uint32 pixel = getPixel32(gTrajectoryMonitorImage,x,y);
         Uint8 r, g, b;
 		SDL_GetRGB(pixel,gTrajectoryMonitorImage->format,&r,&g,&b);
-        
 
-        
+
+
         /*
         // METHOD 1 : RED lines
         if ( r < 0xFF && r > 0x01 )
@@ -2478,7 +2478,7 @@ void updateTrajectoriesMonitor()
             else
                 putPixel32( gTrajectoryMonitorImage, x, y,  SDL_MapRGBA( gTrajectoryMonitorImage->format, 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE ) ); // saturation
         */
-        
+
         // METHOD 2 : LIGHT TO DARK GREY
         /*
         if ( r > 0x00 )

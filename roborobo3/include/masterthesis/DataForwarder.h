@@ -15,5 +15,6 @@ public:
 	void registerListener(DataListener* dl);
 	bool removeListener(DataListener* dl);
 	void forwardData(DataPacket* dp);
+	void simulationDone();
 };
 

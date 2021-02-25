@@ -41,16 +41,20 @@ void ForagingTempWorldObserver::stepPre()
     TemplateEEWorldObserver::stepPre();
 
     // New generation
-    if( gWorld->getIterations() > 0 && gWorld->getIterations() % TemplateEESharedData::gEvaluationTime == 0 )
-    {
-        sendGenerationalUpdate(constructDataPacket());
-    }
+
 
 }
 
 void ForagingTempWorldObserver::stepPost( )
 {
     // denne blir kalt på slutten av hvert tidstrinn i evolusjonen.
+    if( gWorld->getIterations() > 0 && gWorld->getIterations() % TemplateEESharedData::gEvaluationTime == 0 )
+    {
+        DataForwarder::getDataForwarder()->forwardData(constructDataPacket());
+        if(gWorld->getIterations() == gMaxIt){
+			DataForwarder::getDataForwarder()->simulationDone();
+        }
+    }
 }
 
 void ForagingTempWorldObserver::monitorPopulation( bool localVerbose )
@@ -65,12 +69,8 @@ DataPacket* ForagingTempWorldObserver::constructDataPacket(){
 	DataPacket* dp = new DataPacket();
 	dp->generation = _generationCount;
 	dp->bestFitness = -99999;
-	for(int i=0; i<_world->getNbOfRobots(); i++){
+	for(int i=0; i<gWorld->getNbOfRobots(); i++){
 //		dp.bestFitness = math.
 	}
 	return dp;
-}
-
-void ForagingTempWorldObserver::sendGenerationalUpdate(DataPacket* dp){
-	DataForwarder::getDataForwarder()->forwardData(dp);
 }

@@ -16,7 +16,6 @@ class ForagingTempWorldObserver : public TemplateEEWorldObserver
 {
 private:
 	DataPacket* constructDataPacket();
-	void sendGenerationalUpdate(DataPacket* dp);
 
 public:
     ForagingTempWorldObserver(World *world);

@@ -40,3 +40,9 @@ void DataForwarder::forwardData(DataPacket* dp){
 		l->onGenerationDone(dp);
 	}
 }
+
+void DataForwarder::simulationDone(){
+	for(auto l : *_dataListeners){
+		l->onSimulationDone();
+	}
+}

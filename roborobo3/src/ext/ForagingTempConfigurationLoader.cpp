@@ -7,10 +7,11 @@
 #include "WorldModels/RobotWorldModel.h"
 #include <stdlib.h>
 
+ForagingTempConfigurationLoader::CONTROLLER ForagingTempConfigurationLoader::controller = GNP;
+
 ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 {
 	//init
-	controller = GNP;
 }
 
 ForagingTempConfigurationLoader::~ForagingTempConfigurationLoader()
@@ -36,7 +37,7 @@ AgentObserver* ForagingTempConfigurationLoader::make_AgentObserver(RobotWorldMod
 Controller* ForagingTempConfigurationLoader::make_Controller(RobotWorldModel* wm)
 {
 	std::cout<<"controller type: "<<controller<<std::endl;
-	//std::exit(0);
+	std::exit(0);
 	return new ForagingTempController(wm);
 }
 

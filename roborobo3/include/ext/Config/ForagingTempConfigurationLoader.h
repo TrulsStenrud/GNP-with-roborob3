@@ -7,13 +7,15 @@
 
 #include "Config/ConfigurationLoader.h"
 
+
+
 class ForagingTempConfigurationLoader : public ConfigurationLoader
 {
 	private:
 
 	public:
 		enum CONTROLLER:int{GNP, NEAT, MPFA};
-		CONTROLLER controller;
+		static CONTROLLER controller;
 
 		ForagingTempConfigurationLoader();
 		~ForagingTempConfigurationLoader();

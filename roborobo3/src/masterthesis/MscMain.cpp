@@ -1,11 +1,13 @@
 #include "MscMain.h"
 #include "../../include/core/RoboroboMain/main2.h"
 #include "DataForwarder.h"
+#include "../../include/ext/Config/ForagingTempConfigurationLoader.h"
 
 using namespace std;
 
 MscMain::MscMain(int argc, char* argv[]){
 	DataForwarder::getDataForwarder()->registerListener(this);
+	ForagingTempConfigurationLoader::controller = ForagingTempConfigurationLoader::CONTROLLER::NEAT;
 	roboroboMain(argc, argv);
 }
 

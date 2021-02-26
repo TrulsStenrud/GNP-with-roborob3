@@ -6,6 +6,7 @@ struct DataPacket{
 	float avgFitness;
 };
 
+// Interface
 class DataListener{
 	public:
 		virtual void onGenerationDone(DataPacket* data) = 0;

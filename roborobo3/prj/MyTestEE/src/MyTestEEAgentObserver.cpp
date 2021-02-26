@@ -30,6 +30,7 @@ void MyTestEEAgentObserver::stepPre()
     {
         _wm->_fitnessValue = _wm->_fitnessValue + 1;
     }
+    
 
     TemplateEEAgentObserver::stepPre();
 }

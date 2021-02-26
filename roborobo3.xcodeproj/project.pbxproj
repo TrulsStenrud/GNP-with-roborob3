@@ -99,6 +99,7 @@
 		FB7A65CD25E282AD00A28264 /* MyTestEEConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65CC25E282AD00A28264 /* MyTestEEConfigurationLoader.cpp */; };
 		FB7A65D125E29E5600A28264 /* ForagingObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65CF25E29E5600A28264 /* ForagingObject.cpp */; };
 		FB7A65D625E3DE8700A28264 /* NestObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65D425E3DE8700A28264 /* NestObject.cpp */; };
+		FBBFAB9025E7EC5C008B237A /* PheromoneObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBBFAB8E25E7EC5C008B237A /* PheromoneObject.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -318,6 +319,8 @@
 		FB7A65D025E29E5600A28264 /* ForagingObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForagingObject.h; sourceTree = "<group>"; };
 		FB7A65D425E3DE8700A28264 /* NestObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NestObject.cpp; sourceTree = "<group>"; };
 		FB7A65D525E3DE8700A28264 /* NestObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NestObject.h; sourceTree = "<group>"; };
+		FBBFAB8E25E7EC5C008B237A /* PheromoneObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PheromoneObject.cpp; sourceTree = "<group>"; };
+		FBBFAB8F25E7EC5C008B237A /* PheromoneObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PheromoneObject.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -968,6 +971,7 @@
 			children = (
 				FB7A65D525E3DE8700A28264 /* NestObject.h */,
 				FB7A65D025E29E5600A28264 /* ForagingObject.h */,
+				FBBFAB8F25E7EC5C008B237A /* PheromoneObject.h */,
 				FB7A65BD25E281F800A28264 /* MyTestEESharedData.h */,
 				FB7A65BE25E281F800A28264 /* MyTestEEWorldObserver.h */,
 				FB7A65BF25E281F800A28264 /* MyTestEEAgentObserver.h */,
@@ -979,12 +983,13 @@
 		FB7A65C125E281F800A28264 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				FB7A65CF25E29E5600A28264 /* ForagingObject.cpp */,
+				FBBFAB8E25E7EC5C008B237A /* PheromoneObject.cpp */,
+				FB7A65D425E3DE8700A28264 /* NestObject.cpp */,
 				FB7A65C225E281F800A28264 /* MyTestEESharedData.cpp */,
 				FB7A65C325E281F800A28264 /* MyTestEEWorldObserver.cpp */,
 				FB7A65C425E281F800A28264 /* MyTestEEController.cpp */,
 				FB7A65C525E281F800A28264 /* MyTestEEAgentObserver.cpp */,
-				FB7A65CF25E29E5600A28264 /* ForagingObject.cpp */,
-				FB7A65D425E3DE8700A28264 /* NestObject.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1099,6 +1104,7 @@
 				3705F05E1BC66E21001A016D /* TemplateWanderConfigurationLoader.cpp in Sources */,
 				37BA27531BC3D014002DF5DC /* GateObject.cpp in Sources */,
 				376C24661E28BBA800E70850 /* TemplateMedeaWorldObserver.cpp in Sources */,
+				FBBFAB9025E7EC5C008B237A /* PheromoneObject.cpp in Sources */,
 				3766DF731E29125D0069E44C /* TemplateVanillaEEController.cpp in Sources */,
 				37BA27351BC3D014002DF5DC /* ReservoirNeuralNetwork.cpp in Sources */,
 				FB7A65C725E281F800A28264 /* MyTestEEWorldObserver.cpp in Sources */,

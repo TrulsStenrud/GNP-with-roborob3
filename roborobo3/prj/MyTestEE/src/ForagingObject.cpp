@@ -12,9 +12,10 @@
 #include "World/World.h"
 
 ForagingObject::ForagingObject(int __id) : CircleObject( __id ){
-    _radius = 4;
-    _footprintRadius = 8;
-    setType(0);
+    //_radius = 4;
+    //unregisterObject();
+    _footprintRadius = 0;
+    //setType(0);
 }
 
 void ForagingObject::step()
@@ -23,7 +24,7 @@ void ForagingObject::step()
 }
 
 void ForagingObject::isWalked(int __idAgent){
-std::cout << "im walked" << std::endl;
+
 }
 
 void ForagingObject::isTouched(int __idAgent){
@@ -34,8 +35,7 @@ void ForagingObject::isPushed(int __idAgent, std::tuple<double, double> __speed)
 
     auto targetRobotController = dynamic_cast<MyTestEEController*>(gWorld->getRobot(__idAgent-gRobotIndexStartOffset)->getController());
     if(!targetRobotController->isCarrying()){
-        //EnergyItem::isWalked(__idAgent);
-        
+       
         regrowTime = regrowTimeMax;
         unregisterObject();
         registered = false;

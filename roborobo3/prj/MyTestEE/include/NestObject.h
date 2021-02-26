@@ -20,7 +20,7 @@ public:
     
     void isWalked( int __idAgent ) override;
     void resetValues();
-    
+    int getCollectedGoods();
 protected:
     int _collectedGoods;
 };

@@ -8,6 +8,7 @@
 
 #include "TemplateEE/include/TemplateEEController.h"
 #include "Utilities/Packet.h"
+#include "MyTestEE/include/PheromoneObject.h"
 
 using namespace Neural;
 
@@ -23,6 +24,9 @@ class MyTestEEController : public TemplateEEController
         void setCarrying(int objectId);
         bool isCarrying();
         void unLoad();
+        void dropPheromone();
+        bool isPheromone();
+    
     
         double getFitness() override;
 
@@ -48,6 +52,7 @@ class MyTestEEController : public TemplateEEController
     
     private:
         int _carriedObjectId;
+        PheromoneObject* _testPheromone;
 };
 
 

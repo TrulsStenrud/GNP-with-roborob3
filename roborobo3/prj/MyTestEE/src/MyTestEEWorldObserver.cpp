@@ -8,6 +8,7 @@
 #include "MyTestEE/include/MyTestEESharedData.h"
 #include "MyTestEE/include/ForagingObject.h"
 #include "MyTestEE/include/NestObject.h"
+#include "MyTestEE/include/PheromoneObject.h"
 #include "WorldModels/RobotWorldModel.h"
 #include "World/World.h"
 #include "World/MovableObject.h"
@@ -60,8 +61,8 @@ void MyTestEEWorldObserver::initPre()
 }
 
 void MyTestEEWorldObserver::placeGridOfObjects(int x, int y, int columns, int rows){
-    int cellWidth = 20;
-    int cellHeight = 20;
+    int cellWidth = 12;
+    int cellHeight = 12;
     
     for(int i = 0; i < columns; i++){
         for(int j = 0; j < rows; j++){
@@ -74,10 +75,12 @@ void MyTestEEWorldObserver::placeObject(double x, double y){
     int id = PhysicalObjectFactory::getNextId();
     
     auto newItem = new ForagingObject(id);
-    gPhysicalObjects.push_back(newItem);
     newItem->setDisplayColor(255,128,64);
+    
+    
     newItem->unregisterObject();
     newItem->setCoordinates(x, y);
+    gPhysicalObjects.push_back(newItem);
     newItem->registerObject();
 }
 

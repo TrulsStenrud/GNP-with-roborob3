@@ -6,6 +6,7 @@
 #define FORAGINGTEMPCONFIGURATIONLOADER_H
 
 #include "Config/ConfigurationLoader.h"
+#include "../../masterthesis/controllers/ControllerEvolver.h"
 
 
 
@@ -14,8 +15,7 @@ class ForagingTempConfigurationLoader : public ConfigurationLoader
 	private:
 
 	public:
-		enum CONTROLLER:int{GNP, NEAT, MPFA};
-		static CONTROLLER controller;
+		static ControllerEvolver::CONTROLLER controller;
 
 		ForagingTempConfigurationLoader();
 		~ForagingTempConfigurationLoader();

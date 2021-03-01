@@ -15,9 +15,9 @@ LDFLAGS      = `sdl2-config --cflags --libs`
 LIBS      = 
 RM           = rm -f 
 MAKE         = make 
-INCLUDE      = -Iinclude/ext -Iinclude/masterthesis -Iinclude/contrib -Iinclude/core -Iprj/ $(shell pkg-config --cflags eigen3)
+INCLUDE      = -Iinclude/ext -Iinclude/MultiNEAT -Iinclude/masterthesis -Iinclude/masterthesis/controllers -Iinclude/contrib -Iinclude/core -Iprj/ $(shell pkg-config --cflags eigen3)
 SRC_C	     = $(wildcard src/core/*.c src/contrib/*.c src/contrib/*/*/*.c src/contrib/**/*.c src/ext/*.c)
-SRC_CC	     = $(wildcard src/core/*.cpp src/masterthesis/*.cpp src/contrib/*.cpp src/contrib/*/*/*.cpp src/contrib/**/*.cpp src/ext/*.cpp)
+SRC_CC	     = $(wildcard src/core/*.cpp src/MultiNEAT/* src/masterthesis/*.cpp src/masterthesis/controllers/*cpp src/contrib/*.cpp src/contrib/*/*/*.cpp src/contrib/**/*.cpp src/ext/*.cpp)
 DIR_NAME     = $(shell basename `pwd`)
 DATE_TIME    = `date +'%Y.%m.%d_%Hh%M'`
 

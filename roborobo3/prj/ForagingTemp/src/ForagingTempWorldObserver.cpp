@@ -11,6 +11,8 @@
 #include "RoboroboMain/roborobo.h"
 #include "RoboroboMain/common.h"
 #include "../../../include/masterthesis/DataForwarder.h"
+#include "../../../include/core/Agents/Robot.h"
+#include "../../../include/masterthesis/controllers/ControllerEvolver.h"
 
 ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : TemplateEEWorldObserver( world )
 {
@@ -18,12 +20,17 @@ ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : TemplateE
     gLitelogManager->write("# lite logger\n");
     gLitelogManager->write("# generation,iteration,populationSize,minFitness,maxFitness,avgFitnessNormalized.\n");
     gLitelogManager->flush();
+    _evolver = nullptr;
 }
 
 ForagingTempWorldObserver::~ForagingTempWorldObserver()
 {
     // superclass destructor called before
     //delete _dataForwarder;
+}
+
+void ForagingTempWorldObserver::setControllerEvolver(ControllerEvolver* evolver){
+	_evolver = evolver;
 }
 
 void ForagingTempWorldObserver::initPre()
@@ -54,6 +61,11 @@ void ForagingTempWorldObserver::stepPost( )
         if(gWorld->getIterations() == gMaxIt){
 			DataForwarder::getDataForwarder()->simulationDone();
         }
+        std::vector<Robot*> robots;
+        for(int i=0; i<gWorld->getNbOfRobots(); i++){
+			robots.push_back(gWorld->getRobot(i));
+        }
+        _evolver->generationalUpdate(robots);
     }
 }
 

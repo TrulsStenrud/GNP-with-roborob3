@@ -10,13 +10,14 @@
 
 class RobotWorldModel;
 
-class MyTestEEAgentObserver : public TemplateEEAgentObserver
+class MyTestEEAgentObserver : public AgentObserver
 {
 	public:
 		MyTestEEAgentObserver(RobotWorldModel *wm);
 		~MyTestEEAgentObserver();
     
         void stepPre() override;
+        void reset() override; 
 };
 
 #endif

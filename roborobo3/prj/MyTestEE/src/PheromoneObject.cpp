@@ -10,6 +10,7 @@
 #include "World/World.h"
 #include "RoboroboMain/roborobo.h"
 #include <Utilities/Graphics.h>
+#include "MyTestEE/include/PheromoneObjectFactory.h"
 
 
 
@@ -19,12 +20,42 @@ PheromoneObject::PheromoneObject(int __id) : CircleObject( __id ){
     unregisterObject();
     _radius=0;
     _footprintRadius = 4;
+    
+    if(gProperties.hasProperty("gPheromoneLifespan")){
+        gProperties.checkAndGetPropertyValue("gPheromoneLifespan", &_lifespan, true);
+    }else{
+        _lifespan = 100;
+    }
+    
+    _timeToLive = _lifespan;
 }
 
 
 void PheromoneObject::step()
 {
-    stepPhysicalObject();
+    if(_timeToLive > 0){
+        if(_timeToLive == 1){
+            evaporate();
+        }else{
+        }
+        
+        _timeToLive--;
+    }
+    
+}
+
+void PheromoneObject::evaporate(){
+    _visible = false;
+    registered = false;
+    unregisterObject();
+    PheromoneObjectFactory::recyclePheromoneObject(this);
+}
+
+void PheromoneObject::makeVisible(){
+    _timeToLive = _lifespan;
+    _visible = true;
+    registered = true;
+    registerObject();
 }
 
 void PheromoneObject::isWalked(int __idAgent){

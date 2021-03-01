@@ -14,9 +14,20 @@
 #include "World/MovableObject.h"
 #include "RoboroboMain/roborobo.h"
 
-MyTestEEWorldObserver::MyTestEEWorldObserver( World* world ) : TemplateEEWorldObserver( world )
+MyTestEEWorldObserver::MyTestEEWorldObserver( World* world ) : WorldObserver( world )
 {
-    // superclass constructor called before
+    
+    std::string litelogFullFilename = gLogDirectoryname + "/lite_" + gLogFilename;
+    gLitelogFile.open(litelogFullFilename.c_str());
+        
+    if(!gLitelogFile) {
+        std::cout << "[CRITICAL] Cannot open \"lite\" log file " << litelogFullFilename << "." << std::endl << std::endl;
+        exit(-1);
+    }
+        
+    gLitelogManager = new LogManager();
+    gLitelogManager->setLogFile(gLitelogFile);
+    gLitelogManager->flush();
     
     gLitelogManager->write("# lite logger\n");
     gLitelogManager->write("# generation,iteration,populationSize,minFitness,maxFitness,avgFitnessNormalized.\n");
@@ -25,15 +36,13 @@ MyTestEEWorldObserver::MyTestEEWorldObserver( World* world ) : TemplateEEWorldOb
 
 MyTestEEWorldObserver::~MyTestEEWorldObserver()
 {
-    // superclass destructor called before
+    gLitelogFile.close();
 }
 
 
 
 void MyTestEEWorldObserver::initPre()
 {
-    TemplateEEWorldObserver::initPre();
-    
     {
         int id = PhysicalObjectFactory::getNextId();
         auto nest = new NestObject(id);
@@ -48,7 +57,8 @@ void MyTestEEWorldObserver::initPre()
     
     int nbOfObjects = 20;
     
-    placeGridOfObjects(50, 50, 20, 20);
+    placeGridOfObjects(50, 50, 0, 0);
+    
     for(int i = 0; i < nbOfObjects; i++){
 //        int id = PhysicalObjectFactory::getNextId();
 //
@@ -57,7 +67,6 @@ void MyTestEEWorldObserver::initPre()
 //        newItem->setDisplayColor(255,128,64);
 //        newItem->relocate();
     }
-    
 }
 
 void MyTestEEWorldObserver::placeGridOfObjects(int x, int y, int columns, int rows){
@@ -86,13 +95,11 @@ void MyTestEEWorldObserver::placeObject(double x, double y){
 
 void MyTestEEWorldObserver::initPost()
 {
-    TemplateEEWorldObserver::initPost();
     gNbOfPhysicalObjects = (int)gPhysicalObjects.size(); // must be done in the initPost() method for objects created in initPre().
 }
 
 void MyTestEEWorldObserver::stepPre()
 {
-    TemplateEEWorldObserver::stepPre();
     
     /*
     // EXAMPLE
@@ -105,10 +112,4 @@ void MyTestEEWorldObserver::stepPre()
 
 void MyTestEEWorldObserver::stepPost( )
 {
-    TemplateEEWorldObserver::stepPost();
-}
-
-void MyTestEEWorldObserver::monitorPopulation( bool localVerbose )
-{
-    TemplateEEWorldObserver::monitorPopulation(localVerbose);
 }

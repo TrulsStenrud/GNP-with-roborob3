@@ -10,7 +10,7 @@
 
 class World;
 
-class MyTestEEWorldObserver : public TemplateEEWorldObserver
+class MyTestEEWorldObserver : public WorldObserver
 {
 public:
     MyTestEEWorldObserver(World *world);
@@ -22,8 +22,6 @@ public:
     void stepPre() override;
     void stepPost() override;
 
-protected:    
-    void monitorPopulation( bool localVerbose = true ) override;
     
 private:
     void placeGridOfObjects(int x, int y, int columns, int rows);

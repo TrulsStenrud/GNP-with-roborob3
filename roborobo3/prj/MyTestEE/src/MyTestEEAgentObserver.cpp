@@ -7,14 +7,18 @@
 #include "WorldModels/RobotWorldModel.h"
 #include "World/PhysicalObject.h"
 
-MyTestEEAgentObserver::MyTestEEAgentObserver( RobotWorldModel *wm ) : TemplateEEAgentObserver ( wm )
+MyTestEEAgentObserver::MyTestEEAgentObserver( RobotWorldModel *wm ) : AgentObserver( wm )
 {
-    // superclass constructor called before
 }
 
 MyTestEEAgentObserver::~MyTestEEAgentObserver()
 {
     // superclass destructor called before
+}
+
+void MyTestEEAgentObserver::reset()
+{
+    // nothing to do.
 }
 
 /*
@@ -26,13 +30,35 @@ MyTestEEAgentObserver::~MyTestEEAgentObserver()
 void MyTestEEAgentObserver::stepPre()
 {
     // * update fitness (if needed)
-    if ( _wm->isAlive() && PhysicalObject::isInstanceOf(_wm->getGroundSensorValue()) )
-    {
-        _wm->_fitnessValue = _wm->_fitnessValue + 1;
-    }
+//    if ( _wm->isAlive() && PhysicalObject::isInstanceOf(_wm->getGroundSensorValue()) )
+//    {
+//        _wm->_fitnessValue = _wm->_fitnessValue + 1;
+//    }
     
 
-    TemplateEEAgentObserver::stepPre();
+    // * send callback messages to objects touched or walked upon.
+    
+    // through distance sensors
+    for( int i = 0 ; i < _wm->_cameraSensorsNb; i++)
+    {
+        int targetIndex = _wm->getObjectIdFromCameraSensor(i);
+        
+        if ( PhysicalObject::isInstanceOf(targetIndex) )   // sensor ray bumped into a physical object
+        {
+            targetIndex = targetIndex - gPhysicalObjectIndexStartOffset;
+            //std::cout << "[DEBUG] Robot #" << _wm->getId() << " touched " << targetIndex << "\n";
+            gPhysicalObjects[targetIndex]->isTouched(_wm->getId());
+        }
+    }
+    
+    // through floor sensor
+    int targetIndex = _wm->getGroundSensorValue();
+    if ( PhysicalObject::isInstanceOf(targetIndex) ) // ground sensor is upon a physical object (OR: on a place marked with this physical object footprint, cf. groundsensorvalues image)
+    {
+        targetIndex = targetIndex - gPhysicalObjectIndexStartOffset;
+        //std::cout << "[DEBUG] #" << _wm->getId() << " walked upon " << targetIndex << "\n";
+        gPhysicalObjects[targetIndex]->isWalked(_wm->getId());
+    }
 }
 
 

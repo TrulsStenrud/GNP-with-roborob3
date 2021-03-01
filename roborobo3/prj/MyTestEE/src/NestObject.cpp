@@ -14,6 +14,7 @@
 
 NestObject::NestObject(int __id ) : EnergyItem( __id ){
     
+    unregisterObject();
     _radius = 0;
     _footprintRadius = 80;
     _footprintColorRed = 0xFF;

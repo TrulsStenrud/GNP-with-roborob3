@@ -7,8 +7,11 @@
 #define MYTESTEEWORLDOBSERVER_H
 
 #include "TemplateEE/include/TemplateEEWorldObserver.h"
+#include "MyTestEE/include/NestObject.h"
 
 class World;
+
+extern std::vector<NestObject*> gNestObjects; // list of nestObjects added to gPhysicalObjects
 
 class MyTestEEWorldObserver : public WorldObserver
 {
@@ -16,12 +19,13 @@ public:
     MyTestEEWorldObserver(World *world);
     ~MyTestEEWorldObserver();
     
+    void addNestObject(double x, double y);
+    
     void initPre() override;
     void initPost() override;
 
     void stepPre() override;
     void stepPost() override;
-
     
 private:
     void placeGridOfObjects(int x, int y, int columns, int rows);

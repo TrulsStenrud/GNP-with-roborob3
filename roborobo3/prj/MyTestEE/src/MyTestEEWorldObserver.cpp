@@ -7,12 +7,14 @@
 #include "MyTestEE/include/MyTestEEController.h"
 #include "MyTestEE/include/MyTestEESharedData.h"
 #include "MyTestEE/include/ForagingObject.h"
-#include "MyTestEE/include/NestObject.h"
+
 #include "MyTestEE/include/PheromoneObject.h"
 #include "WorldModels/RobotWorldModel.h"
 #include "World/World.h"
 #include "World/MovableObject.h"
 #include "RoboroboMain/roborobo.h"
+
+std::vector<NestObject*> gNestObjects; // list of nestObjects added to gPhysicalObjects
 
 MyTestEEWorldObserver::MyTestEEWorldObserver( World* world ) : WorldObserver( world )
 {
@@ -41,23 +43,30 @@ MyTestEEWorldObserver::~MyTestEEWorldObserver()
 
 
 
+void MyTestEEWorldObserver::addNestObject(double x, double y) {
+    int id = PhysicalObjectFactory::getNextId();
+    auto nest = new NestObject(id);
+    
+    nest->unregisterObject();
+    nest->setCoordinates(x, y);
+    nest->registerObject();
+    
+    
+    gPhysicalObjects.push_back(nest);
+    gNestObjects.push_back(nest);
+}
+
 void MyTestEEWorldObserver::initPre()
 {
-    {
-        int id = PhysicalObjectFactory::getNextId();
-        auto nest = new NestObject(id);
-        
-        nest->unregisterObject();
-        nest->setCoordinates(1000, 600);
-        nest->registerObject();
-        
-        gPhysicalObjects.push_back(nest);
-        
-    }
+    
+    addNestObject(1000, 600);
+    addNestObject(400, 600);
+
     
     int nbOfObjects = 20;
     
-    placeGridOfObjects(50, 50, 0, 0);
+    placeGridOfObjects(50, 50, 2, 2);
+    
     
     for(int i = 0; i < nbOfObjects; i++){
 //        int id = PhysicalObjectFactory::getNextId();

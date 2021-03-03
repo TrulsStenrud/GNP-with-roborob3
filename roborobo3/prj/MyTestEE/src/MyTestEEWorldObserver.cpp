@@ -7,8 +7,9 @@
 #include "MyTestEE/include/MyTestEEController.h"
 #include "MyTestEE/include/MyTestEESharedData.h"
 #include "MyTestEE/include/ForagingObject.h"
-
 #include "MyTestEE/include/PheromoneObject.h"
+#include "MyTestEE/include/PheromoneObjectFactory.h"
+
 #include "WorldModels/RobotWorldModel.h"
 #include "World/World.h"
 #include "World/MovableObject.h"
@@ -46,12 +47,9 @@ MyTestEEWorldObserver::~MyTestEEWorldObserver()
 void MyTestEEWorldObserver::addNestObject(double x, double y) {
     int id = PhysicalObjectFactory::getNextId();
     auto nest = new NestObject(id);
-    
-    nest->unregisterObject();
     nest->setCoordinates(x, y);
     nest->registerObject();
-    
-    
+
     gPhysicalObjects.push_back(nest);
     gNestObjects.push_back(nest);
 }
@@ -59,9 +57,10 @@ void MyTestEEWorldObserver::addNestObject(double x, double y) {
 void MyTestEEWorldObserver::initPre()
 {
     
+    
     addNestObject(1000, 600);
     addNestObject(400, 600);
-
+    
     
     int nbOfObjects = 20;
     

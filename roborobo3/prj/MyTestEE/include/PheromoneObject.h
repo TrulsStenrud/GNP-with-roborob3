@@ -20,8 +20,11 @@ public:
     PheromoneObject( int __id );
     ~PheromoneObject() {}
     
+    double getStrength();
     void evaporate();
     void makeVisible();
+    void updateStrength();
+    bool isRegistered();
     
     void step() override;
     void isWalked ( int __idAgent ) override; // callback, triggered by agent
@@ -30,7 +33,8 @@ public:
     bool canRegister() override; // test if register object is possible (use only footprint)
     
 private:
-    int _lifespan;
-    int _timeToLive = 0;
+    double _decay;
+    double _evaporationTreshold;
+    double _strength;
 };
 #endif /* PheromoneObject_hpp */

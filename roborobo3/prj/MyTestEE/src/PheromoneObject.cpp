@@ -21,25 +21,34 @@ PheromoneObject::PheromoneObject(int __id) : CircleObject( __id ){
     _radius=0;
     _footprintRadius = 4;
     
-    if(gProperties.hasProperty("gPheromoneLifespan")){
-        gProperties.checkAndGetPropertyValue("gPheromoneLifespan", &_lifespan, true);
+    if(gProperties.hasProperty("gPheromoneDecay")){
+        gProperties.checkAndGetPropertyValue("gPheromoneDecay", &_decay, true);
     }else{
-        _lifespan = 100;
+        _decay = 0.01;
     }
     
-    _timeToLive = _lifespan;
+    if(gProperties.hasProperty("gPheromoneEvaporationTreshold")){
+        gProperties.checkAndGetPropertyValue("gPheromoneEvaporationTreshold", &_evaporationTreshold, true);
+    }else{
+        _evaporationTreshold = 0.1;
+    }
+    
+    _strength = 1;
+    regrowTime = -1;
+    
 }
 
 
 void PheromoneObject::step()
 {
-    if(_timeToLive > 0){
-        if(_timeToLive == 1){
-            evaporate();
-        }else{
+    if(_strength > _evaporationTreshold){
+        _strength *= (1 - _decay);
+        if(_strength <= _evaporationTreshold){
+            if(registered && _visible){
+                evaporate();
+            }
         }
-        
-        _timeToLive--;
+            
     }
     
 }
@@ -48,14 +57,29 @@ void PheromoneObject::evaporate(){
     _visible = false;
     registered = false;
     unregisterObject();
+    hide();
     PheromoneObjectFactory::recyclePheromoneObject(this);
 }
 
 void PheromoneObject::makeVisible(){
-    _timeToLive = _lifespan;
+    _strength = 1;
     _visible = true;
     registered = true;
     registerObject();
+}
+
+bool PheromoneObject::isRegistered(){
+    return registered;
+}
+void PheromoneObject::updateStrength(){
+    _strength = 1;
+    if(!registered){
+        std::cout << "wowowowo" << std::endl;
+    }
+}
+
+double PheromoneObject::getStrength(){
+    return _strength;
 }
 
 void PheromoneObject::isWalked(int __idAgent){

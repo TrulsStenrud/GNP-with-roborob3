@@ -22,10 +22,8 @@ MyTestEEController::MyTestEEController( RobotWorldModel *wm ) : Controller( wm )
 {
     // superclass constructor called before this baseclass constructor.
 
-    _carriedObjectId = -1;
-    
+    _carriedObjectId = -1; // -1 means not carrying anything
     _testPheromone = new PheromoneObject(-1);
-    _testPheromone->unregisterObject();
 }
 
 MyTestEEController::~MyTestEEController()
@@ -57,8 +55,18 @@ void MyTestEEController::reset(){
 
 void MyTestEEController::step()
 {
+    if(gWorld->getIterations() > 10000){
+        //return;
+    }
     setTranslation(1);
-    setRotation(getNestRelativeOrientation()/5);
+    
+    int v = _wm->getGroundSensorValue();
+    PheromoneObject* p;
+    
+    setTranslation(1);
+    setRotation(0.01);
+    
+    //setRotation(getNestRelativeOrientation()/5);
         
     if(isCarrying()){
         _wm->setRobotLED_colorValues(0, 0, 255);
@@ -66,29 +74,40 @@ void MyTestEEController::step()
     }else{
         _wm->setRobotLED_colorValues(255, 0, 0);
     }
-    
-    //dropPheromone();
+
+    dropPheromone();
     //TemplateEEController::stepController();
 }
 
 void MyTestEEController::dropPheromone(){
-    int x = _wm->_xReal, y = _wm->_yReal;
-    _testPheromone->setCoordinates(x, y);
+    int v = _wm->getGroundSensorValue();
+    PheromoneObject* p;
     
-    if(_testPheromone->canRegister()){
-        PheromoneObjectFactory::placePheromoneObject(x, y);
+    if(PhysicalObject::isInstanceOf(v)
+       && (p = dynamic_cast<PheromoneObject*>(gPhysicalObjects[v-gPhysicalObjectIndexStartOffset]))!=NULL){
+        p->updateStrength();
     }
+    else{
+        int x = _wm->_xReal, y = _wm->_yReal;
+        _testPheromone->setCoordinates(x, y);
+        if(_testPheromone->canRegister()){
+            PheromoneObjectFactory::placePheromoneObject(x, y);
+        }
+    }
+    
 }
 
-bool MyTestEEController::isPheromone(){
+double MyTestEEController::getPheromoneValue(){
     int v = _wm->getGroundSensorValue();
     if(PhysicalObject::isInstanceOf(v)){
-        auto nest = dynamic_cast<PheromoneObject*>(gPhysicalObjects[v-gPhysicalObjectIndexStartOffset]);
+        auto pheromone = dynamic_cast<PheromoneObject*>(gPhysicalObjects[v-gPhysicalObjectIndexStartOffset]);
         
-        return nest != NULL;
+        if(pheromone != NULL){
+            return pheromone->getStrength();
+        }
     }
     
-    return false;
+    return 0;
 }
 
 // returns the robots orientation relative to the closest nest mappen to [ -1, +1 ]

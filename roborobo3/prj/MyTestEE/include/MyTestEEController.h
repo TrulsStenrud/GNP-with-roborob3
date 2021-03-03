@@ -25,7 +25,7 @@ public:
     bool isCarrying();
     void unLoad();
     void dropPheromone();
-    bool isPheromone();
+    double getPheromoneValue();
     
     // returns the robots orientation relative to the closest nest mappen to [ -1, +1 ]
     double getNestRelativeOrientation();

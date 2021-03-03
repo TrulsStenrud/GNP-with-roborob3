@@ -11,24 +11,24 @@
 #include "RoboroboMain/roborobo.h"
 #include "WorldModels/RobotWorldModel.h"
 
-std::vector<PheromoneObject*> PheromoneObjectFactory::_unusedPheromones;
+std::unordered_set<PheromoneObject*> PheromoneObjectFactory::_unusedPheromones;
 
 PheromoneObject* PheromoneObjectFactory::placePheromoneObject(int x, int y){
-    if(_unusedPheromones.size() == 0){
+    if(_unusedPheromones.empty()){
         
         int id = PhysicalObjectFactory::getNextId();
         auto pheromoneObject = new PheromoneObject(id);
-        pheromoneObject->unregisterObject();
+        
         pheromoneObject->setCoordinates(x, y);
-        pheromoneObject->registerObject();
+        pheromoneObject->makeVisible();
         gPhysicalObjects.push_back(pheromoneObject);
         gNbOfPhysicalObjects = (int)gPhysicalObjects.size();
         
         return pheromoneObject;
     }
     else{
-        auto pheromoneObject = _unusedPheromones.back();
-        _unusedPheromones.pop_back();
+        auto pheromoneObject = *_unusedPheromones.begin();
+        _unusedPheromones.erase(pheromoneObject);
         pheromoneObject->setCoordinates(x, y);
         pheromoneObject->makeVisible();
         return pheromoneObject;
@@ -36,5 +36,6 @@ PheromoneObject* PheromoneObjectFactory::placePheromoneObject(int x, int y){
 }
 
 void PheromoneObjectFactory::recyclePheromoneObject(PheromoneObject *p){
-    _unusedPheromones.push_back(p);
+    if(_unusedPheromones.count(p) == 0)
+        _unusedPheromones.insert(p);
 }

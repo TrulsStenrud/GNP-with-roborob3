@@ -1285,6 +1285,7 @@
 					/opt/local/include,
 					/usr/local/include/eigen3/,
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CPLUSPLUSFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

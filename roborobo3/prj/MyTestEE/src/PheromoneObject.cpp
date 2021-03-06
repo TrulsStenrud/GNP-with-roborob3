@@ -47,10 +47,12 @@ void PheromoneObject::step()
             if(registered && _visible){
                 evaporate();
             }
+            else{
+                std::cout << "Death " << deathIt << " current " << gWorld->getIterations() << std::endl;
+            }
         }
             
     }
-    
 }
 
 void PheromoneObject::evaporate(){
@@ -72,14 +74,21 @@ bool PheromoneObject::isRegistered(){
     return registered;
 }
 void PheromoneObject::updateStrength(){
-    _strength = 1;
     if(!registered){
-        std::cout << "wowowowo" << std::endl;
+        // TODO what to do in the one frame where pheroone is evaporated, but still readable through the groundsensor, just read strength as zero maybe
+    }
+    else{
+        _strength = 1;
     }
 }
 
 double PheromoneObject::getStrength(){
-    return _strength;
+    if(registered){ // the pheromones is readable through the ground sensor for the remaining of the frame where it is evaporated... this is a "fix" for this.
+        return _strength;
+    }
+    else{
+        return 0;
+    }
 }
 
 void PheromoneObject::isWalked(int __idAgent){

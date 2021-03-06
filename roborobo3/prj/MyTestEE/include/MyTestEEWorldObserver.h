@@ -22,6 +22,8 @@ public:
     void addNestObject(double x, double y);
     
     void initPre() override;
+    void extracted();
+    
     void initPost() override;
 
     void stepPre() override;
@@ -30,6 +32,7 @@ public:
 private:
     void placeGridOfObjects(int x, int y, int columns, int rows);
     void placeObject(double x, double y);
+    void placeRobotsInAllNests();
 };
 
 #endif

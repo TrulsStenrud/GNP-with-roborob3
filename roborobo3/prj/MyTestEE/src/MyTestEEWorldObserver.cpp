@@ -56,8 +56,6 @@ void MyTestEEWorldObserver::addNestObject(double x, double y) {
 
 void MyTestEEWorldObserver::initPre()
 {
-    
-    
     addNestObject(1000, 600);
     addNestObject(400, 600);
     
@@ -101,9 +99,29 @@ void MyTestEEWorldObserver::placeObject(double x, double y){
     newItem->registerObject();
 }
 
+void MyTestEEWorldObserver::placeRobotsInAllNests() {
+    int perNest = gNbOfRobots / gNestObjects.size();
+    int width = sqrt(perNest);
+    int spacing = 10;
+    
+    
+    for(int i = 0; i < gNbOfRobots; i++){
+        int startX = gNestObjects[i/perNest]->getXReal() - (spacing * width) / 2;
+        int startY = gNestObjects[i/perNest]->getYReal() - (spacing * width) / 2;
+        
+        int x = startX + ((i%perNest) % width + 0.5) * spacing;
+        int y = startY + ((i%perNest) / width + 0.5) * spacing;
+        
+        gRobots[i]->setCoord(x, y);
+        gRobots[i]->setCoordReal(x, y);
+    }
+}
+
 void MyTestEEWorldObserver::initPost()
 {
     gNbOfPhysicalObjects = (int)gPhysicalObjects.size(); // must be done in the initPost() method for objects created in initPre().
+    
+    placeRobotsInAllNests();
 }
 
 void MyTestEEWorldObserver::stepPre()

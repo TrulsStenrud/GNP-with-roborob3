@@ -58,7 +58,6 @@ void MyTestEEController::step()
     if(gWorld->getIterations() > 10000){
         //return;
     }
-    setTranslation(1);
     
     int v = _wm->getGroundSensorValue();
     PheromoneObject* p;

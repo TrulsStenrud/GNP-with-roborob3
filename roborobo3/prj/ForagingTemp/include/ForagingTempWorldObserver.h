@@ -16,6 +16,7 @@ class World;
 class ForagingTempWorldObserver : public TemplateEEWorldObserver
 {
 private:
+	int _evalTime; //how many time steps per evaluation.
 	DataPacket* constructDataPacket();
 	ControllerEvolver* _evolver;
 

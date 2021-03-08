@@ -209,7 +209,7 @@ void Controller::setTranslation( double value )
 {
     if ( value > 1.0 || value < -1.0 )
     {
-        std::cerr << "[WARNING] setTranslation(value) with value out of bounds (" << value << "). Bounding in [-1.0,+1.0]\n";
+//        std::cerr << "[WARNING] setTranslation(value) with value out of bounds (" << value << "). Bounding in [-1.0,+1.0]\n";
         if ( value > 1.0 )
         {
             value = 1.0;
@@ -227,7 +227,7 @@ void Controller::setRotation( double value )
 {
     if ( value > 1.0 || value < -1.0 )
     {
-        std::cerr << "[WARNING] setRotation(value) with value out of bounds (" << value << "). Bounding in [-1.0,+1.0]\n";
+//        std::cerr << "[WARNING] setRotation(value) with value out of bounds (" << value << "). Bounding in [-1.0,+1.0]\n";
         if ( value > 1.0 )
         {
             value = 1.0;

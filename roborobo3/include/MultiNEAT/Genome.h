@@ -87,7 +87,7 @@ namespace NEAT
 
         // ID of genome
         int m_ID;
-        
+
         // How many inputs/outputs
         int m_NumInputs;
         int m_NumOutputs;
@@ -190,7 +190,7 @@ namespace NEAT
         //Genome(int a_ID, int a_NumInputs, int a_NumHidden, int a_NumOutputs,
         //      ActivationFunction a_OutputActType, ActivationFunction a_HiddenActType, const Parameters &a_Parameters);
 
-        //Genome(unsigned int a_ID, unsigned int a_NumInputs, unsigned int a_NumHidden, unsigned int a_NumOutputs,
+        //Genome(unsigned int a_ID, unsigned int a_NumInputs, unsigned int a_NumHidden, unsigned int a_NumOutputs,Specifier
         //       ActivationFunction a_OutputActType, ActivationFunction a_HiddenActType, const Parameters &a_Parameters);
 
 
@@ -264,7 +264,7 @@ namespace NEAT
         void SetAdjFitness(double a_af);
 
         int GetID() const;
-        
+
         void SetID(int a_id);
 
         unsigned int GetDepth() const;
@@ -389,26 +389,26 @@ namespace NEAT
 
             return traits;
         }
-        
+
         std::map< std::string, Trait> Dict2TraitMap(py::dict d)
         {
             py::list ks = d.keys();
             std::map< std::string, Trait> ts;
-            
+
             for(int i=0 ; i<py::len(ks); i++)
             {
                 py::object key = ks[i];
                 py::object po = d[key];
-                
+
                 Trait t;
                 t.value = po;
-                
+
                 ts[py::extract<std::string>(key)] = t;
             }
-            
+
             return ts;
         };
-        
+
 
         py::object GetNeuronTraits()
         {
@@ -469,7 +469,7 @@ namespace NEAT
         {
             return TraitMap2Dict(m_GenomeGene.m_Traits);
         }
-        
+
         void SetGenomeTraits(py::dict traits)
         {
             m_GenomeGene.m_Traits = Dict2TraitMap(traits);
@@ -817,10 +817,10 @@ namespace NEAT
             ar & m_Depth;
             ar & m_OffspringAmount;
             ar & m_Evaluated;
-    
+
             ar & m_initial_num_neurons;
             ar & m_initial_num_links;
-            
+
             //ar & m_PhenotypeBehavior; // todo: think about how we will handle the behaviors with pickle
         }
 

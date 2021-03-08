@@ -13,9 +13,9 @@
 class ForagingTempConfigurationLoader : public ConfigurationLoader
 {
 	private:
-
+		ControllerEvolver* _evolver;
 	public:
-		static ControllerEvolver::CONTROLLER controller;
+		static ControllerEvolver::CONTROLLER controllerType;
 
 		ForagingTempConfigurationLoader();
 		~ForagingTempConfigurationLoader();

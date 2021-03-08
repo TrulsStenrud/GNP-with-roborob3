@@ -3,7 +3,7 @@
 #include "../masterthesis/MscMain.h"
 
 /*
- * This class is purely for redirecting program flow to another folder.
+ * This class is purely for redirecting program flow to the "masterthesis" folder.
  */
 
 int main(int argc, char* argv[]){

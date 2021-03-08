@@ -21,12 +21,12 @@ ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : TemplateE
     gLitelogManager->write("# generation,iteration,populationSize,minFitness,maxFitness,avgFitnessNormalized.\n");
     gLitelogManager->flush();
     _evolver = nullptr;
+    gProperties.checkAndGetPropertyValue("gEvaluationTime", &_evalTime, true);
 }
 
 ForagingTempWorldObserver::~ForagingTempWorldObserver()
 {
     // superclass destructor called before
-    //delete _dataForwarder;
 }
 
 void ForagingTempWorldObserver::setControllerEvolver(ControllerEvolver* evolver){
@@ -54,18 +54,21 @@ void ForagingTempWorldObserver::stepPre()
 
 void ForagingTempWorldObserver::stepPost( )
 {
+	std::cout<<"wigga prease "<<gWorld->getIterations()<<std::endl;
     // denne blir kalt på slutten av hvert tidstrinn i evolusjonen.
-    if( gWorld->getIterations() > 0 && gWorld->getIterations() % TemplateEESharedData::gEvaluationTime == 0 )
+    if( gWorld->getIterations() > 0 && gWorld->getIterations() % _evalTime == 0 )
     {
+    	std::cout<<"generasjon ferdig"<<std::endl;
+    	std::vector<Robot*>* robots = new std::vector<Robot*>();
+        for(int i=0; i<gWorld->getNbOfRobots(); i++){
+			robots->push_back(gWorld->getRobot(i));
+        }
+
         DataForwarder::getDataForwarder()->forwardData(constructDataPacket());
         if(gWorld->getIterations() == gMaxIt){
 			DataForwarder::getDataForwarder()->simulationDone();
         }
-        std::vector<Robot*> robots;
-        for(int i=0; i<gWorld->getNbOfRobots(); i++){
-			robots.push_back(gWorld->getRobot(i));
-        }
-        _evolver->generationalUpdate(robots);
+        _evolver->evalDone(robots);
     }
 }
 
@@ -81,8 +84,10 @@ DataPacket* ForagingTempWorldObserver::constructDataPacket(){
 	DataPacket* dp = new DataPacket();
 	dp->generation = _generationCount;
 	dp->bestFitness = -99999;
+	float avgFitness = 0;
 	for(int i=0; i<gWorld->getNbOfRobots(); i++){
-//		dp.bestFitness = math.
+		//avgFitness += 0;
+		//dp->bestFitness = std::max(dp->bestFitness, -999);
 	}
 	return dp;
 }

@@ -11,22 +11,39 @@
 
 using namespace std;
 
-ControllerEvolver::CONTROLLER ForagingTempConfigurationLoader::controller = ControllerEvolver::GNP;
+ControllerEvolver::CONTROLLER ForagingTempConfigurationLoader::controllerType = ControllerEvolver::GNP;
 
 ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 {
-	//init
+	std::cout<<"controller type: "<<controllerType<<std::endl;
+	switch(controllerType){
+	case ControllerEvolver::GNP:
+		cout<<"GNP controller type not implemented yet. Exiting..."<<endl;
+		exit(3);
+		break;
+	case ControllerEvolver::NEAT:
+	case ControllerEvolver::NoveltySearch:
+	case ControllerEvolver::HyperNEAT:
+	case ControllerEvolver::ESHyperNEAT:
+		_evolver = new MultiNEATEvolver(controllerType);
+		break;
+	case ControllerEvolver::MPFA:
+		cout<<"MPFA controller type not implemented yet. Exiting..."<<endl;
+		exit(3);
+		break;
+	}
 }
 
 ForagingTempConfigurationLoader::~ForagingTempConfigurationLoader()
 {
 	//destroy
+	delete _evolver;
 }
 
 WorldObserver* ForagingTempConfigurationLoader::make_WorldObserver(World* wm)
 {
 	ForagingTempWorldObserver* wo = new ForagingTempWorldObserver(wm);
-	wo->setControllerEvolver(new MultiNEATEvolver(controller));
+	wo->setControllerEvolver(_evolver);
 	return wo;
 }
 
@@ -42,22 +59,9 @@ AgentObserver* ForagingTempConfigurationLoader::make_AgentObserver(RobotWorldMod
 
 Controller* ForagingTempConfigurationLoader::make_Controller(RobotWorldModel* wm)
 {
-	std::cout<<"controller type: "<<controller<<std::endl;
-	switch(controller){
-	case ControllerEvolver::GNP:
-		cout<<"GNP controller type not implemented yet. Exiting..."<<endl;
-		exit(3);
-		break;
-	case ControllerEvolver::MPFA:
-		cout<<"MPFA controller type not implemented yet. Exiting..."<<endl;
-		exit(3);
-		break;
-	case ControllerEvolver::NEAT:
-		cout<<"NEAT controller type not implemented yet. Exiting..."<<endl;
-		//exit(3);
-		break;
-	}
-	return new ForagingTempController(wm);
+	// få _evolver inn i bildet her. sende argument for hvor mange som skal bli skapt?
+	return _evolver->make_Controller(wm);
+	//return new ForagingTempController(wm);
 }
 
 #endif

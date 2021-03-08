@@ -9,6 +9,8 @@
 #include "Config/TutorialConfigurationLoader.h"
 #include "Config/MyTestProjectConfigurationLoader.h"
 #include "Config/MyTestEEConfigurationLoader.h"
+#include "Config/ForagingTempConfigurationLoader.h"
+
 //###DO-NOT-DELETE-THIS-LINE###TAG:INCLUDE###//
 
 
@@ -82,10 +84,17 @@ ConfigurationLoader* ConfigurationLoader::make_ConfigurationLoader (std::string 
 		return new MyTestProjectConfigurationLoader();
 	}
 #endif
+
 #if defined PRJ_MYTESTEE || !defined MODULAR
 	else if (configurationLoaderObjectName == "MyTestEEConfigurationLoader" )
 	{
 		return new MyTestEEConfigurationLoader();
+    }
+#endif
+#if defined PRJ_FORAGINGTEMP || !defined MODULAR
+	else if (configurationLoaderObjectName == "ForagingTempConfigurationLoader" )
+	{
+		return new ForagingTempConfigurationLoader();
 	}
 #endif
     //###DO-NOT-DELETE-THIS-LINE###TAG:SWITCH###//

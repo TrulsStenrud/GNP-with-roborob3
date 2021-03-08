@@ -12,6 +12,7 @@
 
 #include "RoboroboMain/roborobo.h"
 
+int roboroboMain(int argc, char* argv[]);
 
 #endif // MAIN_H
 

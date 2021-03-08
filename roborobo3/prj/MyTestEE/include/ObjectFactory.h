@@ -18,6 +18,8 @@ class ObjectFactory{
 public:
     static PheromoneObject* placePheromoneObject(int x, int y);
     static void recyclePheromoneObject(PheromoneObject* p);
+    static ForagingObject* placeForagingObject(int x, int y);
+    static void recycleForagingObject(ForagingObject* p);
 private:
     static std::unordered_set<PheromoneObject*> _unusedPheromones;
     static std::unordered_set<ForagingObject*> _unusedForagingObjects;

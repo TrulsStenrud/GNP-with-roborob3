@@ -13,8 +13,6 @@
 #include "World/CircleObject.h"
 
 class ForagingObject : public CircleObject {
-private:
-    bool isCarried;
     
 public:
     ForagingObject( int __id );
@@ -24,7 +22,8 @@ public:
     void isWalked ( int __idAgent ) override; // callback, triggered by agent
     void isTouched ( int __idAgent ) override; // callback, triggered by agent
     void isPushed( int __id, std::tuple<double, double> __speed ) override;
-    
+    void makeVisible();
+    void hideObject();
 };
 
 

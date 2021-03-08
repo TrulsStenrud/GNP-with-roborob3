@@ -10,12 +10,14 @@
 #include "RoboroboMain/roborobo.h"
 #include "MyTestEEController.h"
 #include "World/World.h"
+#include "MyTestEE/include/ObjectFactory.h"
 
 ForagingObject::ForagingObject(int __id) : CircleObject( __id ){
-    //_radius = 4;
-    //unregisterObject();
+    setType(0);
+    _radius = 4;
+    unregisterObject();
     _footprintRadius = 0;
-    //setType(0);
+    regrowTime = -1;
 }
 
 void ForagingObject::step()
@@ -31,17 +33,25 @@ void ForagingObject::isTouched(int __idAgent){
     
 }
 
+void ForagingObject::makeVisible(){
+    _visible = true;
+    registered = true;
+    registerObject();
+}
+
+void ForagingObject::hideObject(){
+    registered = false;
+    _visible = false;
+    unregisterObject();
+    hide();
+    ObjectFactory::recycleForagingObject(this);
+}
+
 void ForagingObject::isPushed(int __idAgent, std::tuple<double, double> __speed){
 
     auto targetRobotController = dynamic_cast<MyTestEEController*>(gWorld->getRobot(__idAgent-gRobotIndexStartOffset)->getController());
     if(!targetRobotController->isCarrying()){
-       
-        regrowTime = regrowTimeMax;
-        unregisterObject();
-        registered = false;
-        hide();
-        _visible = false;
-        
+        hideObject();
         targetRobotController->setCarrying(_id);
     }
     else{

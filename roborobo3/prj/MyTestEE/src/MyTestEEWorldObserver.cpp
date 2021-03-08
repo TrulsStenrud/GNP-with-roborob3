@@ -8,7 +8,7 @@
 #include "MyTestEE/include/MyTestEESharedData.h"
 #include "MyTestEE/include/ForagingObject.h"
 #include "MyTestEE/include/PheromoneObject.h"
-#include "MyTestEE/include/PheromoneObjectFactory.h"
+#include "MyTestEE/include/ObjectFactory.h"
 
 #include "WorldModels/RobotWorldModel.h"
 #include "World/World.h"
@@ -54,25 +54,41 @@ void MyTestEEWorldObserver::addNestObject(double x, double y) {
     gNestObjects.push_back(nest);
 }
 
+void MyTestEEWorldObserver::reset(){
+    
+    if(gNestObjects.size() == 0){
+        addNestObject(1000, 600);
+        addNestObject(400, 600);
+    }else{
+        for(auto nest : gNestObjects){
+            nest->resetValues();
+        }
+    }
+    
+    PheromoneObject* p;
+    ForagingObject* f;
+    for(auto object : gPhysicalObjects){
+        if((p = dynamic_cast<PheromoneObject*>(object)) != NULL){
+            p->evaporate();
+        }
+        else if((f = dynamic_cast<ForagingObject*>(object)) != NULL){
+            f->hideObject();
+        }
+    }
+    
+    placeGridOfObjects(500, 500, 4, 4);
+    for(auto robot : gRobots){
+        auto controller = dynamic_cast<MyTestEEController*>(robot->getController());
+        controller->reset();
+    }
+    placeRobotsInAllNests();
+}
+
 void MyTestEEWorldObserver::initPre()
 {
-    addNestObject(1000, 600);
-    addNestObject(400, 600);
-    
-    
-    int nbOfObjects = 20;
-    
-    placeGridOfObjects(50, 50, 2, 2);
-    
-    
-    for(int i = 0; i < nbOfObjects; i++){
-//        int id = PhysicalObjectFactory::getNextId();
-//
-//        auto newItem = new ForagingObject(id);
-//        gPhysicalObjects.push_back(newItem);
-//        newItem->setDisplayColor(255,128,64);
-//        newItem->relocate();
-    }
+    int temp = gNbOfPhysicalObjects;
+    reset();
+    gNbOfPhysicalObjects = temp;
 }
 
 void MyTestEEWorldObserver::placeGridOfObjects(int x, int y, int columns, int rows){
@@ -81,7 +97,7 @@ void MyTestEEWorldObserver::placeGridOfObjects(int x, int y, int columns, int ro
     
     for(int i = 0; i < columns; i++){
         for(int j = 0; j < rows; j++){
-            placeObject(x + i * cellWidth, y + j * cellHeight);
+            ObjectFactory::placeForagingObject(x + i * cellWidth, y + j * cellHeight);
         }
     }
 }
@@ -112,8 +128,10 @@ void MyTestEEWorldObserver::placeRobotsInAllNests() {
         int x = startX + ((i%perNest) % width + 0.5) * spacing;
         int y = startY + ((i%perNest) / width + 0.5) * spacing;
         
+        gRobots[i]->unregisterRobot();
         gRobots[i]->setCoord(x, y);
         gRobots[i]->setCoordReal(x, y);
+        
     }
 }
 
@@ -127,13 +145,16 @@ void MyTestEEWorldObserver::initPost()
 void MyTestEEWorldObserver::stepPre()
 {
     
-    /*
     // EXAMPLE
-    if( gWorld->getIterations() > 0 && gWorld->getIterations() % TemplateEESharedData::gEvaluationTime == 0 )
+    if( gWorld->getIterations() % 1000 == 0)
     {
-        std::cout << "[INFO] new generation.\n";
+        for(int i = 0; i < gNestObjects.size(); i++){
+            std::cout << "Nest " << i+1 << " had " << gNestObjects[i]->getCollectedGoods() << std::endl;
+        }
+        reset();
+        std::cout << "NbObjects " << gNbOfPhysicalObjects << std::endl;
     }
-    */
+    
 }
 
 void MyTestEEWorldObserver::stepPost( )

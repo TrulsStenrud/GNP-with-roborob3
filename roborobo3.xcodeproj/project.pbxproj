@@ -100,7 +100,7 @@
 		FB7A65D125E29E5600A28264 /* ForagingObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65CF25E29E5600A28264 /* ForagingObject.cpp */; };
 		FB7A65D625E3DE8700A28264 /* NestObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65D425E3DE8700A28264 /* NestObject.cpp */; };
 		FBBFAB9025E7EC5C008B237A /* PheromoneObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBBFAB8E25E7EC5C008B237A /* PheromoneObject.cpp */; };
-		FBBFAB9725E92007008B237A /* PheromoneObjectFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBBFAB9525E92007008B237A /* PheromoneObjectFactory.cpp */; };
+		FBBFAB9725E92007008B237A /* ObjectFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBBFAB9525E92007008B237A /* ObjectFactory.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -322,8 +322,8 @@
 		FB7A65D525E3DE8700A28264 /* NestObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NestObject.h; sourceTree = "<group>"; };
 		FBBFAB8E25E7EC5C008B237A /* PheromoneObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PheromoneObject.cpp; sourceTree = "<group>"; };
 		FBBFAB8F25E7EC5C008B237A /* PheromoneObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PheromoneObject.h; sourceTree = "<group>"; };
-		FBBFAB9525E92007008B237A /* PheromoneObjectFactory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PheromoneObjectFactory.cpp; sourceTree = "<group>"; };
-		FBBFAB9625E92007008B237A /* PheromoneObjectFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PheromoneObjectFactory.h; sourceTree = "<group>"; };
+		FBBFAB9525E92007008B237A /* ObjectFactory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectFactory.cpp; sourceTree = "<group>"; };
+		FBBFAB9625E92007008B237A /* ObjectFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectFactory.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -975,7 +975,7 @@
 				FB7A65D525E3DE8700A28264 /* NestObject.h */,
 				FB7A65D025E29E5600A28264 /* ForagingObject.h */,
 				FBBFAB8F25E7EC5C008B237A /* PheromoneObject.h */,
-				FBBFAB9625E92007008B237A /* PheromoneObjectFactory.h */,
+				FBBFAB9625E92007008B237A /* ObjectFactory.h */,
 				FB7A65BD25E281F800A28264 /* MyTestEESharedData.h */,
 				FB7A65BE25E281F800A28264 /* MyTestEEWorldObserver.h */,
 				FB7A65BF25E281F800A28264 /* MyTestEEAgentObserver.h */,
@@ -988,7 +988,7 @@
 			isa = PBXGroup;
 			children = (
 				FB7A65CF25E29E5600A28264 /* ForagingObject.cpp */,
-				FBBFAB9525E92007008B237A /* PheromoneObjectFactory.cpp */,
+				FBBFAB9525E92007008B237A /* ObjectFactory.cpp */,
 				FBBFAB8E25E7EC5C008B237A /* PheromoneObject.cpp */,
 				FB7A65D425E3DE8700A28264 /* NestObject.cpp */,
 				FB7A65C225E281F800A28264 /* MyTestEESharedData.cpp */,
@@ -1139,7 +1139,7 @@
 				3766DF721E29125D0069E44C /* TemplateVanillaEEAgentObserver.cpp in Sources */,
 				37BA272F1BC3D014002DF5DC /* Elman.cpp in Sources */,
 				37BA27481BC3D014002DF5DC /* RobotWorldModel.cpp in Sources */,
-				FBBFAB9725E92007008B237A /* PheromoneObjectFactory.cpp in Sources */,
+				FBBFAB9725E92007008B237A /* ObjectFactory.cpp in Sources */,
 				37BA27421BC3D014002DF5DC /* main.cpp in Sources */,
 				FB7A65C825E281F800A28264 /* MyTestEEController.cpp in Sources */,
 				376C24631E28BBA800E70850 /* TemplateMedeaAgentObserver.cpp in Sources */,

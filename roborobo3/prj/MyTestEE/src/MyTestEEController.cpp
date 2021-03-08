@@ -7,7 +7,7 @@
 #include "MyTestEE/include/NestObject.h"
 #include "MyTestEE/include/ForagingObject.h"
 #include "MyTestEE/include/PheromoneObject.h"
-#include "MyTestEE/include/PheromoneObjectFactory.h"
+#include "MyTestEE/include/ObjectFactory.h"
 #include "MyTestEE/include/MyTestEEWorldObserver.h"
 #include "World/World.h"
 #include "RoboroboMain/roborobo.h"
@@ -50,7 +50,7 @@ void MyTestEEController::setCarrying(int objectId){
 }
 
 void MyTestEEController::reset(){
-    
+    _carriedObjectId = -1;
 }
 
 void MyTestEEController::step()
@@ -90,7 +90,7 @@ void MyTestEEController::dropPheromone(){
         int x = _wm->_xReal, y = _wm->_yReal;
         _testPheromone->setCoordinates(x, y);
         if(_testPheromone->canRegister()){
-            PheromoneObjectFactory::placePheromoneObject(x, y);
+            ObjectFactory::placePheromoneObject(x, y);
         }
     }
     

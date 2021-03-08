@@ -10,7 +10,7 @@
 #include "World/World.h"
 #include "RoboroboMain/roborobo.h"
 #include <Utilities/Graphics.h>
-#include "MyTestEE/include/PheromoneObjectFactory.h"
+#include "MyTestEE/include/ObjectFactory.h"
 
 
 
@@ -47,20 +47,18 @@ void PheromoneObject::step()
             if(registered && _visible){
                 evaporate();
             }
-            else{
-                std::cout << "Death " << deathIt << " current " << gWorld->getIterations() << std::endl;
-            }
         }
             
     }
 }
 
 void PheromoneObject::evaporate(){
+    _strength = 0;
     _visible = false;
     registered = false;
     unregisterObject();
     hide();
-    PheromoneObjectFactory::recyclePheromoneObject(this);
+    ObjectFactory::recyclePheromoneObject(this);
 }
 
 void PheromoneObject::makeVisible(){

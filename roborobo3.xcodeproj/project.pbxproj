@@ -86,6 +86,30 @@
 		37BA27591BC3D014002DF5DC /* SwitchObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37BA27071BC3D014002DF5DC /* SwitchObject.cpp */; };
 		37C810401E28AF1F00A71E6F /* TemplateMedeaConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37C8103F1E28AF1F00A71E6F /* TemplateMedeaConfigurationLoader.cpp */; };
 		37E870AA1E799B20003D6DD8 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E870A91E799B20003D6DD8 /* SDL2_image.framework */; };
+		FB0A370A25F66B5B00489627 /* ForagingTempConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A370925F66B5B00489627 /* ForagingTempConfigurationLoader.cpp */; };
+		FB0A374625F66C0600489627 /* Parameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371F25F66B8E00489627 /* Parameters.cpp */; };
+		FB0A374725F66C0600489627 /* PhenotypeBehavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372025F66B8E00489627 /* PhenotypeBehavior.cpp */; };
+		FB0A374825F66C0600489627 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372125F66B8E00489627 /* Utils.cpp */; };
+		FB0A374925F66C0600489627 /* Species.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372225F66B8E00489627 /* Species.cpp */; };
+		FB0A374A25F66C0600489627 /* Genome.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372325F66B8E00489627 /* Genome.cpp */; };
+		FB0A374B25F66C0600489627 /* PythonBindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372425F66B8E00489627 /* PythonBindings.cpp */; };
+		FB0A374C25F66C0600489627 /* NeuralNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372525F66B8E00489627 /* NeuralNetwork.cpp */; };
+		FB0A374D25F66C0600489627 /* Random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372625F66B8E00489627 /* Random.cpp */; };
+		FB0A374E25F66C0600489627 /* Innovation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372725F66B8E00489627 /* Innovation.cpp */; };
+		FB0A374F25F66C0600489627 /* Population.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372825F66B8E00489627 /* Population.cpp */; };
+		FB0A375025F66C0600489627 /* Traits.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372925F66B8E00489627 /* Traits.cpp */; };
+		FB0A375125F66C0600489627 /* Substrate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372A25F66B8E00489627 /* Substrate.cpp */; };
+		FB0A375225F66C0600489627 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372B25F66B8E00489627 /* Main.cpp */; };
+		FB0A375425F66C4600489627 /* MscMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371825F66B8500489627 /* MscMain.cpp */; };
+		FB0A375525F66C4600489627 /* DataForwarder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371925F66B8500489627 /* DataForwarder.cpp */; };
+		FB0A375625F66C4600489627 /* MultiNEATController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371B25F66B8500489627 /* MultiNEATController.cpp */; };
+		FB0A375725F66C4600489627 /* GNPController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371C25F66B8500489627 /* GNPController.cpp */; };
+		FB0A375825F66C4600489627 /* MultiNEATEvolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371D25F66B8500489627 /* MultiNEATEvolver.cpp */; };
+		FB0A375A25F66C7A00489627 /* ForagingTempSharedData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371325F66B6C00489627 /* ForagingTempSharedData.cpp */; };
+		FB0A375B25F66C7A00489627 /* ForagingTempWorldObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371425F66B6C00489627 /* ForagingTempWorldObserver.cpp */; };
+		FB0A375C25F66C7A00489627 /* ForagingTempAgentObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371525F66B6C00489627 /* ForagingTempAgentObserver.cpp */; };
+		FB0A375D25F66C7A00489627 /* ForagingTempController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371625F66B6C00489627 /* ForagingTempController.cpp */; };
+		FB0A376025F66CE200489627 /* main2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A375F25F66CE100489627 /* main2.cpp */; };
 		FB7A658D25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658C25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp */; };
 		FB7A659225D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h in Sources */ = {isa = PBXBuildFile; fileRef = FB7A659125D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h */; };
 		FB7A659925D6C5DE00A28264 /* MyTestProjectAgentObserver.h in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658625D6C19800A28264 /* MyTestProjectAgentObserver.h */; };
@@ -296,6 +320,56 @@
 		37C810411E28AF2700A71E6F /* TemplateMedeaConfigurationLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateMedeaConfigurationLoader.h; sourceTree = "<group>"; };
 		37E870A91E799B20003D6DD8 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../../../../../../Volumes/SDL2_image/SDL2_image.framework; sourceTree = "<group>"; };
 		37EAECC71FE1236D002E5C81 /* foragingregions.properties */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = foragingregions.properties; sourceTree = "<group>"; };
+		FB0A370925F66B5B00489627 /* ForagingTempConfigurationLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ForagingTempConfigurationLoader.cpp; sourceTree = "<group>"; };
+		FB0A370E25F66B6C00489627 /* ForagingTempWorldObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForagingTempWorldObserver.h; sourceTree = "<group>"; };
+		FB0A370F25F66B6C00489627 /* ForagingTempSharedData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForagingTempSharedData.h; sourceTree = "<group>"; };
+		FB0A371025F66B6C00489627 /* ForagingTempAgentObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForagingTempAgentObserver.h; sourceTree = "<group>"; };
+		FB0A371125F66B6C00489627 /* ForagingTempController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForagingTempController.h; sourceTree = "<group>"; };
+		FB0A371325F66B6C00489627 /* ForagingTempSharedData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ForagingTempSharedData.cpp; sourceTree = "<group>"; };
+		FB0A371425F66B6C00489627 /* ForagingTempWorldObserver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ForagingTempWorldObserver.cpp; sourceTree = "<group>"; };
+		FB0A371525F66B6C00489627 /* ForagingTempAgentObserver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ForagingTempAgentObserver.cpp; sourceTree = "<group>"; };
+		FB0A371625F66B6C00489627 /* ForagingTempController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ForagingTempController.cpp; sourceTree = "<group>"; };
+		FB0A371825F66B8500489627 /* MscMain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MscMain.cpp; sourceTree = "<group>"; };
+		FB0A371925F66B8500489627 /* DataForwarder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataForwarder.cpp; sourceTree = "<group>"; };
+		FB0A371B25F66B8500489627 /* MultiNEATController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MultiNEATController.cpp; sourceTree = "<group>"; };
+		FB0A371C25F66B8500489627 /* GNPController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GNPController.cpp; sourceTree = "<group>"; };
+		FB0A371D25F66B8500489627 /* MultiNEATEvolver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MultiNEATEvolver.cpp; sourceTree = "<group>"; };
+		FB0A371F25F66B8E00489627 /* Parameters.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parameters.cpp; sourceTree = "<group>"; };
+		FB0A372025F66B8E00489627 /* PhenotypeBehavior.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PhenotypeBehavior.cpp; sourceTree = "<group>"; };
+		FB0A372125F66B8E00489627 /* Utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Utils.cpp; sourceTree = "<group>"; };
+		FB0A372225F66B8E00489627 /* Species.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Species.cpp; sourceTree = "<group>"; };
+		FB0A372325F66B8E00489627 /* Genome.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Genome.cpp; sourceTree = "<group>"; };
+		FB0A372425F66B8E00489627 /* PythonBindings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PythonBindings.cpp; sourceTree = "<group>"; };
+		FB0A372525F66B8E00489627 /* NeuralNetwork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NeuralNetwork.cpp; sourceTree = "<group>"; };
+		FB0A372625F66B8E00489627 /* Random.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Random.cpp; sourceTree = "<group>"; };
+		FB0A372725F66B8E00489627 /* Innovation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Innovation.cpp; sourceTree = "<group>"; };
+		FB0A372825F66B8E00489627 /* Population.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Population.cpp; sourceTree = "<group>"; };
+		FB0A372925F66B8E00489627 /* Traits.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Traits.cpp; sourceTree = "<group>"; };
+		FB0A372A25F66B8E00489627 /* Substrate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Substrate.cpp; sourceTree = "<group>"; };
+		FB0A372B25F66B8E00489627 /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
+		FB0A372D25F66B9F00489627 /* DataForwarder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataForwarder.h; sourceTree = "<group>"; };
+		FB0A372E25F66B9F00489627 /* DataListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataListener.h; sourceTree = "<group>"; };
+		FB0A372F25F66B9F00489627 /* MscMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MscMain.h; sourceTree = "<group>"; };
+		FB0A373025F66B9F00489627 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		FB0A373225F66B9F00489627 /* MultiNEATEvolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiNEATEvolver.h; sourceTree = "<group>"; };
+		FB0A373325F66B9F00489627 /* MultiNEATController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiNEATController.h; sourceTree = "<group>"; };
+		FB0A373425F66B9F00489627 /* ControllerEvolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControllerEvolver.h; sourceTree = "<group>"; };
+		FB0A373525F66B9F00489627 /* GNPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GNPController.h; sourceTree = "<group>"; };
+		FB0A373725F66B9F00489627 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		FB0A373825F66B9F00489627 /* Traits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Traits.h; sourceTree = "<group>"; };
+		FB0A373925F66B9F00489627 /* Population.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Population.h; sourceTree = "<group>"; };
+		FB0A373A25F66B9F00489627 /* PythonBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PythonBindings.h; sourceTree = "<group>"; };
+		FB0A373B25F66B9F00489627 /* PhenotypeBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhenotypeBehavior.h; sourceTree = "<group>"; };
+		FB0A373C25F66B9F00489627 /* Genes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Genes.h; sourceTree = "<group>"; };
+		FB0A373D25F66B9F00489627 /* Parameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parameters.h; sourceTree = "<group>"; };
+		FB0A373E25F66B9F00489627 /* Species.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Species.h; sourceTree = "<group>"; };
+		FB0A373F25F66B9F00489627 /* NeuralNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeuralNetwork.h; sourceTree = "<group>"; };
+		FB0A374025F66B9F00489627 /* Innovation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Innovation.h; sourceTree = "<group>"; };
+		FB0A374125F66B9F00489627 /* Genome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Genome.h; sourceTree = "<group>"; };
+		FB0A374225F66B9F00489627 /* Assert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Assert.h; sourceTree = "<group>"; };
+		FB0A374325F66B9F00489627 /* Substrate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Substrate.h; sourceTree = "<group>"; };
+		FB0A374425F66B9F00489627 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
+		FB0A375F25F66CE100489627 /* main2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main2.cpp; sourceTree = "<group>"; };
 		FB7A658425D6C19800A28264 /* MyTestProjectWorldObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectWorldObserver.h; sourceTree = "<group>"; };
 		FB7A658525D6C19800A28264 /* MyTestProjectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectController.h; sourceTree = "<group>"; };
 		FB7A658625D6C19800A28264 /* MyTestProjectAgentObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectAgentObserver.h; sourceTree = "<group>"; };
@@ -634,6 +708,8 @@
 		37BA26271BC3D014002DF5DC /* include */ = {
 			isa = PBXGroup;
 			children = (
+				FB0A372C25F66B9F00489627 /* masterthesis */,
+				FB0A373625F66B9F00489627 /* MultiNEAT */,
 				37BA26281BC3D014002DF5DC /* contrib */,
 				37BA26361BC3D014002DF5DC /* core */,
 				37BA26581BC3D014002DF5DC /* ext */,
@@ -819,6 +895,7 @@
 			isa = PBXGroup;
 			children = (
 				37BA26D61BC3D014002DF5DC /* readme.txt */,
+				FB0A370C25F66B6C00489627 /* ForagingTemp */,
 				FB7A65BB25E281F800A28264 /* MyTestEE */,
 				3751778521786BCF00B68E59 /* Tutorial */,
 				37B450691FE0757B00B50263 /* ForagingRegions */,
@@ -837,6 +914,8 @@
 		37BA26D71BC3D014002DF5DC /* src */ = {
 			isa = PBXGroup;
 			children = (
+				FB0A371E25F66B8E00489627 /* MultiNEAT */,
+				FB0A371725F66B8500489627 /* masterthesis */,
 				37BA26D81BC3D014002DF5DC /* contrib */,
 				37BA26E41BC3D014002DF5DC /* core */,
 				37BA26FB1BC3D014002DF5DC /* ext */,
@@ -891,6 +970,7 @@
 				37BA26ED1BC3D014002DF5DC /* InspectorAgent.cpp */,
 				37BA26EE1BC3D014002DF5DC /* LogManager.cpp */,
 				37BA26EF1BC3D014002DF5DC /* main.cpp */,
+				FB0A375F25F66CE100489627 /* main2.cpp */,
 				37BA26F01BC3D014002DF5DC /* Misc.cpp */,
 				37BA26F11BC3D014002DF5DC /* Observer.cpp */,
 				37BA26F21BC3D014002DF5DC /* PhysicalObject.cpp */,
@@ -916,6 +996,7 @@
 				37BA26FE1BC3D014002DF5DC /* ConfigurationLoader.cpp */,
 				37BA27001BC3D014002DF5DC /* EnergyItem.cpp */,
 				37BA27011BC3D014002DF5DC /* GateObject.cpp */,
+				FB0A370925F66B5B00489627 /* ForagingTempConfigurationLoader.cpp */,
 				37BA27021BC3D014002DF5DC /* LandmarkObject.cpp */,
 				37753A951ECB27EB0039BF21 /* MovableObject.cpp */,
 				37BA27041BC3D014002DF5DC /* PhysicalObjectFactory.cpp */,
@@ -929,6 +1010,121 @@
 				37A9F91A1E28AA7E00006059 /* TemplateVanillaEEConfigurationLoader.cpp */,
 			);
 			path = ext;
+			sourceTree = "<group>";
+		};
+		FB0A370C25F66B6C00489627 /* ForagingTemp */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A370D25F66B6C00489627 /* include */,
+				FB0A371225F66B6C00489627 /* src */,
+			);
+			path = ForagingTemp;
+			sourceTree = "<group>";
+		};
+		FB0A370D25F66B6C00489627 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A370E25F66B6C00489627 /* ForagingTempWorldObserver.h */,
+				FB0A370F25F66B6C00489627 /* ForagingTempSharedData.h */,
+				FB0A371025F66B6C00489627 /* ForagingTempAgentObserver.h */,
+				FB0A371125F66B6C00489627 /* ForagingTempController.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		FB0A371225F66B6C00489627 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A371325F66B6C00489627 /* ForagingTempSharedData.cpp */,
+				FB0A371425F66B6C00489627 /* ForagingTempWorldObserver.cpp */,
+				FB0A371525F66B6C00489627 /* ForagingTempAgentObserver.cpp */,
+				FB0A371625F66B6C00489627 /* ForagingTempController.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		FB0A371725F66B8500489627 /* masterthesis */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A371825F66B8500489627 /* MscMain.cpp */,
+				FB0A371925F66B8500489627 /* DataForwarder.cpp */,
+				FB0A371A25F66B8500489627 /* controllers */,
+			);
+			path = masterthesis;
+			sourceTree = "<group>";
+		};
+		FB0A371A25F66B8500489627 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A371B25F66B8500489627 /* MultiNEATController.cpp */,
+				FB0A371C25F66B8500489627 /* GNPController.cpp */,
+				FB0A371D25F66B8500489627 /* MultiNEATEvolver.cpp */,
+			);
+			path = controllers;
+			sourceTree = "<group>";
+		};
+		FB0A371E25F66B8E00489627 /* MultiNEAT */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A371F25F66B8E00489627 /* Parameters.cpp */,
+				FB0A372025F66B8E00489627 /* PhenotypeBehavior.cpp */,
+				FB0A372125F66B8E00489627 /* Utils.cpp */,
+				FB0A372225F66B8E00489627 /* Species.cpp */,
+				FB0A372325F66B8E00489627 /* Genome.cpp */,
+				FB0A372425F66B8E00489627 /* PythonBindings.cpp */,
+				FB0A372525F66B8E00489627 /* NeuralNetwork.cpp */,
+				FB0A372625F66B8E00489627 /* Random.cpp */,
+				FB0A372725F66B8E00489627 /* Innovation.cpp */,
+				FB0A372825F66B8E00489627 /* Population.cpp */,
+				FB0A372925F66B8E00489627 /* Traits.cpp */,
+				FB0A372A25F66B8E00489627 /* Substrate.cpp */,
+				FB0A372B25F66B8E00489627 /* Main.cpp */,
+			);
+			path = MultiNEAT;
+			sourceTree = "<group>";
+		};
+		FB0A372C25F66B9F00489627 /* masterthesis */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A372D25F66B9F00489627 /* DataForwarder.h */,
+				FB0A372E25F66B9F00489627 /* DataListener.h */,
+				FB0A372F25F66B9F00489627 /* MscMain.h */,
+				FB0A373025F66B9F00489627 /* common.h */,
+				FB0A373125F66B9F00489627 /* controllers */,
+			);
+			path = masterthesis;
+			sourceTree = "<group>";
+		};
+		FB0A373125F66B9F00489627 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A373225F66B9F00489627 /* MultiNEATEvolver.h */,
+				FB0A373325F66B9F00489627 /* MultiNEATController.h */,
+				FB0A373425F66B9F00489627 /* ControllerEvolver.h */,
+				FB0A373525F66B9F00489627 /* GNPController.h */,
+			);
+			path = controllers;
+			sourceTree = "<group>";
+		};
+		FB0A373625F66B9F00489627 /* MultiNEAT */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A373725F66B9F00489627 /* Utils.h */,
+				FB0A373825F66B9F00489627 /* Traits.h */,
+				FB0A373925F66B9F00489627 /* Population.h */,
+				FB0A373A25F66B9F00489627 /* PythonBindings.h */,
+				FB0A373B25F66B9F00489627 /* PhenotypeBehavior.h */,
+				FB0A373C25F66B9F00489627 /* Genes.h */,
+				FB0A373D25F66B9F00489627 /* Parameters.h */,
+				FB0A373E25F66B9F00489627 /* Species.h */,
+				FB0A373F25F66B9F00489627 /* NeuralNetwork.h */,
+				FB0A374025F66B9F00489627 /* Innovation.h */,
+				FB0A374125F66B9F00489627 /* Genome.h */,
+				FB0A374225F66B9F00489627 /* Assert.h */,
+				FB0A374325F66B9F00489627 /* Substrate.h */,
+				FB0A374425F66B9F00489627 /* Random.h */,
+			);
+			path = MultiNEAT;
 			sourceTree = "<group>";
 		};
 		FB7A658225D6C19800A28264 /* MyTestProject */ = {
@@ -1056,6 +1252,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB0A375A25F66C7A00489627 /* ForagingTempSharedData.cpp in Sources */,
+				FB0A375B25F66C7A00489627 /* ForagingTempWorldObserver.cpp in Sources */,
+				FB0A375C25F66C7A00489627 /* ForagingTempAgentObserver.cpp in Sources */,
+				FB0A375D25F66C7A00489627 /* ForagingTempController.cpp in Sources */,
+				FB0A375425F66C4600489627 /* MscMain.cpp in Sources */,
+				FB0A375525F66C4600489627 /* DataForwarder.cpp in Sources */,
+				FB0A375625F66C4600489627 /* MultiNEATController.cpp in Sources */,
+				FB0A375725F66C4600489627 /* GNPController.cpp in Sources */,
+				FB0A375825F66C4600489627 /* MultiNEATEvolver.cpp in Sources */,
+				FB0A374625F66C0600489627 /* Parameters.cpp in Sources */,
+				FB0A374725F66C0600489627 /* PhenotypeBehavior.cpp in Sources */,
+				FB0A374825F66C0600489627 /* Utils.cpp in Sources */,
+				FB0A374925F66C0600489627 /* Species.cpp in Sources */,
+				FB0A374A25F66C0600489627 /* Genome.cpp in Sources */,
+				FB0A374B25F66C0600489627 /* PythonBindings.cpp in Sources */,
+				FB0A374C25F66C0600489627 /* NeuralNetwork.cpp in Sources */,
+				FB0A374D25F66C0600489627 /* Random.cpp in Sources */,
+				FB0A374E25F66C0600489627 /* Innovation.cpp in Sources */,
+				FB0A374F25F66C0600489627 /* Population.cpp in Sources */,
+				FB0A375025F66C0600489627 /* Traits.cpp in Sources */,
+				FB0A375125F66C0600489627 /* Substrate.cpp in Sources */,
+				FB0A375225F66C0600489627 /* Main.cpp in Sources */,
 				FB7A659925D6C5DE00A28264 /* MyTestProjectAgentObserver.h in Sources */,
 				FB7A659A25D6C5DE00A28264 /* MyTestProjectController.cpp in Sources */,
 				FB7A659B25D6C5DE00A28264 /* MyTestProjectAgentObserver.cpp in Sources */,
@@ -1091,6 +1309,7 @@
 				37BA27391BC3D014002DF5DC /* AgentObserver.cpp in Sources */,
 				37BA274D1BC3D014002DF5DC /* WorldObserver.cpp in Sources */,
 				37BA27321BC3D014002DF5DC /* NeuralNetwork.cpp in Sources */,
+				FB0A370A25F66B5B00489627 /* ForagingTempConfigurationLoader.cpp in Sources */,
 				3705F0881BC66E3B001A016D /* TemplateWanderWorldObserver.cpp in Sources */,
 				3766DF781E29141E0069E44C /* TemplateEEConfigurationLoader.cpp in Sources */,
 				3705F07E1BC66E3B001A016D /* TemplateBoidsAgentObserver.cpp in Sources */,
@@ -1098,6 +1317,7 @@
 				3705F07F1BC66E3B001A016D /* TemplateBoidsController.cpp in Sources */,
 				37BA27561BC3D014002DF5DC /* PhysicalObjectFactory.cpp in Sources */,
 				37BA27411BC3D014002DF5DC /* LogManager.cpp in Sources */,
+				FB0A376025F66CE200489627 /* main2.cpp in Sources */,
 				37BA27371BC3D014002DF5DC /* StringUtils.cpp in Sources */,
 				37A9F91B1E28AA7E00006059 /* TemplateVanillaEEConfigurationLoader.cpp in Sources */,
 				376C24561E28BB8800E70850 /* TemplateEESharedData.cpp in Sources */,

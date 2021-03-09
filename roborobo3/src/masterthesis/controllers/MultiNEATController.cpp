@@ -24,8 +24,8 @@ void MultiNEATController::step(){
 	_nn->ActivateFast(); // Fast funker kun med unsigned sigmoid som aktiveringsfunksjon.
 	std::vector<double> output = _nn->Output();
 
-	setTranslation(output[0]);
-    setRotation(output[1]);
+	setTranslation(output[0]*2 - 1);
+    setRotation(output[1]*2 - 1);
     
     if(output[2] > 0.5){
         dropPheromone();

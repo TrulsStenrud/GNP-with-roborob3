@@ -144,17 +144,6 @@ void MyTestEEWorldObserver::initPost()
 
 void MyTestEEWorldObserver::stepPre()
 {
-    
-    // EXAMPLE
-    if( gWorld->getIterations() % 1000 == 0)
-    {
-        for(int i = 0; i < gNestObjects.size(); i++){
-            std::cout << "Nest " << i+1 << " had " << gNestObjects[i]->getCollectedGoods() << std::endl;
-        }
-        reset();
-        std::cout << "NbObjects " << gNbOfPhysicalObjects << std::endl;
-    }
-    
 }
 
 void MyTestEEWorldObserver::stepPost( )

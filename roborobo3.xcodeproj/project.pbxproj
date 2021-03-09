@@ -370,6 +370,7 @@
 		FB0A374325F66B9F00489627 /* Substrate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Substrate.h; sourceTree = "<group>"; };
 		FB0A374425F66B9F00489627 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 		FB0A375F25F66CE100489627 /* main2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main2.cpp; sourceTree = "<group>"; };
+		FB0A376425F798AD00489627 /* foraging_temp.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = foraging_temp.properties; sourceTree = "<group>"; };
 		FB7A658425D6C19800A28264 /* MyTestProjectWorldObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectWorldObserver.h; sourceTree = "<group>"; };
 		FB7A658525D6C19800A28264 /* MyTestProjectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectController.h; sourceTree = "<group>"; };
 		FB7A658625D6C19800A28264 /* MyTestProjectAgentObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectAgentObserver.h; sourceTree = "<group>"; };
@@ -482,6 +483,7 @@
 				FB7A658B25D6C21400A28264 /* mytestproject.properties */,
 				3751779121786D3A00B68E59 /* tutorial.properties */,
 				37EAECC71FE1236D002E5C81 /* foragingregions.properties */,
+				FB0A376425F798AD00489627 /* foraging_temp.properties */,
 				37753A981ECB295C0039BF21 /* movingobjects.properties */,
 				37A569C11E38AB2100B983FF /* template_vanillaEE.properties */,
 				3705F08A1BC67B7C001A016D /* benchmark.properties */,

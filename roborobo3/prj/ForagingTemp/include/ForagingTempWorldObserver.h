@@ -10,10 +10,11 @@
 #include "../../../include/masterthesis/DataListener.h"
 #include "../../../include/masterthesis/controllers/ControllerEvolver.h"
 #include <vector>
+#include "MyTestEEWorldObserver.h"
 
 class World;
 
-class ForagingTempWorldObserver : public TemplateEEWorldObserver
+class ForagingTempWorldObserver : public MyTestEEWorldObserver
 {
 private:
 	int _evalTime; //how many time steps per evaluation.
@@ -25,14 +26,7 @@ public:
     ~ForagingTempWorldObserver();
     void setControllerEvolver(ControllerEvolver* evolver);
 
-    void initPre() override;
-    void initPost() override;
-
     void stepPre() override;
-    void stepPost() override;
-
-protected:
-    void monitorPopulation( bool localVerbose = true ) override;
 };
 
 #endif

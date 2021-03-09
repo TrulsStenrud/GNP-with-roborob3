@@ -29,7 +29,7 @@ public:
     void stepPre() override;
     void stepPost() override;
     
-private:
+protected:
     void placeGridOfObjects(int x, int y, int columns, int rows);
     void placeObject(double x, double y);
     void placeRobotsInAllNests();

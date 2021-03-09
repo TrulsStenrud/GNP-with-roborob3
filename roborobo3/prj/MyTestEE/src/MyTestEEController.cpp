@@ -55,27 +55,6 @@ void MyTestEEController::reset(){
 
 void MyTestEEController::step()
 {
-    if(gWorld->getIterations() > 10000){
-        //return;
-    }
-    
-    int v = _wm->getGroundSensorValue();
-    PheromoneObject* p;
-    
-    setTranslation(1);
-    setRotation(0.01);
-    
-    //setRotation(getNestRelativeOrientation()/5);
-        
-    if(isCarrying()){
-        _wm->setRobotLED_colorValues(0, 0, 255);
-        
-    }else{
-        _wm->setRobotLED_colorValues(255, 0, 0);
-    }
-
-    dropPheromone();
-    //TemplateEEController::stepController();
 }
 
 void MyTestEEController::dropPheromone(){

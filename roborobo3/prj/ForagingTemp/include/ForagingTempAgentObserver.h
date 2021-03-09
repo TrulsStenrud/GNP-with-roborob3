@@ -10,13 +10,14 @@
 
 class RobotWorldModel;
 
-class ForagingTempAgentObserver : public TemplateEEAgentObserver
+class ForagingTempAgentObserver : public AgentObserver
 {
 	public:
 		ForagingTempAgentObserver(RobotWorldModel *wm);
 		~ForagingTempAgentObserver();
     
         void stepPre() override;
+        void reset() override;
 };
 
 #endif

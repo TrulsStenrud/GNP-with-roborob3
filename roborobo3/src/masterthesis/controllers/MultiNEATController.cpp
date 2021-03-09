@@ -4,8 +4,7 @@
 
 using namespace NEAT;
 
-MultiNEATController::MultiNEATController(RobotWorldModel *wm, Genome* genome, ControllerEvolver::CONTROLLER controllerType){
-	_wm = wm;
+MultiNEATController::MultiNEATController(RobotWorldModel *wm, Genome* genome, ControllerEvolver::CONTROLLER controllerType):MyTestEEController(wm){
 	_genome = genome;
 	_controllerType = controllerType;
 	_nn = new NEAT::NeuralNetwork();
@@ -17,7 +16,7 @@ MultiNEATController::~MultiNEATController(){
 }
 
 void MultiNEATController::reset(){
-
+    MyTestEEController::reset();
 }
 
 void MultiNEATController::step(){

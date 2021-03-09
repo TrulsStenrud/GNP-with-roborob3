@@ -34,9 +34,8 @@ public:
     void reset();
     
 protected:
-    
-private:
     int _carriedObjectId;
+private:
     PheromoneObject* _testPheromone;
 };
 

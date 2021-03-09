@@ -5,8 +5,9 @@
 #include "../../MultiNEAT/NeuralNetwork.h"
 #include "ControllerEvolver.h"
 #include "../../core/WorldModels/RobotWorldModel.h"
+#include "../../../prj/MyTestEE/include/MyTestEEController.h"
 
-class MultiNEATController : public Controller{
+class MultiNEATController : public MyTestEEController{
 	// hente nn fra evolveren. kjøre den. rapportere resultatet til evolveren.
 private:
 	NEAT::Genome* _genome;

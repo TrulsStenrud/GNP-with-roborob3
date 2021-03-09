@@ -14,7 +14,8 @@
 #include "../../../include/core/Agents/Robot.h"
 #include "../../../include/masterthesis/controllers/ControllerEvolver.h"
 
-ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : TemplateEEWorldObserver( world )
+
+ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : MyTestEEWorldObserver( world )
 {
     // superclass constructor called before
     gLitelogManager->write("# lite logger\n");
@@ -26,33 +27,16 @@ ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : TemplateE
 
 ForagingTempWorldObserver::~ForagingTempWorldObserver()
 {
-    // superclass destructor called before
+    gLitelogFile.close();
 }
 
 void ForagingTempWorldObserver::setControllerEvolver(ControllerEvolver* evolver){
 	_evolver = evolver;
 }
 
-void ForagingTempWorldObserver::initPre()
-{
-    // nothing to do.
-}
-
-void ForagingTempWorldObserver::initPost()
-{
-    // nothing to do.
-}
-
-void ForagingTempWorldObserver::stepPre()
-{
-    TemplateEEWorldObserver::stepPre();
-
-    // New generation
 
 
-}
-
-void ForagingTempWorldObserver::stepPost( )
+void ForagingTempWorldObserver::stepPre( )
 {
 	std::cout<<"wigga prease "<<gWorld->getIterations()<<std::endl;
     // denne blir kalt på slutten av hvert tidstrinn i evolusjonen.
@@ -68,21 +52,19 @@ void ForagingTempWorldObserver::stepPost( )
         if(gWorld->getIterations() == gMaxIt){
 			DataForwarder::getDataForwarder()->simulationDone();
         }
+        
+        //todo add fitness
         _evolver->evalDone(robots);
+        
+        reset();
     }
 }
-
-void ForagingTempWorldObserver::monitorPopulation( bool localVerbose )
-{
-    TemplateEEWorldObserver::monitorPopulation(localVerbose);
-}
-
 
 
 DataPacket* ForagingTempWorldObserver::constructDataPacket(){
 	// construct datapacket, then send to all registered listeners.
 	DataPacket* dp = new DataPacket();
-	dp->generation = _generationCount;
+	dp->generation = 0;
 	dp->bestFitness = -99999;
 	float avgFitness = 0;
 	for(int i=0; i<gWorld->getNbOfRobots(); i++){
@@ -91,3 +73,6 @@ DataPacket* ForagingTempWorldObserver::constructDataPacket(){
 	}
 	return dp;
 }
+
+
+

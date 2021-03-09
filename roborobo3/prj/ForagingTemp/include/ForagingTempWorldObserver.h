@@ -10,7 +10,7 @@
 #include "../../../include/masterthesis/DataListener.h"
 #include "../../../include/masterthesis/controllers/ControllerEvolver.h"
 #include <vector>
-#include "MyTestEEWorldObserver.h"
+#include "../../MyTestEE/include/MyTestEEWorldObserver.h"
 
 class World;
 

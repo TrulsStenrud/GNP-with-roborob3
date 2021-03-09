@@ -6,9 +6,9 @@
 //  Copyright © 2021 Nicolas Bredeche. All rights reserved.
 //
 
-#include "ForagingObject.h"
+#include "../include/ForagingObject.h"
 #include "RoboroboMain/roborobo.h"
-#include "MyTestEEController.h"
+#include "../include/MyTestEEController.h"
 #include "World/World.h"
 #include "MyTestEE/include/ObjectFactory.h"
 
@@ -30,7 +30,7 @@ void ForagingObject::isWalked(int __idAgent){
 }
 
 void ForagingObject::isTouched(int __idAgent){
-    
+
 }
 
 void ForagingObject::makeVisible(){
@@ -55,6 +55,6 @@ void ForagingObject::isPushed(int __idAgent, std::tuple<double, double> __speed)
         targetRobotController->setCarrying(_id);
     }
     else{
-        
+
     }
 }

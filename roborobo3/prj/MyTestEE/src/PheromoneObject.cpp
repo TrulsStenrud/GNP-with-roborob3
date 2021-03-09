@@ -6,7 +6,7 @@
 //  Copyright © 2021 Nicolas Bredeche. All rights reserved.
 //
 
-#include "PheromoneObject.h"
+#include "../include/PheromoneObject.h"
 #include "World/World.h"
 #include "RoboroboMain/roborobo.h"
 #include <Utilities/Graphics.h>
@@ -20,22 +20,22 @@ PheromoneObject::PheromoneObject(int __id) : CircleObject( __id ){
     unregisterObject();
     _radius=0;
     _footprintRadius = 4;
-    
+
     if(gProperties.hasProperty("gPheromoneDecay")){
         gProperties.checkAndGetPropertyValue("gPheromoneDecay", &_decay, true);
     }else{
         _decay = 0.01;
     }
-    
+
     if(gProperties.hasProperty("gPheromoneEvaporationTreshold")){
         gProperties.checkAndGetPropertyValue("gPheromoneEvaporationTreshold", &_evaporationTreshold, true);
     }else{
         _evaporationTreshold = 0.1;
     }
-    
+
     _strength = 1;
     regrowTime = -1;
-    
+
 }
 
 
@@ -48,7 +48,7 @@ void PheromoneObject::step()
                 evaporate();
             }
         }
-            
+
     }
 }
 
@@ -96,7 +96,7 @@ void PheromoneObject::isWalked(int __idAgent){
 
 bool PheromoneObject::canRegister()
 {
-    
+
     //  test footprint (pixels from only ground image, not environment image must be empty)
     // Code stolen from CircleObject, and removed collision with enviroment image
     for (Sint16 xColor = getXCenterPixel() - Sint16(_footprintRadius) ; xColor < getXCenterPixel() + Sint16(_footprintRadius) ; xColor++)
@@ -114,11 +114,11 @@ bool PheromoneObject::canRegister()
             }
         }
     }
-    
+
     return true;
 }
 void PheromoneObject::isTouched(int __idAgent){
-    
+
 }
 
 void PheromoneObject::isPushed(int __idAgent, std::tuple<double, double> __speed){

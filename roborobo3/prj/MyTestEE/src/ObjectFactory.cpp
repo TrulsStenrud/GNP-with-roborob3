@@ -6,7 +6,7 @@
 //  Copyright © 2021 Nicolas Bredeche. All rights reserved.
 //
 
-#include "ObjectFactory.h"
+#include "../include/ObjectFactory.h"
 #include "World/World.h"
 #include "RoboroboMain/roborobo.h"
 #include "WorldModels/RobotWorldModel.h"
@@ -17,16 +17,16 @@ std::unordered_set<ForagingObject*> ObjectFactory::_unusedForagingObjects;
 
 PheromoneObject* ObjectFactory::placePheromoneObject(int x, int y){
     if(_unusedPheromones.empty()){
-        
+
         int id = PhysicalObjectFactory::getNextId();
         auto newObject = new PheromoneObject(id);
-        
+
         newObject->setCoordinates(x, y);
         newObject->registerObject();
-        
+
         gPhysicalObjects.push_back(newObject);
         gNbOfPhysicalObjects = (int)gPhysicalObjects.size();
-        
+
         return newObject;
     }
     else{
@@ -45,17 +45,17 @@ void ObjectFactory::recyclePheromoneObject(PheromoneObject *p){
 
 ForagingObject* ObjectFactory::placeForagingObject(int x, int y){
     if(_unusedForagingObjects.empty()){
-        
+
         int id = PhysicalObjectFactory::getNextId();
-        
+
         auto newObject = new ForagingObject(id);
         newObject->setDisplayColor(255,128,64);
         newObject->setCoordinates(x, y);
         newObject->registerObject();
-        
+
         gPhysicalObjects.push_back(newObject);
         gNbOfPhysicalObjects = (int)gPhysicalObjects.size();
-        
+
         return newObject;
     }
     else{

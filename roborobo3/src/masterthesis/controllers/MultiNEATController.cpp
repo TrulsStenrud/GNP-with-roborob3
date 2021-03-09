@@ -31,7 +31,7 @@ void MultiNEATController::step(){
 }
 
 double MultiNEATController::normalize(double num){
-	return -1 + 2/(1+exp(-num));
+	return tanh(num);
 }
 
 void MultiNEATController::RebuildBrain(Genome* genome){

@@ -6,14 +6,14 @@
 //  Copyright © 2021 Nicolas Bredeche. All rights reserved.
 //
 
-#include "NestObject.h"
+#include "../include/NestObject.h"
 #include "World/EnergyItem.h"
-#include "MyTestEEController.h"
+#include "../include/MyTestEEController.h"
 #include "World/World.h"
 #include "RoboroboMain/roborobo.h"
 
 NestObject::NestObject(int __id ) : EnergyItem( __id ){
-    
+
     _radius = 0;
     _footprintRadius = 80;
     _footprintColorRed = 0xFF;

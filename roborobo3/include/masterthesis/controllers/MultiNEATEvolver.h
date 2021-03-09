@@ -16,6 +16,7 @@ private:
 	NEAT::Parameters* _params;
 	NEAT::Genome* _genomeBase; // Starting population is constructed using this as a base.
 	void initPopulation();
+	void nextGeneration();
 	NEAT::Population* _pop;
 	int _evalIndex; // Index of genome to evaluate.
 public:

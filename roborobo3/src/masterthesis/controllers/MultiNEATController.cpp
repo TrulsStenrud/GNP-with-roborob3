@@ -5,10 +5,9 @@
 using namespace NEAT;
 
 MultiNEATController::MultiNEATController(RobotWorldModel *wm, Genome* genome, ControllerEvolver::CONTROLLER controllerType):MyTestEEController(wm){
-	_genome = genome;
 	_controllerType = controllerType;
 	_nn = new NEAT::NeuralNetwork();
-	RebuildBrain(_genome);
+	rebuildBrain(genome);
 }
 
 MultiNEATController::~MultiNEATController(){
@@ -34,14 +33,14 @@ double MultiNEATController::normalize(double num){
 	return tanh(num);
 }
 
-void MultiNEATController::RebuildBrain(Genome* genome){
+void MultiNEATController::rebuildBrain(Genome* genome){
 	switch(_controllerType){
 	case ControllerEvolver::NEAT:
-		_genome->BuildPhenotype(*_nn);
+		genome->BuildPhenotype(*_nn);
 		break;
 	case ControllerEvolver::HyperNEAT:
 	case ControllerEvolver::ESHyperNEAT:
-		//_genome-> NEAT::Genome::BuildHyperNEATPhenotype(_nn, Substrate& substr)
+		//genome-> NEAT::Genome::BuildHyperNEATPhenotype(_nn, Substrate& substr)
 		break;
 	}
 }

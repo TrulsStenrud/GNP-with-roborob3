@@ -34,7 +34,22 @@ Controller* MultiNEATEvolver::make_Controller(RobotWorldModel* wm){
 }
 
 void MultiNEATEvolver::evalDone(DataPacket* dp){
-	std::cout<<"Evolver genUpdate called. Type: "<<_contType<<std::endl;
+	_pop->AccessGenomeByIndex(_evalIndex).SetFitness(dp->fitness);
+	_evalIndex++;
+	if(_evalIndex == _params->PopulationSize){
+		nextGeneration();
+		_evalIndex = 0;
+	}
+	for(Robot* rob : *(dp->robots)){
+		MultiNEATController* cont = static_cast<MultiNEATController*>(rob->getController());
+		cont->rebuildBrain(&(_pop->AccessGenomeByIndex(_evalIndex)));
+		cont->reset();
+	}
+	std::cout<<"Evaluated "<<dp->generation%_params->PopulationSize<<"/"<<_params->PopulationSize<<" chromosomes"<<std::endl;
+}
+
+void MultiNEATEvolver::nextGeneration(){
+	std::cout<<"NEAT GENERATION DONE!!!!!!"<<std::endl;
 }
 
 void MultiNEATEvolver::initPopulation(){

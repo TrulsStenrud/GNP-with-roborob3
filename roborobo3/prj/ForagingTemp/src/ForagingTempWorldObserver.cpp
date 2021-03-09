@@ -50,14 +50,11 @@ void ForagingTempWorldObserver::stepPre( )
 		DataPacket* dp = constructDataPacket();
         DataForwarder::getDataForwarder()->forwardData(dp);
 
-        std::cout<<"generasjon "<<dp->generation<<" ferdig"<<std::endl;
-
         if(gWorld->getIterations() == gMaxIt){
 			DataForwarder::getDataForwarder()->simulationDone();
         }
 
         _evolver->evalDone(dp);
-
         reset();
     }
 }

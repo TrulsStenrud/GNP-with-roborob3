@@ -17,7 +17,6 @@ MscMain::~MscMain(){
 }
 
 void MscMain::onGenerationDone(DataPacket* data){
-	cout<<"packet received"<<endl;
 }
 
 void MscMain::onSimulationDone(){

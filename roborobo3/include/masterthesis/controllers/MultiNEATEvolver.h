@@ -8,6 +8,7 @@
 #include "../../core/World/World.h"
 #include "../../MultiNEAT/Population.h"
 #include "../../core/RoboroboMain/roborobo.h"
+#include "../DataListener.h"
 
 class MultiNEATEvolver : public ControllerEvolver{
 private:
@@ -21,5 +22,5 @@ public:
 	MultiNEATEvolver(ControllerEvolver::CONTROLLER contType);
 	~MultiNEATEvolver();
 	Controller* make_Controller(RobotWorldModel* wm) override;
-	void evalDone(std::vector<Robot*>* robots) override;
+	void evalDone(DataPacket* dp) override;
 };

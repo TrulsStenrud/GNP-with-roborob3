@@ -33,8 +33,7 @@ Controller* MultiNEATEvolver::make_Controller(RobotWorldModel* wm){
 	return cont;
 }
 
-void MultiNEATEvolver::evalDone(std::vector<Robot*>* robots){
-	// kan hende denne ikke trenger vektoren.
+void MultiNEATEvolver::evalDone(DataPacket* dp){
 	std::cout<<"Evolver genUpdate called. Type: "<<_contType<<std::endl;
 }
 

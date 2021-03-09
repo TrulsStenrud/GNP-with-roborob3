@@ -1,9 +1,11 @@
 #pragma once
+#include <vector>
+#include "../core/Agents/Robot.h"
 
 struct DataPacket{
+	std::vector<Robot*>* robots;
 	int generation;
-	float bestFitness;
-	float avgFitness;
+	float fitness;
 };
 
 // Interface

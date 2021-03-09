@@ -34,7 +34,13 @@ void ForagingTempWorldObserver::setControllerEvolver(ControllerEvolver* evolver)
 	_evolver = evolver;
 }
 
-
+double ForagingTempWorldObserver::getFitness(){
+    double fitness = 0;
+    for(auto nest : gNestObjects){
+        fitness += nest->getCollectedGoods();
+    }
+    return fitness;
+}
 
 void ForagingTempWorldObserver::stepPre( )
 {

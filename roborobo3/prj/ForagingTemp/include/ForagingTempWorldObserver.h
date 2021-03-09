@@ -25,8 +25,9 @@ public:
     ForagingTempWorldObserver(World *world);
     ~ForagingTempWorldObserver();
     void setControllerEvolver(ControllerEvolver* evolver);
-
     void stepPre() override;
+    
+    double getFitness();
 };
 
 #endif

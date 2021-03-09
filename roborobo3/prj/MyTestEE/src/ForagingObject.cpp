@@ -13,7 +13,7 @@
 #include "MyTestEE/include/ObjectFactory.h"
 
 ForagingObject::ForagingObject(int __id) : CircleObject( __id ){
-    setType(0);
+    setType(5);
     _radius = 4;
     unregisterObject();
     _footprintRadius = 0;

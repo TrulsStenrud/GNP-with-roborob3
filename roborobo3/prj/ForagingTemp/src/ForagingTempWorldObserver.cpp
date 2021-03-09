@@ -35,7 +35,10 @@ void ForagingTempWorldObserver::setControllerEvolver(ControllerEvolver* evolver)
 }
 
 double ForagingTempWorldObserver::getFitness(){
+    
+    
     double fitness = 0;
+    
     for(auto nest : gNestObjects){
         fitness += nest->getCollectedGoods();
     }
@@ -44,7 +47,7 @@ double ForagingTempWorldObserver::getFitness(){
 
 void ForagingTempWorldObserver::stepPre( )
 {
-	std::cout<<"wigga prease "<<gWorld->getIterations()<<std::endl;
+	
     // denne blir kalt på slutten av hvert tidstrinn i evolusjonen.
     if( gWorld->getIterations() > 0 && gWorld->getIterations() % _evalTime == 0 )
     {

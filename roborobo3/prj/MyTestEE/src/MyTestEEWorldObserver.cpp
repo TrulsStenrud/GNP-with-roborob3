@@ -58,7 +58,7 @@ void MyTestEEWorldObserver::reset(){
     
     if(gNestObjects.size() == 0){
         addNestObject(1000, 600);
-        addNestObject(400, 600);
+        //addNestObject(400, 600);
     }else{
         for(auto nest : gNestObjects){
             nest->resetValues();

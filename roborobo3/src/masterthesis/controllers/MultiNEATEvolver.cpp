@@ -15,8 +15,8 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
 
 	// Constructing base genome.
 	NEAT::ActivationFunction activFunc = NEAT::ActivationFunction::UNSIGNED_SIGMOID;
-	int inputs = 123;
-	int outputs = 2;
+	int inputs = 50;
+	int outputs = 3;
 	_genomeBase = new NEAT::Genome(0,inputs+1,0,outputs,false, activFunc, activFunc, 0, *_params, 0, 0);
 }
 

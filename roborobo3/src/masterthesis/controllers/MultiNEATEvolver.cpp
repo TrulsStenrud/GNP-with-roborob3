@@ -23,6 +23,7 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
 MultiNEATEvolver::~MultiNEATEvolver(){
 	delete _params;
 	delete _genomeBase;
+	delete _pop;
 }
 
 Controller* MultiNEATEvolver::make_Controller(RobotWorldModel* wm){
@@ -33,9 +34,26 @@ Controller* MultiNEATEvolver::make_Controller(RobotWorldModel* wm){
 	return cont;
 }
 
-void MultiNEATEvolver::evalDone(std::vector<Robot*>* robots){
-	// kan hende denne ikke trenger vektoren.
-	std::cout<<"Evolver genUpdate called. Type: "<<_contType<<std::endl;
+void MultiNEATEvolver::evalDone(DataPacket* dp){
+	_pop->AccessGenomeByIndex(_evalIndex).SetFitness(dp->fitness);
+	_evalIndex++;
+	if(_evalIndex == _params->PopulationSize){
+		nextGeneration();
+		_evalIndex = 0;
+	}
+	for(Robot* rob : *(dp->robots)){
+		MultiNEATController* cont = static_cast<MultiNEATController*>(rob->getController());
+		cont->rebuildBrain(&(_pop->AccessGenomeByIndex(_evalIndex)));
+		cont->reset();
+	}
+	//std::cout<<"Evaluated "<<dp->generation%_params->PopulationSize<<"/"<<_params->PopulationSize<<" chromosomes"<<std::endl;
+}
+
+void MultiNEATEvolver::nextGeneration(){
+	_generation++;
+	std::cout<<"generation "<<_generation<<" complete"<<std::endl;
+	// kanskje få denne til å skrive datapacks istedenfor? gir mer mening for generasjoner og slikt. + denne kan regne ut gjennomsnitt.
+	_pop->Epoch();
 }
 
 void MultiNEATEvolver::initPopulation(){

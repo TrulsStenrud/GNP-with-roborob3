@@ -10,15 +10,14 @@
 class MultiNEATController : public MyTestEEController{
 	// hente nn fra evolveren. kjøre den. rapportere resultatet til evolveren.
 private:
-	NEAT::Genome* _genome;
 	ControllerEvolver::CONTROLLER _controllerType;
 	NEAT::NeuralNetwork* _nn;
-	std::vector<double>* buildInputVector();
+	std::vector<double> buildInputVector();
 	double normalize(double num); // normalizes a number to [-1, 1]
 public:
 	MultiNEATController(RobotWorldModel *wm, NEAT::Genome* genome, ControllerEvolver::CONTROLLER controllerType);
 	~MultiNEATController();
 	void reset() override;
 	void step() override;
-	void RebuildBrain(NEAT::Genome* genome);
+	void rebuildBrain(NEAT::Genome* genome);
 };

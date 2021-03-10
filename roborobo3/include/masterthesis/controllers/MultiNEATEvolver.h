@@ -8,6 +8,7 @@
 #include "../../core/World/World.h"
 #include "../../MultiNEAT/Population.h"
 #include "../../core/RoboroboMain/roborobo.h"
+#include "../DataListener.h"
 
 class MultiNEATEvolver : public ControllerEvolver{
 private:
@@ -15,11 +16,12 @@ private:
 	NEAT::Parameters* _params;
 	NEAT::Genome* _genomeBase; // Starting population is constructed using this as a base.
 	void initPopulation();
+	void nextGeneration();
 	NEAT::Population* _pop;
 	int _evalIndex; // Index of genome to evaluate.
 public:
 	MultiNEATEvolver(ControllerEvolver::CONTROLLER contType);
 	~MultiNEATEvolver();
 	Controller* make_Controller(RobotWorldModel* wm) override;
-	void evalDone(std::vector<Robot*>* robots) override;
+	void evalDone(DataPacket* dp) override;
 };

@@ -8,7 +8,7 @@
 // Interface for controller evolvers
 class ControllerEvolver{
 protected:
-
+	int _generation = 0;
 public:
 	enum CONTROLLER:int{GNP, NEAT, NoveltySearch, HyperNEAT, ESHyperNEAT, MPFA};
 	virtual Controller* make_Controller(RobotWorldModel* wm) = 0;

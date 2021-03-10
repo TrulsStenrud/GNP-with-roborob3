@@ -11,7 +11,8 @@ MultiNEATController::MultiNEATController(RobotWorldModel *wm, Genome* genome, Co
 }
 
 MultiNEATController::~MultiNEATController(){
-
+	delete _nn;
+	delete _wm;
 }
 
 void MultiNEATController::reset(){
@@ -19,14 +20,13 @@ void MultiNEATController::reset(){
 }
 
 void MultiNEATController::step(){
-	_nn->Input(*buildInputVector());
+	std::vector<double> input = buildInputVector();
+	_nn->Input(input);
 	_nn->ActivateFast(); // Fast funker kun med unsigned sigmoid som aktiveringsfunksjon.
 	std::vector<double> output = _nn->Output();
 
 	setTranslation(output[0]);
     setRotation(output[1]);
-//    setTranslation(1);
-//    setRotation(0.5);
 }
 
 double MultiNEATController::normalize(double num){
@@ -36,6 +36,7 @@ double MultiNEATController::normalize(double num){
 void MultiNEATController::rebuildBrain(Genome* genome){
 	switch(_controllerType){
 	case ControllerEvolver::NEAT:
+	case ControllerEvolver::NoveltySearch:
 		genome->BuildPhenotype(*_nn);
 		break;
 	case ControllerEvolver::HyperNEAT:
@@ -45,16 +46,16 @@ void MultiNEATController::rebuildBrain(Genome* genome){
 	}
 }
 
-std::vector<double>* MultiNEATController::buildInputVector(){
+std::vector<double> MultiNEATController::buildInputVector(){
 	//straight up copied from TemplateEEController.cpp
 
-	std::vector<double>* inputs = new std::vector<double>();
+	std::vector<double> inputs;
 
     // distance sensors
     for(int i  = 0; i < _wm->_cameraSensorsNb; i++)
     {
         if ( gSensoryInputs_distanceToContact )
-            inputs->push_back( _wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i) );
+            inputs.push_back( _wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i) );
 
         int objectId = _wm->getObjectIdFromCameraSensor(i);
 
@@ -68,11 +69,11 @@ std::vector<double>* MultiNEATController::buildInputVector(){
                 {
                     if ( i == gPhysicalObjects[objectId - gPhysicalObjectIndexStartOffset]->getType() )
                     {
-                        inputs->push_back( 1 ); // match
+                        inputs.push_back( 1 ); // match
                     }
                     else
                     {
-                        inputs->push_back( 0 );
+                        inputs.push_back( 0 );
                     }
                 }
             }
@@ -82,7 +83,7 @@ std::vector<double>* MultiNEATController::buildInputVector(){
                 int nbOfTypes = PhysicalObjectFactory::getNbOfTypes();
                 for ( int i = 0 ; i != nbOfTypes ; i++ )
                 {
-                    inputs->push_back( 0 );
+                    inputs.push_back( 0 );
                 }
             }
         }
@@ -93,18 +94,18 @@ std::vector<double>* MultiNEATController::buildInputVector(){
             if ( Agent::isInstanceOf(objectId) )
             {
                 // this is an agent
-                inputs->push_back( 1 );
+                inputs.push_back( 1 );
 
                 if ( gSensoryInputs_otherAgentGroup )
                 {
                     // same group?
                     if ( gWorld->getRobot(objectId-gRobotIndexStartOffset)->getWorldModel()->getGroupId() == _wm->getGroupId() )
                     {
-                        inputs->push_back( 1 ); // match: same group
+                        inputs.push_back( 1 ); // match: same group
                     }
                     else
                     {
-                        inputs->push_back( 0 ); // not the same group
+                        inputs.push_back( 0 ); // not the same group
                     }
                 }
 
@@ -125,19 +126,19 @@ std::vector<double>* MultiNEATController::buildInputVector(){
                             delta_orientation = - ( - 360.0 - delta_orientation );
                         }
                     }
-                    inputs->push_back( delta_orientation/180.0 );
+                    inputs.push_back( delta_orientation/180.0 );
                 }
             }
             else
             {
-                inputs->push_back( 0 ); // not an agent...
+                inputs.push_back( 0 ); // not an agent...
                 if ( gSensoryInputs_otherAgentGroup )
                 {
-                    inputs->push_back( 0 ); // ...therefore no match wrt. group.
+                    inputs.push_back( 0 ); // ...therefore no match wrt. group.
                 }
                 if ( gSensoryInputs_otherAgentOrientation )
                 {
-                    inputs->push_back( 0 ); // ...and no orientation.
+                    inputs.push_back( 0 ); // ...and no orientation.
                 }
             }
         }
@@ -147,11 +148,11 @@ std::vector<double>* MultiNEATController::buildInputVector(){
             // input: wall or empty?
             if ( objectId >= 0 && objectId < gPhysicalObjectIndexStartOffset ) // not empty, but cannot be identified: this is a wall.
             {
-                inputs->push_back( 1 );
+                inputs.push_back( 1 );
             }
             else
             {
-                inputs->push_back( 0 ); // nothing. (objectId=-1)
+                inputs.push_back( 0 ); // nothing. (objectId=-1)
             }
         }
 
@@ -160,9 +161,9 @@ std::vector<double>* MultiNEATController::buildInputVector(){
     // floor sensor
     if ( gSensoryInputs_groundSensors )
     {
-        inputs->push_back( (double)_wm->getGroundSensor_redValue()/255.0 );
-        inputs->push_back( (double)_wm->getGroundSensor_greenValue()/255.0 );
-        inputs->push_back( (double)_wm->getGroundSensor_blueValue()/255.0 );
+        inputs.push_back( (double)_wm->getGroundSensor_redValue()/255.0 );
+        inputs.push_back( (double)_wm->getGroundSensor_greenValue()/255.0 );
+        inputs.push_back( (double)_wm->getGroundSensor_blueValue()/255.0 );
     }
 
     // landmark(s)
@@ -171,11 +172,11 @@ std::vector<double>* MultiNEATController::buildInputVector(){
         _wm->updateLandmarkSensor(); // update with closest landmark
         if ( gSensoryInputs_distanceToLandmark )
         {
-            inputs->push_back( _wm->getLandmarkDistanceValue() );
+            inputs.push_back( _wm->getLandmarkDistanceValue() );
         }
         if ( gSensoryInputs_orientationToLandmark )
         {
-            inputs->push_back( _wm->getLandmarkDirectionAngleValue() );
+            inputs.push_back( _wm->getLandmarkDirectionAngleValue() );
         }
     }
     else
@@ -186,11 +187,11 @@ std::vector<double>* MultiNEATController::buildInputVector(){
                 _wm->updateLandmarkSensor(i); // update with closest landmark
                 if ( gSensoryInputs_distanceToLandmark )
                 {
-                    inputs->push_back( _wm->getLandmarkDistanceValue() );
+                    inputs.push_back( _wm->getLandmarkDistanceValue() );
                 }
                 if ( gSensoryInputs_orientationToLandmark )
                 {
-                    inputs->push_back( _wm->getLandmarkDirectionAngleValue() );
+                    inputs.push_back( _wm->getLandmarkDirectionAngleValue() );
                 }
             }
         }
@@ -198,7 +199,7 @@ std::vector<double>* MultiNEATController::buildInputVector(){
     // energy level
     if ( gEnergyLevel && gSensoryInputs_energyLevel )
     {
-        inputs->push_back( _wm->getEnergyLevel() / gEnergyMax );
+        inputs.push_back( _wm->getEnergyLevel() / gEnergyMax );
     }
 
     // reentrant mapping from output neurons (motor or virtual output neurons, if any) -- Jordan-like reccurence.
@@ -235,7 +236,7 @@ std::vector<double>* MultiNEATController::buildInputVector(){
 
         for ( size_t i = i_start ; i < i_end ; i++ )
         {
-            inputs->push_back( outputs[i] );
+            inputs.push_back( outputs[i] );
         }
     }
 

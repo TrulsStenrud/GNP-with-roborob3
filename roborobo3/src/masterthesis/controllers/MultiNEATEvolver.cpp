@@ -23,6 +23,7 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
 MultiNEATEvolver::~MultiNEATEvolver(){
 	delete _params;
 	delete _genomeBase;
+	delete _pop;
 }
 
 Controller* MultiNEATEvolver::make_Controller(RobotWorldModel* wm){
@@ -45,11 +46,14 @@ void MultiNEATEvolver::evalDone(DataPacket* dp){
 		cont->rebuildBrain(&(_pop->AccessGenomeByIndex(_evalIndex)));
 		cont->reset();
 	}
-	std::cout<<"Evaluated "<<dp->generation%_params->PopulationSize<<"/"<<_params->PopulationSize<<" chromosomes"<<std::endl;
+	//std::cout<<"Evaluated "<<dp->generation%_params->PopulationSize<<"/"<<_params->PopulationSize<<" chromosomes"<<std::endl;
 }
 
 void MultiNEATEvolver::nextGeneration(){
-	std::cout<<"NEAT GENERATION DONE!!!!!!"<<std::endl;
+	_generation++;
+	std::cout<<"generation "<<_generation<<" complete"<<std::endl;
+	// kanskje få denne til å skrive datapacks istedenfor? gir mer mening for generasjoner og slikt. + denne kan regne ut gjennomsnitt.
+	_pop->Epoch();
 }
 
 void MultiNEATEvolver::initPopulation(){

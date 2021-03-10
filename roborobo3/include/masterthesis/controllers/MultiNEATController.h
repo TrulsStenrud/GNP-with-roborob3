@@ -12,7 +12,7 @@ class MultiNEATController : public MyTestEEController{
 private:
 	ControllerEvolver::CONTROLLER _controllerType;
 	NEAT::NeuralNetwork* _nn;
-	std::vector<double>* buildInputVector();
+	std::vector<double> buildInputVector();
 	double normalize(double num); // normalizes a number to [-1, 1]
 public:
 	MultiNEATController(RobotWorldModel *wm, NEAT::Genome* genome, ControllerEvolver::CONTROLLER controllerType);

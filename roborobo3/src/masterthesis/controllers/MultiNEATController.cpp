@@ -5,10 +5,9 @@
 using namespace NEAT;
 
 MultiNEATController::MultiNEATController(RobotWorldModel *wm, Genome* genome, ControllerEvolver::CONTROLLER controllerType):MyTestEEController(wm){
-	_genome = genome;
 	_controllerType = controllerType;
 	_nn = new NEAT::NeuralNetwork();
-	RebuildBrain(_genome);
+	rebuildBrain(genome);
 }
 
 MultiNEATController::~MultiNEATController(){
@@ -20,7 +19,8 @@ void MultiNEATController::reset(){
 }
 
 void MultiNEATController::step(){
-	_nn->Input(*buildInputVector());
+    auto inputs = buildInputVector();
+	_nn->Input(inputs);
 	_nn->ActivateFast(); // Fast funker kun med unsigned sigmoid som aktiveringsfunksjon.
 	std::vector<double> output = _nn->Output();
 
@@ -34,10 +34,10 @@ void MultiNEATController::step(){
 }
 
 
-void MultiNEATController::RebuildBrain(Genome* genome){
+void MultiNEATController::rebuildBrain(Genome* genome){
 	switch(_controllerType){
 	case ControllerEvolver::NEAT:
-		_genome->BuildPhenotype(*_nn);
+		genome->BuildPhenotype(*_nn);
 		break;
 	case ControllerEvolver::HyperNEAT:
 	case ControllerEvolver::ESHyperNEAT:
@@ -46,17 +46,17 @@ void MultiNEATController::RebuildBrain(Genome* genome){
 	}
 }
 
-std::vector<double>* MultiNEATController::buildInputVector(){
+std::vector<double> MultiNEATController::buildInputVector(){
     //straight up copied from TemplateEEController.cpp
     // and then modified to use our new sensors
     
-    std::vector<double>* inputs = new std::vector<double>();
+    std::vector<double> inputs;
     
     // distance sensors
     for(int i  = 0; i < _wm->_cameraSensorsNb; i++)
     {
         if ( gSensoryInputs_distanceToContact )
-            inputs->push_back( _wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i) );
+            inputs.push_back( _wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i) );
         
         int objectId = _wm->getObjectIdFromCameraSensor(i);
         
@@ -67,18 +67,18 @@ std::vector<double>* MultiNEATController::buildInputVector(){
             {
                 if(gPhysicalObjects[objectId - gPhysicalObjectIndexStartOffset]->getType() == 5) //foragingObject
                 {
-                    inputs->push_back( 1 ); // match
+                    inputs.push_back( 1 ); // match
                 }
                 else
                 {
-                    inputs->push_back( 0 );
+                    inputs.push_back( 0 );
                 }
                 
             }
             else
             {
                 // not a physical object. But: should still fill in the inputs (with zeroes)
-                inputs->push_back( 0 );
+                inputs.push_back( 0 );
                 
             }
         }
@@ -89,11 +89,11 @@ std::vector<double>* MultiNEATController::buildInputVector(){
             if ( Agent::isInstanceOf(objectId) )
             {
                 // this is an agent
-                inputs->push_back( 1 );
+                inputs.push_back( 1 );
             }
             else
             {
-                inputs->push_back( 0 ); // not an agent...
+                inputs.push_back( 0 ); // not an agent...
             }
         }
         
@@ -102,11 +102,11 @@ std::vector<double>* MultiNEATController::buildInputVector(){
             // input: wall or empty?
             if ( objectId >= 0 && objectId < gPhysicalObjectIndexStartOffset ) // not empty, but cannot be identified: this is a wall.
             {
-                inputs->push_back( 1 );
+                inputs.push_back( 1 );
             }
             else
             {
-                inputs->push_back( 0 ); // nothing. (objectId=-1)
+                inputs.push_back( 0 ); // nothing. (objectId=-1)
             }
         }
         
@@ -115,11 +115,11 @@ std::vector<double>* MultiNEATController::buildInputVector(){
     // floor sensor
     if ( gSensoryInputs_groundSensors )
     {
-        inputs->push_back(getPheromoneValue());
+        inputs.push_back(getPheromoneValue());
     }
     
     // nest sensor
-    inputs->push_back(getNestRelativeOrientation());
+    inputs.push_back(getNestRelativeOrientation());
     
     return inputs;
 }

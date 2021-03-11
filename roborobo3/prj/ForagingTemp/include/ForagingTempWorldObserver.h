@@ -7,6 +7,7 @@
 #define FORAGINGTEMPWORLDOBSERVER_H
 
 #include "TemplateEE/include/TemplateEEWorldObserver.h"
+#include "SampledAverageState.h"
 #include "../../../include/masterthesis/DataListener.h"
 #include "../../../include/masterthesis/controllers/ControllerEvolver.h"
 #include <vector>
@@ -20,6 +21,9 @@ private:
 	int _evalTime; //how many time steps per evaluation.
 	DataPacket* constructDataPacket();
 	ControllerEvolver* _evolver;
+    
+    bool _noveltySearch = false;
+    SampledAverageState* _sampledState = NULL;
 
 public:
     ForagingTempWorldObserver(World *world);

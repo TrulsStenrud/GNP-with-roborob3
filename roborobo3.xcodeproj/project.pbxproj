@@ -110,6 +110,7 @@
 		FB0A375C25F66C7A00489627 /* ForagingTempAgentObserver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371525F66B6C00489627 /* ForagingTempAgentObserver.cpp */; };
 		FB0A375D25F66C7A00489627 /* ForagingTempController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371625F66B6C00489627 /* ForagingTempController.cpp */; };
 		FB0A376025F66CE200489627 /* main2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A375F25F66CE100489627 /* main2.cpp */; };
+		FB0A376825F9123F00489627 /* SampledAverageState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A376625F9123F00489627 /* SampledAverageState.cpp */; };
 		FB7A658D25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658C25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp */; };
 		FB7A659225D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h in Sources */ = {isa = PBXBuildFile; fileRef = FB7A659125D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h */; };
 		FB7A659925D6C5DE00A28264 /* MyTestProjectAgentObserver.h in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658625D6C19800A28264 /* MyTestProjectAgentObserver.h */; };
@@ -371,6 +372,8 @@
 		FB0A374425F66B9F00489627 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Random.h; sourceTree = "<group>"; };
 		FB0A375F25F66CE100489627 /* main2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main2.cpp; sourceTree = "<group>"; };
 		FB0A376425F798AD00489627 /* foraging_temp.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = foraging_temp.properties; sourceTree = "<group>"; };
+		FB0A376625F9123F00489627 /* SampledAverageState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SampledAverageState.cpp; sourceTree = "<group>"; };
+		FB0A376725F9123F00489627 /* SampledAverageState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampledAverageState.h; sourceTree = "<group>"; };
 		FB7A658425D6C19800A28264 /* MyTestProjectWorldObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectWorldObserver.h; sourceTree = "<group>"; };
 		FB7A658525D6C19800A28264 /* MyTestProjectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectController.h; sourceTree = "<group>"; };
 		FB7A658625D6C19800A28264 /* MyTestProjectAgentObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectAgentObserver.h; sourceTree = "<group>"; };
@@ -1026,6 +1029,7 @@
 		FB0A370D25F66B6C00489627 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				FB0A376725F9123F00489627 /* SampledAverageState.h */,
 				FB0A370E25F66B6C00489627 /* ForagingTempWorldObserver.h */,
 				FB0A370F25F66B6C00489627 /* ForagingTempSharedData.h */,
 				FB0A371025F66B6C00489627 /* ForagingTempAgentObserver.h */,
@@ -1041,6 +1045,7 @@
 				FB0A371425F66B6C00489627 /* ForagingTempWorldObserver.cpp */,
 				FB0A371525F66B6C00489627 /* ForagingTempAgentObserver.cpp */,
 				FB0A371625F66B6C00489627 /* ForagingTempController.cpp */,
+				FB0A376625F9123F00489627 /* SampledAverageState.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1259,6 +1264,7 @@
 				FB0A375C25F66C7A00489627 /* ForagingTempAgentObserver.cpp in Sources */,
 				FB0A375D25F66C7A00489627 /* ForagingTempController.cpp in Sources */,
 				FB0A375425F66C4600489627 /* MscMain.cpp in Sources */,
+				FB0A376825F9123F00489627 /* SampledAverageState.cpp in Sources */,
 				FB0A375525F66C4600489627 /* DataForwarder.cpp in Sources */,
 				FB0A375625F66C4600489627 /* MultiNEATController.cpp in Sources */,
 				FB0A375725F66C4600489627 /* GNPController.cpp in Sources */,

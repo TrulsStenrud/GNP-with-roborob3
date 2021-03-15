@@ -121,5 +121,11 @@ std::vector<double> MultiNEATController::buildInputVector(){
     // nest sensor
     inputs.push_back(getNestRelativeOrientation());
     
+    if(isCarrying()){
+        inputs.push_back(1);
+    }else{
+        inputs.push_back(0);
+    }
+    
     return inputs;
 }

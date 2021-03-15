@@ -44,8 +44,16 @@ double ForagingTempWorldObserver::getFitness(){
     double fitness = 0;
     
     for(auto nest : gNestObjects){
-        fitness += nest->getCollectedGoods();
+        fitness += nest->getCollectedGoods()*gNbOfRobots;
     }
+    
+        for(auto robot : gRobots){
+            auto controller = dynamic_cast<MyTestEEController*>(robot->getController());
+            if(controller->isCarrying()){
+                fitness+=1;
+            }
+        }
+
     return fitness;
 }
 

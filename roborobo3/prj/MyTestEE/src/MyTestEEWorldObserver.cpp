@@ -57,7 +57,7 @@ void MyTestEEWorldObserver::addNestObject(double x, double y) {
 void MyTestEEWorldObserver::reset(){
     
     if(gNestObjects.size() == 0){
-        addNestObject(1000, 600);
+        //addNestObject(1000, 600);
         addNestObject(400, 600);
     }else{
         for(auto nest : gNestObjects){
@@ -76,7 +76,11 @@ void MyTestEEWorldObserver::reset(){
         }
     }
     
-    placeGridOfObjects(500, 500, 4, 4);
+    //placeGridOfObjects(500, 500, 4, 4);
+    placeGridOfObjects(650, 150, 8, 8);
+    placeGridOfObjects(1250, 650, 3, 3);
+    placeGridOfObjects(1100, 200, 3, 6);
+    placeGridOfObjects(150, 300, 6, 6);
     for(auto robot : gRobots){
         auto controller = dynamic_cast<MyTestEEController*>(robot->getController());
         controller->reset();
@@ -131,7 +135,6 @@ void MyTestEEWorldObserver::placeRobotsInAllNests() {
         gRobots[i]->unregisterRobot();
         gRobots[i]->setCoord(x, y);
         gRobots[i]->setCoordReal(x, y);
-        
     }
 }
 

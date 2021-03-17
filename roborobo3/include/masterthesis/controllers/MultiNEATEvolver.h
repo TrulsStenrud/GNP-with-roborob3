@@ -19,6 +19,8 @@ private:
 	void nextGeneration();
 	NEAT::Population* _pop;
 	int _evalIndex; // Index of genome to evaluate.
+    std::ofstream _logFile;
+    LogManager *_logManager = NULL;
 public:
 	MultiNEATEvolver(ControllerEvolver::CONTROLLER contType);
 	~MultiNEATEvolver();

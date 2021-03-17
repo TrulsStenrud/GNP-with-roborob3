@@ -32,6 +32,7 @@ void LogManager::flush()
     if ( ! buffer.empty() )
     {
         (*logFile) << buffer;
+        logFile->flush();
         buffer.clear();
     }
 }

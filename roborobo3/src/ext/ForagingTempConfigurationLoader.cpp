@@ -24,6 +24,7 @@ ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 	case ControllerEvolver::NEAT:
 	case ControllerEvolver::NoveltySearch:
 	case ControllerEvolver::HyperNEAT:
+        _evolver = new MultiNEATEvolver(controllerType);
 	case ControllerEvolver::ESHyperNEAT:
 		_evolver = new MultiNEATEvolver(controllerType);
 		break;

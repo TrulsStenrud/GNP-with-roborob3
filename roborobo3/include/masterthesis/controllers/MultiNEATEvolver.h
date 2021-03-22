@@ -15,14 +15,18 @@ private:
 	ControllerEvolver::CONTROLLER _contType;
 	NEAT::Parameters* _params;
 	NEAT::Genome* _genomeBase; // Starting population is constructed using this as a base.
-	void initPopulation();
-	void nextGeneration();
-	NEAT::Population* _pop;
-	int _evalIndex; // Index of genome to evaluate.
+    NEAT::Population* _pop;
+    int _evalIndex; // Index of genome to evaluate.
     std::ofstream _logFile;
     LogManager *_logManager = NULL;
+    NEAT::Substrate* _substrate = NULL;
+    
+	void initPopulation();
+	void nextGeneration();
+    NEAT::Substrate* createSubstrate(int input, int output);
+    
 public:
-	MultiNEATEvolver(ControllerEvolver::CONTROLLER contType);
+    MultiNEATEvolver(ControllerEvolver::CONTROLLER contType);
 	~MultiNEATEvolver();
 	Controller* make_Controller(RobotWorldModel* wm) override;
 	void evalDone(DataPacket* dp) override;

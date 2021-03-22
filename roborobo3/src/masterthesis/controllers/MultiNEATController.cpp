@@ -4,10 +4,11 @@
 
 using namespace NEAT;
 
-MultiNEATController::MultiNEATController(RobotWorldModel *wm, Genome* genome, ControllerEvolver::CONTROLLER controllerType):MyTestEEController(wm){
+MultiNEATController::MultiNEATController(RobotWorldModel *wm, Genome* genome, ControllerEvolver::CONTROLLER controllerType, NEAT::Substrate* substrate, NEAT::Parameters* parameters):MyTestEEController(wm){
 	_controllerType = controllerType;
 	_nn = new NEAT::NeuralNetwork();
-	rebuildBrain(genome);
+
+    rebuildBrain(genome, substrate, parameters);
 }
 
 MultiNEATController::~MultiNEATController(){
@@ -21,12 +22,13 @@ void MultiNEATController::reset(){
 void MultiNEATController::step(){
     auto inputs = buildInputVector();
 	_nn->Input(inputs);
+    
 	_nn->ActivateFast(); // Fast funker kun med unsigned sigmoid som aktiveringsfunksjon.
 	std::vector<double> output = _nn->Output();
-
+    
 	setTranslation(output[0]*2 - 1);
     setRotation(output[1]*2 - 1);
-    
+
     if(output[2] > 0.5){
         dropPheromone();
     }
@@ -34,14 +36,15 @@ void MultiNEATController::step(){
 }
 
 
-void MultiNEATController::rebuildBrain(Genome* genome){
+void MultiNEATController::rebuildBrain(Genome* genome, NEAT::Substrate* substrate, NEAT::Parameters* parameters){
 	switch(_controllerType){
 	case ControllerEvolver::NEAT:
 		genome->BuildPhenotype(*_nn);
 		break;
+//	case ControllerEvolver::ESHyperNEAT: // disabled because of errors someone can't fix right now
+//            genome->NEAT::Genome::BuildESHyperNEATPhenotype(*_nn, *substrate, *parameters);
 	case ControllerEvolver::HyperNEAT:
-	case ControllerEvolver::ESHyperNEAT:
-		//_genome-> NEAT::Genome::BuildHyperNEATPhenotype(_nn, Substrate& substr)
+            genome-> NEAT::Genome::BuildHyperNEATPhenotype(*_nn, *substrate);
 		break;
 	}
 }
@@ -127,5 +130,6 @@ std::vector<double> MultiNEATController::buildInputVector(){
         inputs.push_back(0);
     }
     
+    inputs.push_back(1);
     return inputs;
 }

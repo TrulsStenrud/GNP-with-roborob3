@@ -14,10 +14,10 @@ private:
 	NEAT::NeuralNetwork* _nn;
 	double normalize(double num); // normalizes a number to [-1, 1]
 public:
-	MultiNEATController(RobotWorldModel *wm, NEAT::Genome* genome, ControllerEvolver::CONTROLLER controllerType);
+	MultiNEATController(RobotWorldModel *wm, NEAT::Genome* genome, ControllerEvolver::CONTROLLER controllerType, NEAT::Substrate* substrate = NULL, NEAT::Parameters* parameters = NULL);
 	~MultiNEATController();
 	void reset() override;
 	void step() override;
-	void rebuildBrain(NEAT::Genome* genome);
+	void rebuildBrain(NEAT::Genome* genome, NEAT::Substrate* substrate = NULL, NEAT::Parameters* parameters = NULL);
     std::vector<double> buildInputVector();
 };

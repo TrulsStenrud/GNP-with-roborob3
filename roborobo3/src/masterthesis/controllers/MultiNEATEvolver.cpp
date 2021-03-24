@@ -2,6 +2,7 @@
 #include "MultiNEATController.h"
 #include <time.h>
 #include "RoboroboMain/roborobo.h"
+#include "../../../prj/ForagingTemp/include/Behavior.h"
 #include <sstream>
 
 using namespace std;
@@ -14,8 +15,12 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
 	_evalIndex = 0;
 	_contType = contType;
 	_params = new NEAT::Parameters();
-	_pop = nullptr;
     
+    double populationSize;
+    gProperties.checkAndGetPropertyValue("gEvolutionPopulationSize", &populationSize, true);
+    
+    _params->PopulationSize = populationSize;
+        
     int inputs = 35 + 1;
     int outputs = 3;
     
@@ -35,6 +40,9 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
         case CONTROLLER::NEAT:
             type = "NEAT";
             break;
+        case CONTROLLER::NoveltySearch:
+            type = "NoveltySearch";
+            break;
         default:
             type = "default";
             break;
@@ -45,6 +53,8 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
     
     _logManager = new LogManager();
     _logManager->setLogFile(_logFile);
+    
+    initPopulation();
     
 }
 
@@ -80,15 +90,19 @@ NEAT::Substrate* MultiNEATEvolver::createSubstrate(int input, int output){
 }
 
 Controller* MultiNEATEvolver::make_Controller(RobotWorldModel* wm){
-	if(_pop == nullptr)
-		initPopulation();
 	NEAT::Genome genome = _pop->AccessGenomeByIndex(_evalIndex);
 	MultiNEATController* cont = new MultiNEATController(wm, &genome, _contType, _substrate, _params);
 	return cont;
 }
 
 void MultiNEATEvolver::evalDone(DataPacket* dp){
-	_pop->AccessGenomeByIndex(_evalIndex).SetFitness(dp->fitness);
+    
+    if(_contType == CONTROLLER::NoveltySearch){
+        _pop->AccessGenomeByIndex(_evalIndex).m_PhenotypeBehavior = new Behavior(dp->behaviorData);
+    }
+    else{
+        _pop->AccessGenomeByIndex(_evalIndex).SetFitness(dp->fitness);
+    }
 
     
     auto str = std::to_string(dp->fitness);
@@ -114,6 +128,13 @@ void MultiNEATEvolver::nextGeneration(){
 	_generation++;
 	std::cout<<"generation "<<_generation<<" complete"<<std::endl;
 	// kanskje få denne til å skrive datapacks istedenfor? gir mer mening for generasjoner og slikt. + denne kan regne ut gjennomsnitt.
+    
+    if(_contType == CONTROLLER::NoveltySearch){
+        for(int i = 0; i < _params->PopulationSize; i++){
+            _pop->AccessGenomeByIndex(i).SetFitness(_pop->ComputeSparseness(_pop->AccessGenomeByIndex(i)));
+        }
+    }
+    
 	_pop->Epoch();
     
     _logManager->write("\n");
@@ -122,7 +143,17 @@ void MultiNEATEvolver::nextGeneration(){
 }
 
 void MultiNEATEvolver::initPopulation(){
-	_params->PopulationSize = 50;
 	_pop = new NEAT::Population(*_genomeBase, *_params, true, 1.0, 72); // last argument is seed.
+    
+    if(_contType == CONTROLLER::NoveltySearch){
+        std::vector<NEAT::PhenotypeBehavior> *a_population = new std::vector<NEAT::PhenotypeBehavior>();
+        std::vector<NEAT::PhenotypeBehavior> *a_archive = new std::vector<NEAT::PhenotypeBehavior>();
+        _pop->InitPhenotypeBehaviorData(a_population, a_archive);
+    }
+    
     _logManager->write("Generation " + std::to_string(_generation));
+}
+
+bool MultiNEATEvolver::usesBehavior(){
+    return _contType == CONTROLLER::NoveltySearch;
 }

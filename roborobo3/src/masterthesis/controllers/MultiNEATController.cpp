@@ -38,6 +38,7 @@ void MultiNEATController::step(){
 
 void MultiNEATController::rebuildBrain(Genome* genome, NEAT::Substrate* substrate, NEAT::Parameters* parameters){
 	switch(_controllerType){
+    case ControllerEvolver::NoveltySearch:
 	case ControllerEvolver::NEAT:
 		genome->BuildPhenotype(*_nn);
 		break;

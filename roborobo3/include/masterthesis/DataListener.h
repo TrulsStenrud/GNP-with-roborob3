@@ -6,6 +6,7 @@ struct DataPacket{
 	std::vector<Robot*>* robots;
 	int generation;
 	float fitness;
+    std::vector<std::vector<double>> behaviorData;
 };
 
 // Interface

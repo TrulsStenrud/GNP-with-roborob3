@@ -13,4 +13,5 @@ public:
 	enum CONTROLLER:int{GNP, NEAT, NoveltySearch, HyperNEAT, ESHyperNEAT, MPFA};
 	virtual Controller* make_Controller(RobotWorldModel* wm) = 0;
 	virtual void evalDone(DataPacket* dp) = 0;
+    virtual bool usesBehavior() = 0;
 };

@@ -21,8 +21,7 @@ private:
 	int _evalTime; //how many time steps per evaluation.
 	DataPacket* constructDataPacket();
 	ControllerEvolver* _evolver;
-    
-    bool _noveltySearch = false;
+    bool _captureBehavior = true;
     SampledAverageState* _sampledState = NULL;
 
 public:

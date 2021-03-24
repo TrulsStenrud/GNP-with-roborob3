@@ -30,4 +30,5 @@ public:
 	~MultiNEATEvolver();
 	Controller* make_Controller(RobotWorldModel* wm) override;
 	void evalDone(DataPacket* dp) override;
+    bool usesBehavior() override;
 };

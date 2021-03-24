@@ -25,9 +25,7 @@ ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : MyTestEEW
     _evolver = nullptr;
     gProperties.checkAndGetPropertyValue("gEvaluationTime", &_evalTime, true);
     
-    if(_noveltySearch){
-        _sampledState = new SampledAverageState();
-    }
+    
 }
 
 ForagingTempWorldObserver::~ForagingTempWorldObserver()
@@ -38,6 +36,13 @@ ForagingTempWorldObserver::~ForagingTempWorldObserver()
 
 void ForagingTempWorldObserver::setControllerEvolver(ControllerEvolver* evolver){
 	_evolver = evolver;
+    if(_evolver->usesBehavior()){
+        _sampledState = new SampledAverageState();
+        _captureBehavior = true;
+    }else{
+        delete _sampledState;
+        _captureBehavior = false;
+    }
 }
 
 double ForagingTempWorldObserver::getFitness(){
@@ -72,7 +77,7 @@ void ForagingTempWorldObserver::stepPre( )
         }
 
         _evolver->evalDone(dp);
-        if(_noveltySearch){
+        if(_captureBehavior){
             delete _sampledState;
             _sampledState = new SampledAverageState();
         }
@@ -81,7 +86,7 @@ void ForagingTempWorldObserver::stepPre( )
 
     }
 
-    if(_noveltySearch)
+    if(_captureBehavior)
     {
         std::vector<double> state;
         
@@ -107,10 +112,7 @@ void ForagingTempWorldObserver::stepPre( )
             state[i] = state[i] / gNbOfRobots;
         }
         _sampledState->addState(state);
-        
     }
-    
-    
 }
 
 
@@ -122,9 +124,8 @@ DataPacket* ForagingTempWorldObserver::constructDataPacket(){
 	dp->generation = gWorld->getIterations()/_evalTime;
     auto fitness = getFitness();
     
-    if(_noveltySearch){
-        auto sampledAverage = _sampledState->getSampledAverage();
-        //TODO do something with it
+    if(_captureBehavior){
+        dp->behaviorData = _sampledState->getSampledAverage();
     }
     
     dp->fitness = fitness;

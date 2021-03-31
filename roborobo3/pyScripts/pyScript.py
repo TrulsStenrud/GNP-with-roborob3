@@ -15,6 +15,7 @@ def doStuff():
         
 def generateSummaryFile(name, fileNames):
     files = [open(filename, 'r') for filename in fileNames]
+    
     csvReaders = [csv.reader(file, delimiter=';') for file in files]
     
     maxName = "result_" + name + "_max" ".csv"
@@ -31,16 +32,9 @@ def generateSummaryFile(name, fileNames):
             meanValues = [sum(values)/len(values) for values in numbers]    
             maxWriter.writerow(maxValues)
             meanWriter.writerow(meanValues)
-
-    data = np.genfromtxt(maxName, delimiter=";")
-    print(data)
-
-    for test in data.T:
-        plt.plot(test)
     
-    plt.show()
     for file in files:
-        file.close
+        file.close()
 
 
 
@@ -61,10 +55,3 @@ def groupFiles():
 
 if( __name__ == "__main__"):
     doStuff()
-    
-    # items = [1, 3, 2]
-    # plt.plot(items)
-    # plt.show()
-    # items = [1, 2, 3]
-    # doubled = x * 2 for x in items
-    # map_dob = list(map(lambda x: x*2, items))

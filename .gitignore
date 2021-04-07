@@ -9,3 +9,4 @@ roborobo3.xcodeproj/xcuserdata/trulsstenrud.xcuserdatad/xcdebugger/Breakpoints_v
 roborobo3.xcodeproj/xcshareddata/xcschemes/roborobo3.xcscheme
 roborobo3.xcodeproj/xcuserdata/trulsstenrud.xcuserdatad/xcschemes/xcschememanagement.plist
 *.vscode*
+roborobo3/pyScripts/*.csv

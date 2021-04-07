@@ -135,6 +135,7 @@ void MyTestEEWorldObserver::placeRobotsInAllNests() {
         gRobots[i]->unregisterRobot();
         gRobots[i]->setCoord(x, y);
         gRobots[i]->setCoordReal(x, y);
+        gRobots[i]->getWorldModel()->_agentAbsoluteOrientation = -90;
     }
 }
 

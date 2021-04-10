@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "../../include/masterthesis/controllers/ControllerEvolver.h"
 #include "../../include/masterthesis/controllers/MultiNEATEvolver.h"
+#include "../../include/core/RoboroboMain/roborobo.h"
 
 using namespace std;
 
@@ -15,21 +16,18 @@ ControllerEvolver::CONTROLLER ForagingTempConfigurationLoader::controllerType = 
 
 ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 {
+	int cType = 0;
+	gProperties.checkAndGetPropertyValue("gControllerType", &cType, true);
+	controllerType = static_cast<ControllerEvolver::CONTROLLER>(cType);
 	std::cout<<"controller type: "<<controllerType<<std::endl;
 	switch(controllerType){
-	case ControllerEvolver::GNP:
-		cout<<"GNP controller type not implemented yet. Exiting..."<<endl;
-		exit(3);
-		break;
 	case ControllerEvolver::NEAT:
 	case ControllerEvolver::NoveltySearch:
 	case ControllerEvolver::HyperNEAT:
         _evolver = new MultiNEATEvolver(controllerType);
-	case ControllerEvolver::ESHyperNEAT:
-		_evolver = new MultiNEATEvolver(controllerType);
-		break;
-	case ControllerEvolver::MPFA:
-		cout<<"MPFA controller type not implemented yet. Exiting..."<<endl;
+        break;
+	default:
+		cout<<"controller type not implemented yet. Exiting..."<<endl;
 		exit(3);
 		break;
 	}

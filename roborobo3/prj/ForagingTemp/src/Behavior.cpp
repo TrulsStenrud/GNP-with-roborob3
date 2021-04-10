@@ -6,7 +6,7 @@
 //  Copyright © 2021 Nicolas Bredeche. All rights reserved.
 //
 
-#include "Behavior.h"
+#include "../include/Behavior.h"
 
 Behavior::Behavior(std::vector<std::vector<double>> data){
     m_Data = data;
@@ -24,26 +24,26 @@ double Behavior::Distance_To(PhenotypeBehavior *a_Other){
 
     auto a = m_Data;
     auto b = a_Other->m_Data;
-    
+
     if(a.size()!=b.size()){
         std::cout << "[ALERT] behavior data of different size can not be compared" << std::endl;
         exit(-1);
     }
-    
+
     for(int i = 0; i < a.size(); i++){
         auto d = a[i];
         auto e = b[i];
-        
+
         if(d.size()!=e.size()){
             std::cout << "[ALERT] behavior data of different size can not be compared" << std::endl;
             exit(-1);
         }
-        
+
         for(int j = 0; j < d.size(); j++){
             distance+= abs( d[j] - e[j] );
         }
     }
-    
-    
+
+
     return distance;
 }

@@ -6,8 +6,8 @@
 #include "ForagingTemp/include/ForagingTempController.h"
 #include "WorldModels/RobotWorldModel.h"
 #include <stdlib.h>
-#include "../../include/masterthesis/controllers/ControllerEvolver.h"
-#include "../../include/masterthesis/controllers/MultiNEATEvolver.h"
+#include "../../include/masterthesis/evolvers/ControllerEvolver.h"
+#include "../../include/masterthesis/evolvers/MultiNEATEvolver.h"
 
 using namespace std;
 
@@ -24,7 +24,6 @@ ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 	case ControllerEvolver::NEAT:
 	case ControllerEvolver::NoveltySearch:
 	case ControllerEvolver::HyperNEAT:
-        _evolver = new MultiNEATEvolver(controllerType);
 	case ControllerEvolver::ESHyperNEAT:
 		_evolver = new MultiNEATEvolver(controllerType);
 		break;

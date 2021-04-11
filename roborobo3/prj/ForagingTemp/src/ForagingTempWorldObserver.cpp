@@ -12,7 +12,6 @@
 #include "RoboroboMain/common.h"
 #include "../../../include/masterthesis/DataForwarder.h"
 #include "../../../include/core/Agents/Robot.h"
-#include "../../../include/masterthesis/controllers/ControllerEvolver.h"
 #include "../../../include/masterthesis/controllers/MultiNEATController.h"
 
 
@@ -83,7 +82,7 @@ void ForagingTempWorldObserver::stepPre( )
         }
         reset();
         
-
+        delete dp;
     }
 
     if(_captureBehavior)

@@ -7,7 +7,7 @@ using namespace NEAT;
 MultiNEATController::MultiNEATController(RobotWorldModel *wm, Genome* genome, ControllerEvolver::CONTROLLER controllerType, NEAT::Substrate* substrate, NEAT::Parameters* parameters):MyTestEEController(wm){
 	_controllerType = controllerType;
 	_nn = new NEAT::NeuralNetwork();
-
+    
     rebuildBrain(genome, substrate, parameters);
 }
 

@@ -3,8 +3,8 @@
 #include "../../../include/core/World/World.h"
 
 
-GNPController::GNPController(RobotWorldModel *wm, ControllerEvolver::CONTROLLER controllerType):MyTestEEController(wm){
-    _controllerType = controllerType;
+GNPController::GNPController(RobotWorldModel *wm, GNP::Genome* genome):MyTestEEController(wm){
+    _gnpNetwork = genome->buildNetwork(getProcesses(), getJudgements());
 }
 
 GNPController::~GNPController(){
@@ -16,18 +16,73 @@ void GNPController::reset(){
 }
 
 void GNPController::step(){
+    _gnpNetwork->step();
+}
+
+NodeInformation GNPController::getNodeLibrary(){
+    
+    NodeInformation info;
+    info.nbProcessingNodes = 4;
+    
+    
+    for(int i  = 0; i < 8; i++) // must match the number of camera sensors
+    {
+        if ( gSensoryInputs_distanceToContact )
+            info.judgementNodeOutputs.push_back(3);
+        
+        
+        if ( gSensoryInputs_physicalObjectType )
+        {
+            info.judgementNodeOutputs.push_back(2); // is foraging object or not foraging object
+        }
+        
+        if ( gSensoryInputs_isOtherAgent )
+        {
+            info.judgementNodeOutputs.push_back(2); // is agent or is not agent
+        }
+        
+        if ( gSensoryInputs_isWall )
+        {
+            info.judgementNodeOutputs.push_back(2); // is wall or not wall
+        }
+        
+    }
+    
+    // floor sensor
+    if ( gSensoryInputs_groundSensors )
+    {
+        info.judgementNodeOutputs.push_back(2); // pheromone or not
+    }
+    
+    // nest sensor
+    info.judgementNodeOutputs.push_back(4); // 4 directions makes sense, right?
+    
+    return info;
+}
+
+void GNPController::buildBrain(GNP::Genome genome){
     
 }
 
 std::vector<std::function<void(double)>>* GNPController::getProcesses(){
     auto processes = new std::vector<std::function<void(double)>>();
     
+    // move forward
     processes->push_back([&](double v){
         setTranslation(v);
     });
+    
+    // Rotate clockwise
     processes->push_back([&](double v){
         setRotation(v);
     });
+    
+    // Rotate counter clockwise
+    processes->push_back([&](double v){
+        setRotation(-v);
+    });
+    
+    // Drop pheromone
     processes->push_back([&](double v){
         if(v > 0.5){ // questionable
             dropPheromone();
@@ -41,15 +96,21 @@ std::vector<std::function<void(double)>>* GNPController::getProcesses(){
 std::vector<std::function<double()>>* GNPController::getJudgements(){
     auto judgements = new std::vector<std::function<double()>>();
         
-    judgements->push_back([&](){
-        return 3;
-    });
-    
     for(int i  = 0; i < _wm->_cameraSensorsNb; i++)
     {
         if ( gSensoryInputs_distanceToContact )
             judgements->push_back([&](){
-                return _wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i);
+                
+                double distance = _wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i);
+                
+                if(distance <= 1){
+                    return 0;
+                }
+                else if(distance < 0.5)
+                    return 1;
+                else
+                    return 2;
+                
             });
             
         

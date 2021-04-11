@@ -9,7 +9,7 @@
 #include "TemplateEE/include/TemplateEEWorldObserver.h"
 #include "SampledAverageState.h"
 #include "../../../include/masterthesis/DataListener.h"
-#include "../../../include/masterthesis/controllers/ControllerEvolver.h"
+#include "../../../include/masterthesis/evolvers/ControllerEvolver.h"
 #include <vector>
 #include "../../MyTestEE/include/MyTestEEWorldObserver.h"
 

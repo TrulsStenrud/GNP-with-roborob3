@@ -1,3 +1,5 @@
+# Plots the data in the "result" files produced by the pyScript.py
+# run this script in the same folder as the result files
 
 from os import listdir
 import numpy as np

@@ -20,6 +20,7 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
     gProperties.checkAndGetPropertyValue("gEvolutionPopulationSize", &populationSize, true);
     
     _params->PopulationSize = populationSize;
+    _params->EliteFraction = 0.02;
         
     int inputs = 35 + 1;
     int outputs = 3;
@@ -115,7 +116,7 @@ void MultiNEATEvolver::evalDone(DataPacket* dp){
 		nextGeneration();
 		_evalIndex = 0;
 	}
-	for(Robot* rob : *(dp->robots)){
+	for(auto rob : gRobots){
 		MultiNEATController* cont = static_cast<MultiNEATController*>(rob->getController());
 		cont->rebuildBrain(&(_pop->AccessGenomeByIndex(_evalIndex)), _substrate, _params);
 		cont->reset();

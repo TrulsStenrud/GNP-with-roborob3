@@ -34,7 +34,9 @@ public:
     Genome(std::vector<std::vector<int>> nodes, std::vector<std::vector<std::vector<int>>> connections, int nbProcessingNodes, std::vector<int> judgementNodesOutput);
     void setFitness(double fitness);
     double getFitness();
-    Genome* mutate();
+    Genome mutate();
+    Genome* uniformMutation(double probability);
+    std::vector<Genome> crossover(Genome& genome);
     Network* buildNetwork(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements);
     
 };

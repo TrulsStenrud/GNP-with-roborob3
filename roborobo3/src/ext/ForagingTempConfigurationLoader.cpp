@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "../../include/masterthesis/evolvers/ControllerEvolver.h"
 #include "../../include/masterthesis/evolvers/MultiNEATEvolver.h"
+#include "../../include/masterthesis/evolvers/GNPEvolver.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 	std::cout<<"controller type: "<<controllerType<<std::endl;
 	switch(controllerType){
 	case ControllerEvolver::GNP:
-		cout<<"GNP controller type not implemented yet. Exiting..."<<endl;
+            _evolver = new GNPEvolver();
 		exit(3);
 		break;
 	case ControllerEvolver::NEAT:

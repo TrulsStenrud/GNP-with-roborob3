@@ -21,11 +21,10 @@ void reset();
 
 public:
     Parameters();
-
-    int populationSize;
-    double mutationRate;
     
-
+    int populationSize;
+    int nbParents;
+    double mutationRate;
 };
 }
 #endif /* Parameters_hpp */

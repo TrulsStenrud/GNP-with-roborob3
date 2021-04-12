@@ -92,7 +92,8 @@ Genome::Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput){
     }
 }
 
-Genome* Genome::mutate(){
+// TODO, figure out how to mutate, uniform probability, or one random connection
+Genome Genome::mutate(){
     int nbConnections = 0;
     for(int i = 0; i < _connections.size(); i++){ // i = 1 to skip start node;
         nbConnections += _connections[i].size();
@@ -106,14 +107,62 @@ Genome* Genome::mutate(){
         if(index + _connections[i].size() > mutateConnection){
             int randomNode = getRandomNode(i);
             newConnections[i][mutateConnection - index][0] = randomNode;
+            break;
         }
         else{
             index += _connections[i].size();
         }
     }
     
+    return Genome(_nodes, newConnections, _nbProcessingNodes, _judgementNodesOutput);
+}
+
+Genome* Genome::uniformMutation(double probability){
+   
+    auto newConnections = _connections;
+    
+    for(int i = 0; i < _connections.size(); i++){
+        for(int j = 0; j < _connections[i].size(); j++){
+            if(random01() > probability){
+                int randomNode = getRandomNode(i);
+                newConnections[i][j][0] = randomNode;
+            }
+        }
+    }
+    
     return new Genome(_nodes, newConnections, _nbProcessingNodes, _judgementNodesOutput);
 }
+
+std::vector<Genome> Genome::crossover(Genome& genome){
+    
+    int nbConnections = 0;
+    for(int i = 0; i < _connections.size(); i++){ // i = 1 to skip start node;
+        nbConnections += _connections[i].size();
+    }
+    
+    int crossoverConnection = randint() % nbConnections;
+    auto o1Connections = _connections;
+    auto o2Connections = genome._connections;
+    
+    int index = 0;
+    for(int i = 0; i < _connections.size(); i++){
+        if(index + _connections[i].size() > crossoverConnection){
+            int temp = o1Connections[i][crossoverConnection - index][0];
+            o1Connections[i][crossoverConnection - index][0] = o2Connections[i][crossoverConnection - index][0];
+            o2Connections[i][crossoverConnection - index][0] = temp;
+            break;
+        }
+        else{
+            index += _connections[i].size();
+        }
+    }
+    
+    return {
+        Genome(_nodes,  o1Connections, _nbProcessingNodes, _judgementNodesOutput),
+        Genome(_nodes,  o2Connections, _nbProcessingNodes, _judgementNodesOutput)
+    };
+}
+
 
 Network* Genome::buildNetwork(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements){
     auto n = new Network(processes, judgements, _nodes, _connections);

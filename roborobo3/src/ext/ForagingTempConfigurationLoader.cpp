@@ -20,7 +20,6 @@ ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 	switch(controllerType){
 	case ControllerEvolver::GNP:
             _evolver = new GNPEvolver();
-		exit(3);
 		break;
 	case ControllerEvolver::NEAT:
 	case ControllerEvolver::NoveltySearch:

@@ -74,12 +74,12 @@ std::vector<std::function<void(double)>>* GNPController::getProcesses(){
     
     // Rotate clockwise
     processes->push_back([&](double v){
-        setRotation(v);
+        setRotation(0.01*v);
     });
     
     // Rotate counter clockwise
     processes->push_back([&](double v){
-        setRotation(-v);
+        setRotation(0.01*(-v));
     });
     
     // Drop pheromone
@@ -99,7 +99,7 @@ std::vector<std::function<double()>>* GNPController::getJudgements(){
     for(int i  = 0; i < _wm->_cameraSensorsNb; i++)
     {
         if ( gSensoryInputs_distanceToContact )
-            judgements->push_back([&](){
+            judgements->push_back([&, i](){
                 
                 double distance = _wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i);
                 
@@ -117,7 +117,7 @@ std::vector<std::function<double()>>* GNPController::getJudgements(){
         
         if ( gSensoryInputs_physicalObjectType )
         {
-            judgements->push_back([&](){
+            judgements->push_back([&, i](){
         
                 int objectId = _wm->getObjectIdFromCameraSensor(i);
                 // input: physical object? which type?
@@ -145,7 +145,7 @@ std::vector<std::function<double()>>* GNPController::getJudgements(){
         
         if ( gSensoryInputs_isOtherAgent )
         {
-            judgements->push_back([&](){
+            judgements->push_back([&, i](){
                 int objectId = _wm->getObjectIdFromCameraSensor(i);
                 // input: another agent? If yes: same group?
                 if ( Agent::isInstanceOf(objectId) )
@@ -162,7 +162,8 @@ std::vector<std::function<double()>>* GNPController::getJudgements(){
         
         if ( gSensoryInputs_isWall )
         {
-            judgements->push_back([&](){
+            judgements->push_back([&, i](){
+                
                 int objectId = _wm->getObjectIdFromCameraSensor(i);
                 // input: wall or empty?
                 if ( objectId >= 0 && objectId < gPhysicalObjectIndexStartOffset ) // not empty, but cannot be identified: this is a wall.
@@ -182,14 +183,26 @@ std::vector<std::function<double()>>* GNPController::getJudgements(){
     if ( gSensoryInputs_groundSensors )
     {
         judgements->push_back([&](){
-            return getPheromoneValue();
-            
+            return getPheromoneValue() > 0 ? 0 : 1;
         });
     }
     
     // nest sensor
     judgements->push_back([&](){
-        return getNestRelativeOrientation();
+        double direction = getNestRelativeOrientation();
+        if(direction < -0.75){
+            return 0;
+        }
+        if(direction < -0.25){
+            return 1;
+        }
+        if(direction <= 0.25){
+            return 2;
+        }
+        if(direction <= 0.75){
+            return 3;
+        }
+        return 0;
     });
     
     

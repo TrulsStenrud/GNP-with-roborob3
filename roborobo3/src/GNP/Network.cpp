@@ -32,14 +32,12 @@ void Network::step(){
         switch(_nodes[_currentNode][0]){
             case NodeType::Start:
             {
-                
                 nextConnection = 0;
                 
             }break;
                 
             case NodeType::Judgement:
             {
-                
                 auto judgeIndex = _nodes[_currentNode][1];
                 nextConnection = (*_judgements)[judgeIndex]();
                 
@@ -47,7 +45,6 @@ void Network::step(){
                 
             case NodeType::Processing:
             {
-                
                 auto processIndex = _nodes[_currentNode][1];
                 (*_processes)[processIndex](1);
                 
@@ -57,8 +54,9 @@ void Network::step(){
                 std::cout << "[ERROR] Unknown node type [" << _nodes[_currentNode][0] << "]" << std::endl;
                 exit(-1);
         }
+        
+        cost += _connections[_currentNode][nextConnection][1]; //add cost of traversing this connection
         _currentNode = _connections[_currentNode][nextConnection][0];
-        cost+= _connections[_currentNode][nextConnection][1]; //add cost of traversing this connection
     }
     
 }

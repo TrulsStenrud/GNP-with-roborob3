@@ -33,6 +33,10 @@ void Population::Epoch(){
     std::vector<Genome> parents;
     
     std::vector<double> probabilityFitness;
+
+    for(Genome& gene : _genes){
+        gene.adjustFitness();
+    }
     
     double power = 1;
     double sum = 0;
@@ -40,8 +44,10 @@ void Population::Epoch(){
     for(auto gene : _genes){
         sum+=pow(gene.getFitness(), power);
     }
+    std::cout << "sum " << sum << std::endl;
     for(auto gene : _genes){
-        probabilityFitness.push_back(t += pow(gene.getFitness(), power));
+        t += pow(gene.getFitness(), power);
+        probabilityFitness.push_back(t);
     }
     
     parents.push_back(_genes[0]); //elitism

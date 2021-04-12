@@ -92,6 +92,12 @@ Genome::Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput){
     }
 }
 
+void Genome::adjustFitness(){
+    if(_fitness == 0){
+        _fitness = 0.0001;
+    }
+}
+
 // TODO, figure out how to mutate, uniform probability, or one random connection
 Genome Genome::mutate(){
     int nbConnections = 0;
@@ -165,9 +171,7 @@ std::vector<Genome> Genome::crossover(Genome& genome){
 
 
 Network* Genome::buildNetwork(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements){
-    auto n = new Network(processes, judgements, _nodes, _connections);
-    
-    return n;
+    return new Network(processes, judgements, _nodes, _connections);
 }
 
 

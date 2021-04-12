@@ -20,15 +20,19 @@ GNPEvolver::GNPEvolver(){
     auto genome = new GNP::Genome(library.nbProcessingNodes, library.judgementNodeOutputs);
     _params = new GNP::Parameters();
     
+    _logger = new Logger("GNP");
     
     _pop = new GNP::Population(library, _params);
+    _logger->log("Generation " + std::to_string(_generation));
 }
 
 void GNPEvolver::evalDone(DataPacket* dp){
     _pop->AccessGenomeByIndex(_evalIndex).setFitness(dp->fitness);
 
+    _logger->log(dp->fitness);
+    
     _evalIndex++;
-
+    
     if(_evalIndex == _params->populationSize){
         nextGeneration();
         _evalIndex = 0;
@@ -47,6 +51,8 @@ void GNPEvolver::nextGeneration(){
     std::cout<<"generation "<<_generation<<" complete"<<std::endl;
     
     _pop->Epoch();
+    _logger->newLine();
+    _logger->log("Generation " + std::to_string(_generation));
 }
 
 bool GNPEvolver::usesBehavior(){

@@ -48,12 +48,7 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
             type = "default";
             break;
     }
-    std::string resultFile = gLogDirectoryname + "/" + type + "_" + gStartTime + "_" + getpidAsReadableString() + ".csv";
-    
-    _logFile.open(resultFile);
-    
-    _logManager = new LogManager();
-    _logManager->setLogFile(_logFile);
+    _logger = new Logger(type);
     
     initPopulation();
     
@@ -63,9 +58,8 @@ MultiNEATEvolver::~MultiNEATEvolver(){
 	delete _params;
 	delete _genomeBase;
 	delete _pop;
-    delete _logManager;
     delete _substrate;
-    _logFile.close();
+    delete _logger;
 }
 
 NEAT::Substrate* MultiNEATEvolver::createSubstrate(int input, int output){
@@ -105,12 +99,8 @@ void MultiNEATEvolver::evalDone(DataPacket* dp){
         _pop->AccessGenomeByIndex(_evalIndex).SetFitness(dp->fitness);
     }
 
+    _logger->log(dp->fitness);
     
-    auto str = std::to_string(dp->fitness);
-    // remove trailing zeroes
-    str.erase ( str.find_last_not_of('0') + 1, std::string::npos );
-    _logManager->write(";" +  str);
-
 	_evalIndex++;
 	if(_evalIndex == _params->PopulationSize){
 		nextGeneration();
@@ -138,9 +128,8 @@ void MultiNEATEvolver::nextGeneration(){
     
 	_pop->Epoch();
     
-    _logManager->write("\n");
-    _logManager->flush();
-    _logManager->write("Generation " + std::to_string(_generation));
+    _logger->newLine();
+    _logger->log("Generation " + std::to_string(_generation));
 }
 
 void MultiNEATEvolver::initPopulation(){
@@ -152,7 +141,7 @@ void MultiNEATEvolver::initPopulation(){
         _pop->InitPhenotypeBehaviorData(a_population, a_archive);
     }
     
-    _logManager->write("Generation " + std::to_string(_generation));
+    _logger->log("Generation " + std::to_string(_generation));
 }
 
 bool MultiNEATEvolver::usesBehavior(){

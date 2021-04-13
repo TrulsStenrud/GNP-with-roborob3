@@ -13,15 +13,17 @@ class GNPController : public MyTestEEController{
     
 private:
     std::vector<std::function<void(double)>>* getProcesses();
+    
     std::vector<std::function<double()>>* getJudgements();
     double normalize(double num); // normalizes a number to [-1, 1]
     GNP::Network* _gnpNetwork;
+    int judgeObjectTypeForSensors(std::vector<int> sensors);
 public:
     GNPController(RobotWorldModel *wm, GNP::Genome* genome);
     ~GNPController();
     void reset() override;
     void step() override;
-    void buildBrain(GNP::Genome genome);
+    void buildBrain(GNP::Genome& genome);
     
     static NodeInformation getNodeLibrary();
 };

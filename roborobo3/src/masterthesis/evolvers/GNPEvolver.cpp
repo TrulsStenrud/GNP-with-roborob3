@@ -40,7 +40,7 @@ void GNPEvolver::evalDone(DataPacket* dp){
 
     for(auto rob : gRobots){
         GNPController* cont = static_cast<GNPController*>(rob->getController());
-        
+        cont->buildBrain(_pop->AccessGenomeByIndex(_evalIndex));
         cont->reset();
     }
 }

@@ -51,6 +51,8 @@ void MyTestEEController::setCarrying(int objectId){
 
 void MyTestEEController::reset(){
     _carriedObjectId = -1;
+    setTranslation(0);
+    setRotation(0);
 }
 
 void MyTestEEController::step()

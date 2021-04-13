@@ -86,6 +86,10 @@
 		37BA27591BC3D014002DF5DC /* SwitchObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37BA27071BC3D014002DF5DC /* SwitchObject.cpp */; };
 		37C810401E28AF1F00A71E6F /* TemplateMedeaConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37C8103F1E28AF1F00A71E6F /* TemplateMedeaConfigurationLoader.cpp */; };
 		37E870AA1E799B20003D6DD8 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37E870A91E799B20003D6DD8 /* SDL2_image.framework */; };
+		FB092332261DA65200BA2F2E /* GNPEvolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB092330261DA65200BA2F2E /* GNPEvolver.cpp */; };
+		FB09233F261F3F7600BA2F2E /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB09233D261F3F7600BA2F2E /* Network.cpp */; };
+		FB09234726205FC800BA2F2E /* Parameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB09234526205FC800BA2F2E /* Parameters.cpp */; };
+		FB09235026245CD800BA2F2E /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB09234E26245CD800BA2F2E /* Logger.cpp */; };
 		FB0A370A25F66B5B00489627 /* ForagingTempConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A370925F66B5B00489627 /* ForagingTempConfigurationLoader.cpp */; };
 		FB0A374625F66C0600489627 /* Parameters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371F25F66B8E00489627 /* Parameters.cpp */; };
 		FB0A374725F66C0600489627 /* PhenotypeBehavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A372025F66B8E00489627 /* PhenotypeBehavior.cpp */; };
@@ -127,6 +131,8 @@
 		FB7A65D625E3DE8700A28264 /* NestObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A65D425E3DE8700A28264 /* NestObject.cpp */; };
 		FBBFAB9025E7EC5C008B237A /* PheromoneObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBBFAB8E25E7EC5C008B237A /* PheromoneObject.cpp */; };
 		FBBFAB9725E92007008B237A /* ObjectFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBBFAB9525E92007008B237A /* ObjectFactory.cpp */; };
+		FBF9C1C0261491D500C715C0 /* Population.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBF9C1BE261491D500C715C0 /* Population.cpp */; };
+		FBF9C1C52614979600C715C0 /* Genome.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBF9C1C32614979600C715C0 /* Genome.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -322,6 +328,15 @@
 		37C810411E28AF2700A71E6F /* TemplateMedeaConfigurationLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateMedeaConfigurationLoader.h; sourceTree = "<group>"; };
 		37E870A91E799B20003D6DD8 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../../../../../../Volumes/SDL2_image/SDL2_image.framework; sourceTree = "<group>"; };
 		37EAECC71FE1236D002E5C81 /* foragingregions.properties */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = foragingregions.properties; sourceTree = "<group>"; };
+		FB092330261DA65200BA2F2E /* GNPEvolver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GNPEvolver.cpp; sourceTree = "<group>"; };
+		FB092331261DA65200BA2F2E /* GNPEvolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GNPEvolver.h; sourceTree = "<group>"; };
+		FB09233D261F3F7600BA2F2E /* Network.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Network.cpp; sourceTree = "<group>"; };
+		FB09233E261F3F7600BA2F2E /* Network.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
+		FB09234526205FC800BA2F2E /* Parameters.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parameters.cpp; sourceTree = "<group>"; };
+		FB09234626205FC800BA2F2E /* GNPParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GNPParameters.h; sourceTree = "<group>"; };
+		FB09234C26208D7C00BA2F2E /* NodeInformation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NodeInformation.h; sourceTree = "<group>"; };
+		FB09234E26245CD800BA2F2E /* Logger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
+		FB09234F26245CD800BA2F2E /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		FB0A370925F66B5B00489627 /* ForagingTempConfigurationLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ForagingTempConfigurationLoader.cpp; sourceTree = "<group>"; };
 		FB0A370E25F66B6C00489627 /* ForagingTempWorldObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForagingTempWorldObserver.h; sourceTree = "<group>"; };
 		FB0A370F25F66B6C00489627 /* ForagingTempSharedData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForagingTempSharedData.h; sourceTree = "<group>"; };
@@ -405,6 +420,10 @@
 		FBBFAB8F25E7EC5C008B237A /* PheromoneObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PheromoneObject.h; sourceTree = "<group>"; };
 		FBBFAB9525E92007008B237A /* ObjectFactory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectFactory.cpp; sourceTree = "<group>"; };
 		FBBFAB9625E92007008B237A /* ObjectFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectFactory.h; sourceTree = "<group>"; };
+		FBF9C1BE261491D500C715C0 /* Population.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Population.cpp; sourceTree = "<group>"; };
+		FBF9C1BF261491D500C715C0 /* GNPPopulation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GNPPopulation.h; sourceTree = "<group>"; };
+		FBF9C1C32614979600C715C0 /* Genome.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Genome.cpp; sourceTree = "<group>"; };
+		FBF9C1C42614979600C715C0 /* GNPGenome.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GNPGenome.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -716,6 +735,7 @@
 		37BA26271BC3D014002DF5DC /* include */ = {
 			isa = PBXGroup;
 			children = (
+				FBF9C1BD2614918600C715C0 /* GNP */,
 				FB0A372C25F66B9F00489627 /* masterthesis */,
 				FB0A373625F66B9F00489627 /* MultiNEAT */,
 				37BA26281BC3D014002DF5DC /* contrib */,
@@ -922,6 +942,7 @@
 		37BA26D71BC3D014002DF5DC /* src */ = {
 			isa = PBXGroup;
 			children = (
+				FBF9C1BC2614917A00C715C0 /* GNP */,
 				FB0A371E25F66B8E00489627 /* MultiNEAT */,
 				FB0A371725F66B8500489627 /* masterthesis */,
 				37BA26D81BC3D014002DF5DC /* contrib */,
@@ -1020,6 +1041,25 @@
 			path = ext;
 			sourceTree = "<group>";
 		};
+		FB09232D261DA5BE00BA2F2E /* evolvers */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A371D25F66B8500489627 /* MultiNEATEvolver.cpp */,
+				FB092330261DA65200BA2F2E /* GNPEvolver.cpp */,
+			);
+			path = evolvers;
+			sourceTree = "<group>";
+		};
+		FB09232F261DA63200BA2F2E /* evolvers */ = {
+			isa = PBXGroup;
+			children = (
+				FB0A373225F66B9F00489627 /* MultiNEATEvolver.h */,
+				FB092331261DA65200BA2F2E /* GNPEvolver.h */,
+				FB0A373425F66B9F00489627 /* ControllerEvolver.h */,
+			);
+			path = evolvers;
+			sourceTree = "<group>";
+		};
 		FB0A370C25F66B6C00489627 /* ForagingTemp */ = {
 			isa = PBXGroup;
 			children = (
@@ -1058,9 +1098,11 @@
 		FB0A371725F66B8500489627 /* masterthesis */ = {
 			isa = PBXGroup;
 			children = (
+				FB09232D261DA5BE00BA2F2E /* evolvers */,
 				FB0A371825F66B8500489627 /* MscMain.cpp */,
 				FB0A371925F66B8500489627 /* DataForwarder.cpp */,
 				FB0A371A25F66B8500489627 /* controllers */,
+				FB09234E26245CD800BA2F2E /* Logger.cpp */,
 			);
 			path = masterthesis;
 			sourceTree = "<group>";
@@ -1070,7 +1112,6 @@
 			children = (
 				FB0A371B25F66B8500489627 /* MultiNEATController.cpp */,
 				FB0A371C25F66B8500489627 /* GNPController.cpp */,
-				FB0A371D25F66B8500489627 /* MultiNEATEvolver.cpp */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -1098,9 +1139,11 @@
 		FB0A372C25F66B9F00489627 /* masterthesis */ = {
 			isa = PBXGroup;
 			children = (
+				FB09232F261DA63200BA2F2E /* evolvers */,
 				FB0A372D25F66B9F00489627 /* DataForwarder.h */,
 				FB0A372E25F66B9F00489627 /* DataListener.h */,
 				FB0A372F25F66B9F00489627 /* MscMain.h */,
+				FB09234F26245CD800BA2F2E /* Logger.h */,
 				FB0A373025F66B9F00489627 /* common.h */,
 				FB0A373125F66B9F00489627 /* controllers */,
 			);
@@ -1110,9 +1153,7 @@
 		FB0A373125F66B9F00489627 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				FB0A373225F66B9F00489627 /* MultiNEATEvolver.h */,
 				FB0A373325F66B9F00489627 /* MultiNEATController.h */,
-				FB0A373425F66B9F00489627 /* ControllerEvolver.h */,
 				FB0A373525F66B9F00489627 /* GNPController.h */,
 			);
 			path = controllers;
@@ -1207,6 +1248,29 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		FBF9C1BC2614917A00C715C0 /* GNP */ = {
+			isa = PBXGroup;
+			children = (
+				FB09233D261F3F7600BA2F2E /* Network.cpp */,
+				FBF9C1BE261491D500C715C0 /* Population.cpp */,
+				FBF9C1C32614979600C715C0 /* Genome.cpp */,
+				FB09234526205FC800BA2F2E /* Parameters.cpp */,
+			);
+			path = GNP;
+			sourceTree = "<group>";
+		};
+		FBF9C1BD2614918600C715C0 /* GNP */ = {
+			isa = PBXGroup;
+			children = (
+				FB09234626205FC800BA2F2E /* GNPParameters.h */,
+				FBF9C1BF261491D500C715C0 /* GNPPopulation.h */,
+				FBF9C1C42614979600C715C0 /* GNPGenome.h */,
+				FB09233E261F3F7600BA2F2E /* Network.h */,
+				FB09234C26208D7C00BA2F2E /* NodeInformation.h */,
+			);
+			path = GNP;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1274,6 +1338,7 @@
 				FB0A375625F66C4600489627 /* MultiNEATController.cpp in Sources */,
 				FB0A375725F66C4600489627 /* GNPController.cpp in Sources */,
 				FB0A375825F66C4600489627 /* MultiNEATEvolver.cpp in Sources */,
+				FB09233F261F3F7600BA2F2E /* Network.cpp in Sources */,
 				FB0A374625F66C0600489627 /* Parameters.cpp in Sources */,
 				FB0A374725F66C0600489627 /* PhenotypeBehavior.cpp in Sources */,
 				FB0A374825F66C0600489627 /* Utils.cpp in Sources */,
@@ -1302,6 +1367,7 @@
 				376C24541E28BB8800E70850 /* TemplateEEAgentObserver.cpp in Sources */,
 				37BA274A1BC3D014002DF5DC /* Timer.cpp in Sources */,
 				37753A961ECB27EB0039BF21 /* MovableObject.cpp in Sources */,
+				FB09234726205FC800BA2F2E /* Parameters.cpp in Sources */,
 				3705F05C1BC66E21001A016D /* TemplateBoidsConfigurationLoader.cpp in Sources */,
 				37BA273C1BC3D014002DF5DC /* Controller.cpp in Sources */,
 				3739761B1BCEAA2F00A007BF /* TemplateRandomwalkConfigurationLoader.cpp in Sources */,
@@ -1312,6 +1378,7 @@
 				37BA27431BC3D014002DF5DC /* Misc.cpp in Sources */,
 				37BA27521BC3D014002DF5DC /* EnergyItem.cpp in Sources */,
 				FB7A65CD25E282AD00A28264 /* MyTestEEConfigurationLoader.cpp in Sources */,
+				FB092332261DA65200BA2F2E /* GNPEvolver.cpp in Sources */,
 				37BA27311BC3D014002DF5DC /* MLP.cpp in Sources */,
 				37BA27341BC3D014002DF5DC /* Perceptron.cpp in Sources */,
 				37BA27591BC3D014002DF5DC /* SwitchObject.cpp in Sources */,
@@ -1334,6 +1401,8 @@
 				FB0A376025F66CE200489627 /* main2.cpp in Sources */,
 				37BA27371BC3D014002DF5DC /* StringUtils.cpp in Sources */,
 				37A9F91B1E28AA7E00006059 /* TemplateVanillaEEConfigurationLoader.cpp in Sources */,
+				FBF9C1C52614979600C715C0 /* Genome.cpp in Sources */,
+				FBF9C1C0261491D500C715C0 /* Population.cpp in Sources */,
 				376C24561E28BB8800E70850 /* TemplateEESharedData.cpp in Sources */,
 				3705F0871BC66E3B001A016D /* TemplateWanderController.cpp in Sources */,
 				37BA27401BC3D014002DF5DC /* InspectorAgent.cpp in Sources */,
@@ -1378,6 +1447,7 @@
 				FB7A65C825E281F800A28264 /* MyTestEEController.cpp in Sources */,
 				376C24631E28BBA800E70850 /* TemplateMedeaAgentObserver.cpp in Sources */,
 				37BA27451BC3D014002DF5DC /* PhysicalObject.cpp in Sources */,
+				FB09235026245CD800BA2F2E /* Logger.cpp in Sources */,
 				37BA273F1BC3D014002DF5DC /* Graphics.cpp in Sources */,
 				373976271BCFAED500A007BF /* TemplateRandomwalkAgentObserver.cpp in Sources */,
 				3705F0861BC66E3B001A016D /* TemplateWanderAgentObserver.cpp in Sources */,

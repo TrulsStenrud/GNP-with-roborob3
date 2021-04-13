@@ -6,6 +6,7 @@ from os import listdir
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
+import itertools
 
 def doStuff():
     dic = groupFiles()
@@ -26,7 +27,7 @@ def generateSummaryFile(name, fileNames):
         meanWriter = csv.writer(meanFile, delimiter=";")
 
         # read all the files in paralell
-        for lines in zip(*csvReaders):
+        for lines in itertools.zip_longest(*csvReaders,  fillvalue=["Generation x: ", float('nan')]):
             numbers = [[float(value) for value in line[1:]] for line in lines]
             maxValues = [max(values) for values in numbers]    
             meanValues = [sum(values)/len(values) for values in numbers]    

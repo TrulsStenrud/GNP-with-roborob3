@@ -17,7 +17,7 @@ GNPEvolver::GNPEvolver(){
     gProperties.checkAndGetPropertyValue("gEvolutionPopulationSize", &populationSize, true);
     
     auto library = GNPController::getNodeLibrary();
-    auto genome = new GNP::Genome(library.nbProcessingNodes, library.judgementNodeOutputs);
+    
     _params = new GNP::Parameters();
     
     _logger = new Logger("GNP");
@@ -28,7 +28,7 @@ GNPEvolver::GNPEvolver(){
 
 void GNPEvolver::evalDone(DataPacket* dp){
     _pop->AccessGenomeByIndex(_evalIndex).setFitness(dp->fitness);
-
+    
     _logger->log(dp->fitness);
     
     _evalIndex++;
@@ -60,7 +60,7 @@ bool GNPEvolver::usesBehavior(){
 }
 
 Controller* GNPEvolver::make_Controller(RobotWorldModel *wm){
-    GNP::Genome genome = _pop->AccessGenomeByIndex(_evalIndex);
-    GNPController* cont = new GNPController(wm, &genome);
+    GNP::Genome& genome = _pop->AccessGenomeByIndex(_evalIndex);
+    GNPController* cont = new GNPController(wm, genome);
     return cont;
 }

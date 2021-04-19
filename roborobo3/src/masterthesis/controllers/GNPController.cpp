@@ -5,8 +5,8 @@
 
 #define NB_SENSORS 8 // should be coherent with gRobotSpecsImageFilename value read from the property file.
 
-GNPController::GNPController(RobotWorldModel *wm, GNP::Genome* genome):MyTestEEController(wm){
-    _gnpNetwork = genome->buildNetwork(getProcesses(), getJudgements());
+GNPController::GNPController(RobotWorldModel *wm, GNP::Genome& genome):MyTestEEController(wm){
+    _gnpNetwork = genome.buildNetwork(getProcesses(), getJudgements());
 }
 
 GNPController::~GNPController(){
@@ -281,5 +281,9 @@ std::vector<std::function<double()>>* GNPController::getJudgements(){
     
     
     return judgements;
+}
+
+GNP::Network* GNPController::getNetwork(){
+    return _gnpNetwork;
 }
 

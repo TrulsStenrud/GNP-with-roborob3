@@ -13,7 +13,7 @@ namespace GNP{
 
 
 
-Network::Network(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements, std::vector<std::vector<int>> nodes, std::vector<std::vector<std::vector<int>>> connections){
+Network::Network(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements, std::vector<std::vector<int>> nodes, std::vector<std::vector<std::vector<int>>> connections, std::vector<int>& nodeUsage, std::vector<std::vector<int>>& connectionUsage): _connectionUsage(connectionUsage), _nodeUsage(nodeUsage){
     
     _processes = processes;
     _judgements = judgements;
@@ -22,7 +22,7 @@ Network::Network(std::vector<std::function<void(double)>>* processes, std::vecto
 }
 
 void Network::step(){
-    int maxCost = 15; // TODO set somewhere else
+    int maxCost = 5; // TODO set somewhere else
     int cost = 0;
     
     while (cost < maxCost) {
@@ -54,6 +54,10 @@ void Network::step(){
                 std::cout << "[ERROR] Unknown node type [" << _nodes[_currentNode][0] << "]" << std::endl;
                 exit(-1);
         }
+        
+        // update node and connection usage
+        _nodeUsage[_currentNode]++;
+        _connectionUsage[_currentNode][nextConnection]++;
         
         cost += _connections[_currentNode][nextConnection][1]; //add cost of traversing this connection
         _currentNode = _connections[_currentNode][nextConnection][0];

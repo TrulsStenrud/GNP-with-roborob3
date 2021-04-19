@@ -19,11 +19,12 @@ private:
     GNP::Network* _gnpNetwork;
     int judgeObjectTypeForSensors(std::vector<int> sensors);
 public:
-    GNPController(RobotWorldModel *wm, GNP::Genome* genome);
+    GNPController(RobotWorldModel *wm, GNP::Genome& genome);
     ~GNPController();
     void reset() override;
     void step() override;
     void buildBrain(GNP::Genome& genome);
+    GNP::Network* getNetwork();
     
     static NodeInformation getNodeLibrary();
 };

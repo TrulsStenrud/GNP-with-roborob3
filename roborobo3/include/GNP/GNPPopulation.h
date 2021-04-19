@@ -24,6 +24,8 @@ private:
     std::vector<Genome> _genes;
     Parameters* _params;
     NodeInformation _nodeInformation;
+    void doProbabilitySelection();
+    void simpleOperators();
 public:
     Population(NodeInformation nodeInformation, Parameters* _params);
     Genome& AccessGenomeByIndex(int const index);

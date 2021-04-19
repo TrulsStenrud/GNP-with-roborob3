@@ -8,6 +8,7 @@
 
 #include "GNPGenome.h"
 #include "Utilities/Misc.h"
+
 namespace GNP{
 
 
@@ -19,23 +20,10 @@ int Genome::getRandomNode(int i) {
     return nextNode;
 }
 
-Genome::Genome(std::vector<std::vector<int>> nodes, std::vector<std::vector<std::vector<int>>> connections, int nbProcessingNodes, std::vector<int> judgementNodesOutput){
-    
-    _nbProcessingNodes = nbProcessingNodes;
-    _judgementNodesOutput = judgementNodesOutput;
-    _nodes = nodes;
-    _connections = connections;
-}
-
-Genome::Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput){
+Genome::Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachNode){
     _nbProcessingNodes = nbProcessingNodes;
     _judgementNodesOutput = judgementNodesOutput;
     
-    
-    int nbEachNode = 4;
-    int processT = 10;
-    int judgeT = 2;
-    int connectionT = 0;
     
     // add start node
     _nodes.push_back({NodeType::Start, 0, 0});
@@ -90,6 +78,29 @@ Genome::Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput){
         }
         
     }
+    
+    initUsage();
+}
+
+Genome::Genome(std::vector<std::vector<int>> nodes, std::vector<std::vector<std::vector<int>>> connections, int nbProcessingNodes, std::vector<int> judgementNodesOutput){
+    
+    _nbProcessingNodes = nbProcessingNodes;
+    _judgementNodesOutput = judgementNodesOutput;
+    _nodes = nodes;
+    _connections = connections;
+    
+    initUsage();
+}
+
+void Genome::initUsage(){
+    _nodeUsage.clear();
+    assert(_nodeUsage.size() == 0);
+    _nodeUsage = std::vector<int>(_nodes.size(), 0);
+    
+    _connectionUsage.clear();
+    for(auto connections : _connections){
+        _connectionUsage.push_back(std::vector<int>(connections.size(), 0));
+    }
 }
 
 void Genome::adjustFitness(){
@@ -119,6 +130,33 @@ Genome Genome::mutate(){
             index += _connections[i].size();
         }
     }
+    
+    return Genome(_nodes, newConnections, _nbProcessingNodes, _judgementNodesOutput);
+}
+struct Point{
+    const int x;
+    const int y;
+    Point(const int x1, const int y1):x(x1), y(y1){}
+};
+
+Genome Genome::simpleMutate(){
+    
+    std::vector<Point> usedConnections;
+    for(int i = 0; i < _connectionUsage.size(); i++){
+        for(int j = 0; j < _connectionUsage[i].size(); j ++){
+            if(_connectionUsage[i][j]>0){
+                usedConnections.push_back(Point(i, j));
+            }
+        }
+    }
+    
+    int mutateConnection = randint() % usedConnections.size();
+    Point mCon = usedConnections[mutateConnection];
+    
+    auto newConnections = _connections;
+    
+    int randomNode = getRandomNode(mCon.x);
+    newConnections[mCon.x][mCon.y][0] = randomNode;
     
     return Genome(_nodes, newConnections, _nbProcessingNodes, _judgementNodesOutput);
 }
@@ -169,11 +207,41 @@ std::vector<Genome> Genome::crossover(Genome& genome){
     };
 }
 
-
-Network* Genome::buildNetwork(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements){
-    return new Network(processes, judgements, _nodes, _connections);
+std::vector<Genome> Genome::simpleCrossover(Genome& genome){
+    
+    std::vector<Point> usedConnections;
+    for(int i = 0; i < _connectionUsage.size(); i++){ // i = 1 to skip start node;
+        for(int j = 0; j < _connectionUsage[i].size(); j++){
+            if(_connectionUsage[i][j] > 0
+               || genome._connectionUsage[i][j] > 0){
+                usedConnections.push_back(Point(i, j));
+            }
+        }
+    }
+    
+    Point crossCon = usedConnections[randint() % usedConnections.size()];
+    auto o1Connections = _connections;
+    auto o2Connections = genome._connections;
+    
+    int temp = o1Connections[crossCon.x][crossCon.y][0];
+    o1Connections[crossCon.x][crossCon.y][0] = o2Connections[crossCon.x][crossCon.y][0];
+    o2Connections[crossCon.x][crossCon.y][0] = temp;
+    
+    
+    return {
+        Genome(_nodes,  o1Connections, _nbProcessingNodes, _judgementNodesOutput),
+        Genome(_nodes,  o2Connections, _nbProcessingNodes, _judgementNodesOutput)
+    };
 }
 
+Network* Genome::buildNetwork(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements){
+    return new Network(processes, judgements, _nodes, _connections, _nodeUsage, _connectionUsage);
+}
+
+void Genome::reset(){
+    setFitness(0);
+    initUsage();
+}
 
 double Genome::getFitness(){
     return _fitness;

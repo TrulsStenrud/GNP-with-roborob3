@@ -20,6 +20,11 @@ void Parameters::reset(){
     populationSize = 50;
     nbParents = 25;
     mutationRate = 0.2;
+    
+    processT = 5;
+    judgeT = 1;
+    connectionT = 0;
+    nbEachNode = 4;
 }
 
 }

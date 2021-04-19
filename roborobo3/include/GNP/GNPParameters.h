@@ -25,6 +25,10 @@ public:
     int populationSize;
     int nbParents;
     double mutationRate;
+    int processT;
+    int judgeT;
+    int connectionT;
+    int nbEachNode;
 };
 }
 #endif /* Parameters_hpp */

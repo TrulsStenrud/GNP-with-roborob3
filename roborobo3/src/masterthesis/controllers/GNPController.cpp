@@ -25,9 +25,9 @@ void GNPController::step(){
     _gnpNetwork->step();
 }
 
-NodeInformation GNPController::getNodeLibrary(){
+GNP::NodeInformation GNPController::getNodeLibrary(){
     
-    NodeInformation info;
+    GNP::NodeInformation info;
     info.nbProcessingNodes = 4;
     
     

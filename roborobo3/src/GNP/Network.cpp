@@ -13,7 +13,7 @@ namespace GNP{
 
 
 
-Network::Network(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements, std::vector<std::vector<int>> nodes, std::vector<std::vector<std::vector<int>>> connections, std::vector<int>& nodeUsage, std::vector<std::vector<int>>& connectionUsage): _connectionUsage(connectionUsage), _nodeUsage(nodeUsage){
+Network::Network(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements, std::vector<Node> nodes, std::vector<std::vector<Connection>> connections, std::vector<int>& nodeUsage, std::vector<std::vector<int>>& connectionUsage): _connectionUsage(connectionUsage), _nodeUsage(nodeUsage){
     
     _processes = processes;
     _judgements = judgements;
@@ -26,10 +26,10 @@ void Network::step(){
     int cost = 0;
     
     while (cost < maxCost) {
-        cost+=_nodes[_currentNode][2]; //add cost of current node
+        cost+=_nodes[_currentNode].T; //add cost of current node
         int nextConnection;
         
-        switch(_nodes[_currentNode][0]){
+        switch(_nodes[_currentNode].type){
             case NodeType::Start:
             {
                 nextConnection = 0;
@@ -38,20 +38,20 @@ void Network::step(){
                 
             case NodeType::Judgement:
             {
-                auto judgeIndex = _nodes[_currentNode][1];
+                auto judgeIndex = _nodes[_currentNode].index;
                 nextConnection = (*_judgements)[judgeIndex]();
                 
             }break;
                 
             case NodeType::Processing:
             {
-                auto processIndex = _nodes[_currentNode][1];
+                auto processIndex = _nodes[_currentNode].index;
                 (*_processes)[processIndex](1);
                 
                 nextConnection = 0;
             }break;
             default:
-                std::cout << "[ERROR] Unknown node type [" << _nodes[_currentNode][0] << "]" << std::endl;
+                std::cout << "[ERROR] Unknown node type [" << _nodes[_currentNode].type << "]" << std::endl;
                 exit(-1);
         }
         
@@ -59,8 +59,8 @@ void Network::step(){
         _nodeUsage[_currentNode]++;
         _connectionUsage[_currentNode][nextConnection]++;
         
-        cost += _connections[_currentNode][nextConnection][1]; //add cost of traversing this connection
-        _currentNode = _connections[_currentNode][nextConnection][0];
+        cost += _connections[_currentNode][nextConnection].T; //add cost of traversing this connection
+        _currentNode = _connections[_currentNode][nextConnection].node;
     }
     
 }

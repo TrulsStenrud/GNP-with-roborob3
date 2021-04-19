@@ -12,7 +12,7 @@
 #include "vector"
 #include "GNPGenome.h"
 #include "GNPParameters.h"
-#include "NodeInformation.h"
+#include "GNPStructs.h"
 
 namespace GNP
 {

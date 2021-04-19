@@ -26,6 +26,6 @@ public:
     void buildBrain(GNP::Genome& genome);
     GNP::Network* getNetwork();
     
-    static NodeInformation getNodeLibrary();
+    static GNP::NodeInformation getNodeLibrary();
 };
 

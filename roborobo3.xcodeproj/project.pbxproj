@@ -334,7 +334,7 @@
 		FB09233E261F3F7600BA2F2E /* Network.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
 		FB09234526205FC800BA2F2E /* Parameters.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parameters.cpp; sourceTree = "<group>"; };
 		FB09234626205FC800BA2F2E /* GNPParameters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GNPParameters.h; sourceTree = "<group>"; };
-		FB09234C26208D7C00BA2F2E /* NodeInformation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NodeInformation.h; sourceTree = "<group>"; };
+		FB09234C26208D7C00BA2F2E /* GNPStructs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GNPStructs.h; sourceTree = "<group>"; };
 		FB09234E26245CD800BA2F2E /* Logger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
 		FB09234F26245CD800BA2F2E /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
 		FB0A370925F66B5B00489627 /* ForagingTempConfigurationLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ForagingTempConfigurationLoader.cpp; sourceTree = "<group>"; };
@@ -1266,7 +1266,7 @@
 				FBF9C1BF261491D500C715C0 /* GNPPopulation.h */,
 				FBF9C1C42614979600C715C0 /* GNPGenome.h */,
 				FB09233E261F3F7600BA2F2E /* Network.h */,
-				FB09234C26208D7C00BA2F2E /* NodeInformation.h */,
+				FB09234C26208D7C00BA2F2E /* GNPStructs.h */,
 			);
 			path = GNP;
 			sourceTree = "<group>";

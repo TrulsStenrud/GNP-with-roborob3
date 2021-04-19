@@ -20,7 +20,7 @@ int Genome::getRandomNode(int i) {
     return nextNode;
 }
 
-Genome::Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachNode){
+Genome::Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachProcessingNode, int nbEachJudgementNode){
     _nbProcessingNodes = nbProcessingNodes;
     _judgementNodesOutput = judgementNodesOutput;
     
@@ -30,15 +30,22 @@ Genome::Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int
     
     // add judgement nodes
     for(int i = 0; i < judgementNodesOutput.size(); i++){
-        for(int j = 0; j < nbEachNode; j++){
+        for(int j = 0; j < nbEachJudgementNode; j++){
             _nodes.push_back(Node(NodeType::Judgement, i, judgeT));
         }
     }
     
     // add processing nodes
     for(int i = 0; i < _nbProcessingNodes; i++){
-        for(int j = 0; j < nbEachNode; j++){
-            _nodes.push_back(Node(NodeType::Processing, i, processT));
+        for(int j = 0; j < nbEachProcessingNode; j++){
+            double v = randgaussian()/5 + 0.5;
+            if(v < 0){
+                v = 0;
+            }else if(v > 1){
+                v = 1;
+            }
+            
+            _nodes.push_back(Node(NodeType::Processing, i, processT, v));
         }
     }
     
@@ -110,37 +117,80 @@ void Genome::adjustFitness(){
 }
 
 // TODO, figure out how to mutate, uniform probability, or one random connection
+//Genome Genome::mutate(){
+//    int nbConnections = 0;
+//    for(int i = 0; i < _connections.size(); i++){ // i = 1 to skip start node;
+//        nbConnections += _connections[i].size();
+//    }
+//
+//    int mutateConnection = randint() % nbConnections;
+//    auto newConnections = _connections;
+//
+//    int index = 0;
+//    for(int i = 0; i < _connections.size(); i++){
+//        if(index + _connections[i].size() > mutateConnection){
+//            int randomNode = getRandomNode(i);
+//            newConnections[i][mutateConnection - index].node = randomNode;
+//            break;
+//        }
+//        else{
+//            index += _connections[i].size();
+//        }
+//    }
+//
+//    return Genome(_nodes, newConnections, _nbProcessingNodes, _judgementNodesOutput);
+//}
+
+
 Genome Genome::mutate(){
-    int nbConnections = 0;
-    for(int i = 0; i < _connections.size(); i++){ // i = 1 to skip start node;
-        nbConnections += _connections[i].size();
-    }
     
-    int mutateConnection = randint() % nbConnections;
-    auto newConnections = _connections;
+    int random = randint() % 2;
     
-    int index = 0;
-    for(int i = 0; i < _connections.size(); i++){
-        if(index + _connections[i].size() > mutateConnection){
-            int randomNode = getRandomNode(i);
-            newConnections[i][mutateConnection - index].node = randomNode;
+    switch(random){
+        case 0:
+            return simpleMutate();
             break;
-        }
-        else{
-            index += _connections[i].size();
-        }
+        case 1:
+            return processingNodeMutate();
+            break;
+        default:
+            exit(-1);
     }
     
-    return Genome(_nodes, newConnections, _nbProcessingNodes, _judgementNodesOutput);
+    
 }
+
+Genome Genome::processingNodeMutate(){
+    std::vector<int> usedProcessingNodes;
+    for(int i = 0; i < _nodeUsage.size(); i++){
+        if(_nodes[i].type == NodeType::Processing && _nodeUsage[i] > 0){
+            usedProcessingNodes.push_back(i);
+        }
+    }
+    if(usedProcessingNodes.size() == 0){
+        return (*this);
+    }
+    int mIndex = randint() % usedProcessingNodes.size();
+    int mNode = usedProcessingNodes[mIndex];
+    
+    auto newNodes = _nodes;
+    
+    newNodes[mNode].v += randgaussian()/5;
+    if(newNodes[mNode].v < 0.0){
+        newNodes[mNode].v = 0.0;
+    }else if(newNodes[mNode].v > 1.0){
+        newNodes[mNode].v = 1.0;
+    }
+    
+    return Genome(newNodes, _connections, _nbProcessingNodes, _judgementNodesOutput);
+}
+
 struct Point{
     const int x;
     const int y;
     Point(const int x1, const int y1):x(x1), y(y1){}
 };
-
 Genome Genome::simpleMutate(){
-    
     std::vector<Point> usedConnections;
     for(int i = 0; i < _connectionUsage.size(); i++){
         for(int j = 0; j < _connectionUsage[i].size(); j ++){

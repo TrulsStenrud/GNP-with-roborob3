@@ -18,7 +18,7 @@ Population::Population(NodeInformation nodeInformation, Parameters* params){
     _nodeInformation = nodeInformation;
     
     for(int i = 0; i < _params->populationSize; i++){
-        _genes.push_back(Genome(nodeInformation.nbProcessingNodes,  nodeInformation.judgementNodeOutputs, _params->processT, _params->judgeT, _params->connectionT, _params->nbEachNode));
+        _genes.push_back(Genome(nodeInformation.nbProcessingNodes,  nodeInformation.judgementNodeOutputs, _params->processT, _params->judgeT, _params->connectionT, _params->nbEachProcessingNode, _params->nbEachJudgementNode));
     }
 }
 
@@ -54,6 +54,21 @@ Genome tournementSelection(std::vector<Genome>& genes, int t){
     return result;
 }
 
+Genome getBest(std::vector<Genome>& genes){
+    int currentBest = 0;
+    
+    for(int i = 1; i < genes.size(); i++){
+        if(genes[i].getFitness() > genes[currentBest].getFitness()){
+            currentBest = i;
+        }
+    }
+    
+    Genome result = genes[currentBest];
+    genes.erase(genes.begin() + currentBest);
+    
+    return result;
+}
+
 void Population::simpleOperators(){
     double sum = 0;
     for(auto& gene : _genes){
@@ -63,13 +78,15 @@ void Population::simpleOperators(){
     std::vector<Genome> parents;
     std::vector<Genome> mutations;
     
+    parents.push_back(getBest(_genes)); // elitism
+    
     int nbMutations = _params->populationSize * _params->mutationRate;
     
     while(parents.size() < _params->nbParents){
         parents.push_back(tournementSelection(_genes, 5));
     }
     while(mutations.size() < nbMutations){
-        mutations.push_back(tournementSelection(_genes, 5).simpleMutate());
+        mutations.push_back(tournementSelection(_genes, 5).mutate());
     }
     
     parents.insert(parents.end(), mutations.begin(), mutations.end());

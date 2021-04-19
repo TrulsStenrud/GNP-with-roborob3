@@ -28,7 +28,7 @@ void GNPController::step(){
 GNP::NodeInformation GNPController::getNodeLibrary(){
     
     GNP::NodeInformation info;
-    info.nbProcessingNodes = 4;
+    info.nbProcessingNodes = 3;
     
     
 //    for(int i  = 0; i < 8; i++) // must match the number of camera sensors
@@ -86,18 +86,28 @@ std::vector<std::function<void(double)>>* GNPController::getProcesses(){
     
     // move forward
     processes->push_back([&](double v){
-        setTranslation(v);
+        setTranslation(v*2-1);
     });
+    
+    // move backward
+//    processes->push_back([&](double v){
+//        setTranslation(-v);
+//    });
     
     // Rotate clockwise
     processes->push_back([&](double v){
-        setRotation(0.01*v);
+        setRotation(v*2-1);
     });
     
     // Rotate counter clockwise
-    processes->push_back([&](double v){
-        setRotation(0.01*(-v));
-    });
+//    processes->push_back([&](double v){
+//        setRotation(0.1*(-v));
+//    });
+    
+    // Dont rotate
+//    processes->push_back([&](double v){
+//        setRotation(0);
+//    });
     
     // Drop pheromone
     processes->push_back([&](double v){

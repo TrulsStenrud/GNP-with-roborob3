@@ -28,7 +28,8 @@ public:
     int processT;
     int judgeT;
     int connectionT;
-    int nbEachNode;
+    int nbEachProcessingNode;
+    int nbEachJudgementNode;
 };
 }
 #endif /* Parameters_hpp */

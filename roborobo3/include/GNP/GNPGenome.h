@@ -31,12 +31,13 @@ private:
 public:
     int extracted(int i);
     
-    Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachNode);
+    Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachProcessingNode, int nbEachJudgementNode);
     Genome(std::vector<Node> nodes, std::vector<std::vector<Connection>> connections, int nbProcessingNodes, std::vector<int> judgementNodesOutput);
     void setFitness(double fitness);
     double getFitness();
     Genome mutate();
-    Genome simpleMutate(); // only mutate transitioned connections. 
+    Genome simpleMutate(); // only mutate transitioned connections.
+    Genome processingNodeMutate();
     Genome* uniformMutation(double probability);
     std::vector<Genome> crossover(Genome& genome);
     std::vector<Genome> simpleCrossover(Genome& genome);

@@ -46,7 +46,7 @@ void Network::step(){
             case NodeType::Processing:
             {
                 auto processIndex = _nodes[_currentNode].index;
-                (*_processes)[processIndex](1);
+                (*_processes)[processIndex](_nodes[_currentNode].v);
                 
                 nextConnection = 0;
             }break;

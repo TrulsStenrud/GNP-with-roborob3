@@ -18,13 +18,14 @@ Parameters::Parameters(){
 
 void Parameters::reset(){
     populationSize = 50;
-    nbParents = 25;
-    mutationRate = 0.2;
+    nbParents = 15;
+    mutationRate = 0.5;
     
     processT = 5;
     judgeT = 1;
     connectionT = 0;
-    nbEachNode = 4;
+    nbEachProcessingNode = 8;
+    nbEachJudgementNode = 4;
 }
 
 }

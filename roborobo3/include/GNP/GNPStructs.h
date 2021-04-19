@@ -22,11 +22,13 @@ struct Node{
     NodeType type;
     int index;
     int T;
+    double v;
     
-    Node(NodeType type, int index, int T){
+    Node(NodeType type, int index, int T, double v = -1){
         this->type = type;
         this->index = index;
         this->T = T;
+        this->v = v;
     }
 };
 struct Connection{

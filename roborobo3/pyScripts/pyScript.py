@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 import itertools
+from plotResults import plotResult
 
 def doStuff():
     dic = groupFiles()
@@ -56,3 +57,4 @@ def groupFiles():
 
 if( __name__ == "__main__"):
     doStuff()
+    plotResult()

@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 
-def doStuff():
+def plotResult():
     files = getResultFiles()
     # plotFile(files[0])
     for file in files:
@@ -27,9 +27,9 @@ def plotFile(file):
     plt.figure(name)    
     plt.xlabel("Generations")
     plt.ylabel("Fitness")
-    for test in data.T:
-        plt.plot(test)
+    #plt.boxplot(data.T)
+    plt.plot(data)
     
-
 if __name__ == "__main__":
-    doStuff()
+    plotResult()
+

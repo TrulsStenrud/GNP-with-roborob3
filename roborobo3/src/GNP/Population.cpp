@@ -83,10 +83,10 @@ void Population::simpleOperators(){
     int nbMutations = _params->populationSize * _params->mutationRate;
     
     while(parents.size() < _params->nbParents){
-        parents.push_back(tournementSelection(_genes, 5));
+        parents.push_back(tournementSelection(_genes, 10));
     }
     while(mutations.size() < nbMutations){
-        mutations.push_back(tournementSelection(_genes, 5).mutate());
+        mutations.push_back(tournementSelection(_genes, 10).mutate());
     }
     
     parents.insert(parents.end(), mutations.begin(), mutations.end());

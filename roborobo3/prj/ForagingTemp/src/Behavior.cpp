@@ -16,7 +16,7 @@ Behavior::~Behavior(){
 }
 
 bool  Behavior::Acquire(NEAT::Genome *aGenome){
-    return true;
+    return false;
 }
 
 double Behavior::Distance_To(PhenotypeBehavior *a_Other){
@@ -40,7 +40,7 @@ double Behavior::Distance_To(PhenotypeBehavior *a_Other){
         }
         
         for(int j = 0; j < d.size(); j++){
-            distance+= abs( d[j] - e[j] );
+            distance+= abs( round(d[j]) - round(e[j]) );
         }
     }
     

@@ -30,6 +30,9 @@ public:
     void stepPost() override;
     
 protected:
+    void clusteredForagingObjects();
+    void semiClusteredForagingObjects();
+    void randomForagingObjects(int n);
     void placeGridOfObjects(int x, int y, int columns, int rows);
     void placeObject(double x, double y);
     void placeRobotsInAllNests();

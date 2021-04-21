@@ -67,6 +67,48 @@ ForagingObject* ObjectFactory::placeForagingObject(int x, int y){
     }
 }
 
+ForagingObject* ObjectFactory::placeRandomForagingObject(){
+    if(_unusedForagingObjects.empty()){
+
+        int id = PhysicalObjectFactory::getNextId();
+
+        auto newObject = new ForagingObject(id);
+        newObject->setDisplayColor(255,128,64);
+        
+        int x, y;
+        
+        do{
+            
+            x = rand() % gScreenWidth;
+            y = rand() % gScreenHeight;
+            
+            newObject->setCoordinates(x, y);
+        }while(!newObject->canRegister());
+        
+        
+        newObject->registerObject();
+
+        gPhysicalObjects.push_back(newObject);
+        gNbOfPhysicalObjects = (int)gPhysicalObjects.size();
+
+        return newObject;
+    }
+    else{
+        auto newObject = *_unusedForagingObjects.begin();
+        _unusedForagingObjects.erase(newObject);
+        do{
+            int x = rand() % gScreenWidth;
+            int y = rand() % gScreenHeight;
+            newObject->setCoordinates(x, y);
+        }while(!newObject->canRegister());
+        
+        newObject->makeVisible();
+        return newObject;
+    }
+}
+
+
+
 void ObjectFactory::recycleForagingObject(ForagingObject *p){
     if(_unusedForagingObjects.count(p) == 0)
         _unusedForagingObjects.insert(p);

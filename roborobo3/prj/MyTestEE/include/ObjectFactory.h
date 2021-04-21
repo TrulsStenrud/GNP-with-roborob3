@@ -19,6 +19,7 @@ public:
     static PheromoneObject* placePheromoneObject(int x, int y);
     static void recyclePheromoneObject(PheromoneObject* p);
     static ForagingObject* placeForagingObject(int x, int y);
+    static ForagingObject* placeRandomForagingObject();
     static void recycleForagingObject(ForagingObject* p);
 private:
     static std::unordered_set<PheromoneObject*> _unusedPheromones;

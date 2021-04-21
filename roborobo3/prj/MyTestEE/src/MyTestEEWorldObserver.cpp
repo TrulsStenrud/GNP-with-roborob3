@@ -57,7 +57,7 @@ void MyTestEEWorldObserver::addNestObject(double x, double y) {
 void MyTestEEWorldObserver::reset(){
     
     if(gNestObjects.size() == 0){
-        //addNestObject(1000, 600);
+        addNestObject(1200, 350);
         addNestObject(400, 600);
     }else{
         for(auto nest : gNestObjects){
@@ -76,16 +76,45 @@ void MyTestEEWorldObserver::reset(){
         }
     }
     
-    //placeGridOfObjects(500, 500, 4, 4);
-    placeGridOfObjects(650, 150, 8, 8);
-    placeGridOfObjects(1250, 650, 3, 3);
-    placeGridOfObjects(1100, 200, 3, 6);
-    placeGridOfObjects(150, 300, 6, 6);
     for(auto robot : gRobots){
         auto controller = dynamic_cast<MyTestEEController*>(robot->getController());
         controller->reset();
     }
     placeRobotsInAllNests();
+    
+    
+    
+    semiClusteredForagingObjects();
+    
+}
+
+void MyTestEEWorldObserver::clusteredForagingObjects(){
+    //placeGridOfObjects(500, 500, 4, 4);
+    
+    placeGridOfObjects(650, 150, 8, 8);
+    placeGridOfObjects(1250, 650, 3, 3);
+    placeGridOfObjects(1100, 200, 3, 6);
+    placeGridOfObjects(150, 300, 6, 6);
+}
+
+void MyTestEEWorldObserver::semiClusteredForagingObjects()
+{
+    
+    placeGridOfObjects(650, 150, 4, 4);
+    placeGridOfObjects(1100, 200, 3, 3);
+    placeGridOfObjects(150, 150, 4, 4);
+    placeGridOfObjects(850, 600, 4, 4);
+    placeGridOfObjects(100, 550, 4, 4);
+    randomForagingObjects(45);
+}
+
+
+void MyTestEEWorldObserver::randomForagingObjects(int n)
+{
+    srand(1);
+    for(int i = 0; i < n; i++){
+        ObjectFactory::placeRandomForagingObject();
+    }
 }
 
 void MyTestEEWorldObserver::initPre()

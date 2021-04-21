@@ -16,7 +16,7 @@ ForagingObject::ForagingObject(int __id) : CircleObject( __id ){
     setType(5);
     _radius = 4;
     unregisterObject();
-    _footprintRadius = 0;
+    _footprintRadius = 4;
     regrowTime = -1;
 }
 

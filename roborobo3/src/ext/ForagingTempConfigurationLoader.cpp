@@ -9,6 +9,7 @@
 #include "../../include/masterthesis/controllers/ControllerEvolver.h"
 #include "../../include/masterthesis/controllers/MultiNEATEvolver.h"
 #include "../../include/core/RoboroboMain/roborobo.h"
+#include "../../include/masterthesis/controllers/MPFAEvolver.h"
 
 using namespace std;
 
@@ -26,6 +27,9 @@ ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 	case ControllerEvolver::HyperNEAT:
         _evolver = new MultiNEATEvolver(controllerType);
         break;
+	case ControllerEvolver::MPFA:
+		_evolver = new MPFAEvolver();
+		break;
 	default:
 		cout<<"controller type not implemented yet. Exiting..."<<endl;
 		exit(3);
@@ -58,9 +62,7 @@ AgentObserver* ForagingTempConfigurationLoader::make_AgentObserver(RobotWorldMod
 
 Controller* ForagingTempConfigurationLoader::make_Controller(RobotWorldModel* wm)
 {
-	// få _evolver inn i bildet her. sende argument for hvor mange som skal bli skapt?
 	return _evolver->make_Controller(wm);
-	//return new ForagingTempController(wm);
 }
 
 #endif

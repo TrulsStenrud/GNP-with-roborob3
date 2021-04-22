@@ -17,14 +17,12 @@ private:
 	NEAT::Genome* _genomeBase; // Starting population is constructed using this as a base.
     NEAT::Population* _pop;
     int _evalIndex; // Index of genome to evaluate.
-    std::ofstream _logFile;
-    LogManager *_logManager = NULL;
     NEAT::Substrate* _substrate = NULL;
-    
+
 	void initPopulation();
 	void nextGeneration();
     NEAT::Substrate* createSubstrate(int input, int output);
-    
+
 public:
     MultiNEATEvolver(ControllerEvolver::CONTROLLER contType);
 	~MultiNEATEvolver();

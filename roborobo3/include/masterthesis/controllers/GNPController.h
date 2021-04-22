@@ -6,7 +6,7 @@
 #include "../../../prj/MyTestEE/include/MyTestEEController.h"
 
 class GNPController : public MyTestEEController{
-    
+
 private:
     ControllerEvolver::CONTROLLER _controllerType;
     std::vector<std::function<void(double)>>* getProcesses();

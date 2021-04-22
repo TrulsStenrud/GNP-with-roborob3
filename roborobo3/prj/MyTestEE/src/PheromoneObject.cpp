@@ -20,24 +20,31 @@ PheromoneObject::PheromoneObject(int __id) : CircleObject( __id ){
     unregisterObject();
     _radius=0;
     _footprintRadius = 4;
+    _trail = nullptr;
 
-    if(gProperties.hasProperty("gPheromoneDecay")){
-        gProperties.checkAndGetPropertyValue("gPheromoneDecay", &_decay, true);
-    }else{
-        _decay = 0.01;
-    }
+    gProperties.checkAndGetPropertyValue("gPheromoneDecay", &_decay, true);
+	gProperties.checkAndGetPropertyValue("gPheromoneEvaporationTreshold", &_evaporationTreshold, true);
 
-    if(gProperties.hasProperty("gPheromoneEvaporationTreshold")){
-        gProperties.checkAndGetPropertyValue("gPheromoneEvaporationTreshold", &_evaporationTreshold, true);
-    }else{
-        _evaporationTreshold = 0.1;
-    }
 
     _strength = 1;
     regrowTime = -1;
 
 }
 
+std::vector<std::tuple<double,double>>* PheromoneObject::getTrail(){
+	if(_trail == nullptr){
+		_trail = new std::vector<std::tuple<double,double>>();
+	}
+	return _trail;
+}
+
+void PheromoneObject::setTrail(std::vector<std::tuple<double,double>>* trail){
+	_trail = trail;
+}
+
+std::tuple<double,double> PheromoneObject::getPosition(){
+	return std::make_tuple(_xReal, _yReal);
+}
 
 void PheromoneObject::step()
 {
@@ -56,6 +63,7 @@ void PheromoneObject::evaporate(){
     _strength = 0;
     _visible = false;
     registered = false;
+    delete _trail;
     unregisterObject();
     hide();
     ObjectFactory::recyclePheromoneObject(this);

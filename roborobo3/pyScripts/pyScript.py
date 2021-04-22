@@ -57,4 +57,4 @@ def groupFiles():
 
 if( __name__ == "__main__"):
     doStuff()
-    plotResult()
+    # plotResult()

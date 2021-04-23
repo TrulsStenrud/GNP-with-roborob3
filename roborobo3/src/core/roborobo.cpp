@@ -2318,10 +2318,8 @@ void initRoborobo()
 	gLogFile << "# random seed             : " << gRandomSeed << std::endl;
 
 	gWorld = new World();
-
 	// * run
 	gWorld->initWorld();
-
 	if ( gBatchMode == false )
 		initMonitor(true); // add speed monitoring and inspector agent
 }

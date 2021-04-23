@@ -1,19 +1,19 @@
 #pragma once
 
 #include "../../../include/core/Controllers/Controller.h"
-#include "ControllerEvolver.h"
+#include "../evolvers/ControllerEvolver.h"
 #include "../../core/WorldModels/RobotWorldModel.h"
 #include "../../../prj/MyTestEE/include/MyTestEEController.h"
-#include "GNPGenome.h"
-#include "Network.h"
-#include "GNPEvolver.h"
+#include "../../GNP/GNPGenome.h"
+#include "../../GNP/Network.h"
+#include "../evolvers/GNPEvolver.h"
 
 
 class GNPController : public MyTestEEController{
-    
+
 private:
     std::vector<std::function<void(double)>>* getProcesses();
-    
+
     std::vector<std::function<double()>>* getJudgements();
     double normalize(double num); // normalizes a number to [-1, 1]
     GNP::Network* _gnpNetwork;
@@ -25,7 +25,7 @@ public:
     void step() override;
     void buildBrain(GNP::Genome& genome);
     GNP::Network* getNetwork();
-    
+
     static GNP::NodeInformation getNodeLibrary();
 };
 

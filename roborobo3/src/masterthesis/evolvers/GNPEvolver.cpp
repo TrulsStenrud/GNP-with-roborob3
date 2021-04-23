@@ -9,30 +9,31 @@
 #include "GNPEvolver.h"
 #include "GNPController.h"
 #include "RoboroboMain/roborobo.h"
+#include "../../../include/GNP/GNPGenome.h"
 
 GNPEvolver::GNPEvolver(){
     _evalIndex = 0;
-    
+
     double populationSize;
     gProperties.checkAndGetPropertyValue("gEvolutionPopulationSize", &populationSize, true);
-    
+
     auto library = GNPController::getNodeLibrary();
-    
+
     _params = new GNP::Parameters();
-    
+
     _logger = new Logger("GNP");
-    
+
     _pop = new GNP::Population(library, _params);
     _logger->log("Generation " + std::to_string(_generation));
 }
 
 void GNPEvolver::evalDone(DataPacket* dp){
     _pop->AccessGenomeByIndex(_evalIndex).setFitness(dp->fitness);
-    
+
     _logger->log(dp->fitness);
-    
+
     _evalIndex++;
-    
+
     if(_evalIndex == _params->populationSize){
         nextGeneration();
         _evalIndex = 0;
@@ -47,9 +48,9 @@ void GNPEvolver::evalDone(DataPacket* dp){
 
 void GNPEvolver::nextGeneration(){
     _generation++;
-    
+
     std::cout<<"generation "<<_generation<<" complete"<<std::endl;
-    
+
     _pop->Epoch();
     _logger->newLine();
     _logger->log("Generation " + std::to_string(_generation));

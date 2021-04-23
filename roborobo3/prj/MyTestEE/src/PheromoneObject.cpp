@@ -21,17 +21,9 @@ PheromoneObject::PheromoneObject(int __id) : CircleObject( __id ){
     _radius=0;
     _footprintRadius = 4;
 
-    if(gProperties.hasProperty("gPheromoneDecay")){
-        gProperties.checkAndGetPropertyValue("gPheromoneDecay", &_decay, true);
-    }else{
-        _decay = 0.01;
-    }
+    gProperties.checkAndGetPropertyValue("gPheromoneDecay", &_decay, true);
+	gProperties.checkAndGetPropertyValue("gPheromoneEvaporationTreshold", &_evaporationTreshold, true);
 
-    if(gProperties.hasProperty("gPheromoneEvaporationTreshold")){
-        gProperties.checkAndGetPropertyValue("gPheromoneEvaporationTreshold", &_evaporationTreshold, true);
-    }else{
-        _evaporationTreshold = 0.1;
-    }
 
     _strength = 1;
     regrowTime = -1;

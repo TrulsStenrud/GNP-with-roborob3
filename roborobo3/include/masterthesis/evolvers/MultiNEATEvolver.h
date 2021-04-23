@@ -9,7 +9,6 @@
 #include "../../MultiNEAT/Population.h"
 #include "../../core/RoboroboMain/roborobo.h"
 #include "../DataListener.h"
-#include "../Logger.h"
 
 class MultiNEATEvolver : public ControllerEvolver{
 private:
@@ -18,13 +17,12 @@ private:
 	NEAT::Genome* _genomeBase; // Starting population is constructed using this as a base.
     NEAT::Population* _pop;
     int _evalIndex; // Index of genome to evaluate.
-    Logger* _logger;
     NEAT::Substrate* _substrate = NULL;
-    
+
 	void initPopulation();
 	void nextGeneration();
     NEAT::Substrate* createSubstrate(int input, int output);
-    
+
 public:
     MultiNEATEvolver(ControllerEvolver::CONTROLLER contType);
 	~MultiNEATEvolver();

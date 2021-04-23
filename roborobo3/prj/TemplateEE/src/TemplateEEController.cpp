@@ -20,40 +20,40 @@ using namespace Neural;
 TemplateEEController::TemplateEEController( RobotWorldModel *wm )
 {
     _wm = wm;
-    
+
     nn = NULL;
-    
+
     // evolutionary engine
-    
+
     _minValue = -1.0;
     _maxValue = 1.0;
-    
+
     _currentSigma = TemplateEESharedData::gSigmaRef;
-    
+
     // behaviour
-    
+
     _iteration = 0;
-    
+
     _birthdate = 0;
-    
+
     _isListening = true;
     _notListeningDelay = TemplateEESharedData::gNotListeningStateDelay;
     _listeningDelay = TemplateEESharedData::gListeningStateDelay;
-    
+
     _nbGenomeTransmission = 0;
-    
+
     if ( gEnergyLevel )
         _wm->setEnergyLevel(gEnergyInit);
-    
+
     if ( gNbOfLandmarks > 0 )
         _wm->updateLandmarkSensor(); // wrt closest landmark
-    
+
     reset();
     resetFitness();
-    
+
     _wm->setAlive(true);
     _wm->setRobotLED_colorValues(255, 0, 0);
-    
+
 }
 
 TemplateEEController::~TemplateEEController()
@@ -66,13 +66,13 @@ TemplateEEController::~TemplateEEController()
 void TemplateEEController::step() // handles control decision and evolution (but: actual movement is done in roborobo's main loop)
 {
     _iteration++;
-    
+
     // * step evolution
-    
+
     stepEvolution();
-    
+
     // * step controller
-    
+
     if ( _wm->isAlive() )
     {
         stepController();
@@ -83,28 +83,28 @@ void TemplateEEController::step() // handles control decision and evolution (but
         _wm->_desiredTranslationalValue = 0.0;
         _wm->_desiredRotationalVelocity = 0.0;
     }
-    
+
     // * updating listening state
-    
+
     if ( _wm->isAlive() == false )
     {
         assert ( _notListeningDelay >= -1 ); // -1 means infinity
-        
+
         if ( _notListeningDelay > 0 )
         {
             _notListeningDelay--;
-            
+
             if ( _notListeningDelay == 0 )
             {
-                
+
                 _listeningDelay = TemplateEESharedData::gListeningStateDelay;
-                
+
                 if ( _listeningDelay > 0 || _listeningDelay == -1 )
                 {
                     _isListening = true;
-                    
+
                     _wm->setRobotLED_colorValues(0, 255, 0); // is listening
-                    
+
                     std::string sLog = std::string("");
                     sLog += "" + std::to_string(gWorld->getIterations()) + "," + std::to_string(_wm->getId()) + "::" + std::to_string(_birthdate) + ",status,listening\n";
                     gLogManager->write(sLog);
@@ -123,9 +123,9 @@ void TemplateEEController::step() // handles control decision and evolution (but
             if ( _notListeningDelay != -1 && _listeningDelay > 0 )
             {
                 assert ( _isListening == true );
-                
+
                 _listeningDelay--;
-                
+
                 if ( _listeningDelay == 0 )
                 {
                     _isListening = false;
@@ -137,9 +137,9 @@ void TemplateEEController::step() // handles control decision and evolution (but
 
                     _notListeningDelay = -1; // agent will not be able to be active anymore
                     _wm->setRobotLED_colorValues(0, 0, 255); // is not listening
-                    
+
                     reset(); // destroy then create a new NN
-                    
+
                     _wm->setAlive(false);
                 }
             }
@@ -155,8 +155,8 @@ void TemplateEEController::step() // handles control decision and evolution (but
 
 
 std::vector<double> TemplateEEController::getInputs(){
-    
-    
+
+
     // WHAT FOLLOWS IS A TEMPLATE FOR LOADING A NN-CONTROLER WITH A SENSORY INPUT INFORMATION
     // It uses general properties.
     //
@@ -202,17 +202,17 @@ std::vector<double> TemplateEEController::getInputs(){
     //      - blue value
     // - relative distance and/or orientation of either the closest landmark or to all landmarks (or to none)
     // - normalized energy level (if any)
-    
 
-    
+
+
     std::vector<double> inputs;
-    
+
     // distance sensors
     for(int i  = 0; i < _wm->_cameraSensorsNb; i++)
     {
         if ( gSensoryInputs_distanceToContact )
             inputs.push_back( _wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i) );
-        
+
         int objectId = _wm->getObjectIdFromCameraSensor(i);
 
         if ( gSensoryInputs_physicalObjectType )
@@ -243,7 +243,7 @@ std::vector<double> TemplateEEController::getInputs(){
                 }
             }
         }
-        
+
         if ( gSensoryInputs_isOtherAgent )
         {
             // input: another agent? If yes: same group?
@@ -251,7 +251,7 @@ std::vector<double> TemplateEEController::getInputs(){
             {
                 // this is an agent
                 inputs.push_back( 1 );
-                
+
                 if ( gSensoryInputs_otherAgentGroup )
                 {
                     // same group?
@@ -264,7 +264,7 @@ std::vector<double> TemplateEEController::getInputs(){
                         inputs.push_back( 0 ); // not the same group
                     }
                 }
- 
+
                 if ( gSensoryInputs_otherAgentOrientation )
                 {
                     // relative orientation? (ie. angle difference wrt. current agent)
@@ -298,7 +298,7 @@ std::vector<double> TemplateEEController::getInputs(){
                 }
             }
         }
-        
+
         if ( gSensoryInputs_isWall )
         {
             // input: wall or empty?
@@ -311,9 +311,9 @@ std::vector<double> TemplateEEController::getInputs(){
                 inputs.push_back( 0 ); // nothing. (objectId=-1)
             }
         }
-        
+
     }
-    
+
     // floor sensor
     if ( gSensoryInputs_groundSensors )
     {
@@ -321,7 +321,7 @@ std::vector<double> TemplateEEController::getInputs(){
         inputs.push_back( (double)_wm->getGroundSensor_greenValue()/255.0 );
         inputs.push_back( (double)_wm->getGroundSensor_blueValue()/255.0 );
     }
-    
+
     // landmark(s)
     if ( gSensoryInputs_landmarkTrackerMode == 1 ) // closest landmark only
     {
@@ -351,21 +351,21 @@ std::vector<double> TemplateEEController::getInputs(){
                 }
             }
         }
-    
+
     // energy level
     if ( gEnergyLevel && gSensoryInputs_energyLevel )
     {
         inputs.push_back( _wm->getEnergyLevel() / gEnergyMax );
     }
-    
-    // reentrant mapping from output neurons (motor or virtual output neurons, if any) -- Jordan-like reccurence. 
+
+    // reentrant mapping from output neurons (motor or virtual output neurons, if any) -- Jordan-like reccurence.
     if ( gReentrantMapping_motorOutputs || gReentrantMapping_virtualOutputs )
     {
         std::vector<double> outputs = nn->readOut();
-        
+
         size_t i_start = 0;
         size_t i_end = outputs.size();
-        
+
         if ( gReentrantMapping_motorOutputs == false )
         {
             if ( TemplateEESharedData::gEnergyRequestOutput )
@@ -377,7 +377,7 @@ std::vector<double> TemplateEEController::getInputs(){
                 i_start = 2;
             }
         }
-        
+
         if ( gReentrantMapping_virtualOutputs == false )
         {
             if ( TemplateEESharedData::gEnergyRequestOutput )
@@ -389,7 +389,7 @@ std::vector<double> TemplateEEController::getInputs(){
                 i_end = 2;
             }
         }
-            
+
         for ( size_t i = i_start ; i < i_end ; i++ )
         {
             inputs.push_back( outputs[i] );
@@ -402,13 +402,13 @@ std::vector<double> TemplateEEController::getInputs(){
 void TemplateEEController::stepController()
 {
     // ---- compute and read out ----
-    
+
     nn->setWeights(_parameters); // set-up NN
-    
+
     std::vector<double> inputs = getInputs(); // Build list of inputs (check properties file for extended/non-extended input values
-    
+
     nn->setInputs(inputs);
-    
+
     switch ( TemplateEESharedData::gControllerType )
     {
         case 3: // ESN: multiple NN updates are possible (reservoir contains recurrent connections)
@@ -419,19 +419,19 @@ void TemplateEEController::stepController()
 		default:
 			nn->step();
 	}
-    
+
     std::vector<double> outputs = nn->readOut();
-    
+
     // std::cout << "[DEBUG] Neural Network :" << nn->toString() << " of size=" << nn->getRequiredNumberOfWeights() << std::endl;
-    
+
     _wm->_desiredTranslationalValue = outputs[0];
     _wm->_desiredRotationalVelocity = outputs[1];
-    
+
     if ( TemplateEESharedData::gEnergyRequestOutput )
     {
         _wm->setEnergyRequestValue(outputs[2]);
     }
-    
+
     // normalize to motor interval values
     _wm->_desiredTranslationalValue = _wm->_desiredTranslationalValue * gMaxTranslationalSpeed;
     _wm->_desiredRotationalVelocity = _wm->_desiredRotationalVelocity * gMaxRotationalSpeed;
@@ -441,10 +441,10 @@ void TemplateEEController::stepController()
 void TemplateEEController::createNN()
 {
     setIOcontrollerSize(); // compute #inputs and #outputs
-    
+
     if ( nn != NULL ) // useless: delete will anyway check if nn is NULL or not.
         delete nn;
-    
+
     switch ( TemplateEESharedData::gControllerType )
     {
         case 0:
@@ -475,9 +475,9 @@ void TemplateEEController::createNN()
 				TemplateEESharedData::gESNAllowInputToReservoirConnections,	// allowInputToReservoirConnections
 				TemplateEESharedData::gESNFixedInputToReservoirConnections,	// fixedInputToReservoirConnections
 				TemplateEESharedData::gESNAllowOutputToReservoirConnections, 	// allowOutputToReservoirConnections
-				TemplateEESharedData::gESNAddConstantInputBias,	// addConstantInputBias 
+				TemplateEESharedData::gESNAddConstantInputBias,	// addConstantInputBias
 				TemplateEESharedData::gESNAddSinInputBias,	// addSinInputBias
-				TemplateEESharedData::gESNSinBiasPeriod,	// sinBiasPeriod 
+				TemplateEESharedData::gESNSinBiasPeriod,	// sinBiasPeriod
 				TemplateEESharedData::gESNUseSparseComputation	// useSparseComputation
 			);
             break;
@@ -522,7 +522,7 @@ void TemplateEEController::stepEvolution()
 
         _dSumTravelled = _dSumTravelled + getEuclideanDistance( _wm->getXReal(), _wm->getYReal(), _Xinit, _Yinit ); //remark: incl. squareroot.
     }
-    
+
     // log the genome (only at the second iteration during snapshot time)
     if ( TemplateEESharedData::gLogGenomeSnapshot && gWorld->getIterations() % ( TemplateEESharedData::gEvaluationTime * TemplateEESharedData::gSnapshotsFrequency ) == 1 )
     {
@@ -540,13 +540,13 @@ void TemplateEEController::stepEvolution()
         }
         else
             sLog += "n/a"; // do not write genome
-        
+
         sLog += "\n";
         gLogManager->write(sLog);
         gLogManager->flush();
     }
-    
-    
+
+
     if ( getNewGenomeStatus() ) // check for new NN parameters
     {
         mapGenotypeToPhenotype();
@@ -593,12 +593,12 @@ void TemplateEEController::selectRandomGenome() // if called, assume genomeList.
         it ++;
         randomIndex --;
     }
-    
+
     _currentGenome = (*it).second;
     _currentSigma = _sigmaList[(*it).first];
     _birthdate = gWorld->getIterations();
-    
-    setNewGenomeStatus(true); 
+
+    setNewGenomeStatus(true);
 }
 
 // used for debugging
@@ -607,23 +607,23 @@ void TemplateEEController::selectFirstGenome()  // if called, assume genomeList.
     _currentGenome = (*_genomesList.begin()).second;
     _currentSigma = _sigmaList[(*_genomesList.begin()).first];
     _birthdate = gWorld->getIterations();
-    
+
     setNewGenomeStatus(true);
 }
 
 void TemplateEEController::selectBestGenome()
 {
     std::pair<int,int> bestId;
-    
+
     std::map<std::pair<int,int>, float >::iterator fitnessesIt = _fitnessValueList.begin();
-    
+
     float bestFitnessValue = (*fitnessesIt).second;
     bestId = (*fitnessesIt).first;
-    
+
     ++fitnessesIt;
-    
+
     int nbSimilar = 0;
-    
+
     for ( int i = 1 ; fitnessesIt != _fitnessValueList.end(); ++fitnessesIt, i++)
     {
         if ( (*fitnessesIt).second >= bestFitnessValue )
@@ -640,12 +640,12 @@ void TemplateEEController::selectBestGenome()
             }
         }
     }
-    
+
     if ( nbSimilar > 0 ) // >1 genomes have the same fitness best value. Pick randomly among them
     {
         int count = 0;
         int randomPick = randint() % ( nbSimilar + 1 );
-        
+
         if ( randomPick != 0 ) // not already stored (i.e. not the first one)
         {
             fitnessesIt = _fitnessValueList.begin();
@@ -663,40 +663,40 @@ void TemplateEEController::selectBestGenome()
             }
         }
     }
-    
+
     _birthdate = gWorld->getIterations();
-    
+
     _currentGenome = _genomesList[bestId];
     _currentSigma = _sigmaList[bestId];
-    
+
     setNewGenomeStatus(true);
 }
 
 void TemplateEEController::selectFitProp()
 {
     std::pair<int,int> selectId;
-    
+
     // compute sum of fitness
-    
+
     float sumOfFit = 0;
-    
+
     std::map<std::pair<int,int>, float >::iterator fitnessesIt = _fitnessValueList.begin();
-    
+
     for ( ; fitnessesIt != _fitnessValueList.end(); ++fitnessesIt )
     {
         sumOfFit += (*fitnessesIt).second;
     }
-    
+
     // randomly draw a value in [0,sum_of_fitness] -- assume maximisation
-    
+
     float fitnessTarget = random01()*sumOfFit;
-    
+
     // find the parent
 
     float currentSum = 0;
 
     fitnessesIt = _fitnessValueList.begin();
-    
+
     for ( ; fitnessesIt != _fitnessValueList.end(); ++fitnessesIt )
     {
         currentSum += (*fitnessesIt).second;
@@ -706,21 +706,21 @@ void TemplateEEController::selectFitProp()
             break;
         }
     }
-    
+
     // update current genome with selected parent (mutation will be done elsewhere)
-    
+
     _birthdate = gWorld->getIterations();
-    
+
     _currentGenome = _genomesList[selectId];
     _currentSigma = _sigmaList[selectId];
-    
+
     setNewGenomeStatus(true);
 }
 
 void TemplateEEController::mutateGaussian(float sigma) // mutate within bounds.
 {
     _currentSigma = sigma;
-    
+
     for (unsigned int i = 0 ; i != _currentGenome.size() ; i++ )
     {
         double value = _currentGenome[i] + randgaussian()*_currentSigma;
@@ -745,10 +745,10 @@ void TemplateEEController::mutateGaussian(float sigma) // mutate within bounds.
             else // overflow btw range and range*2
                 value = _maxValue - range + (overflow-range);
         }
-        
+
         _currentGenome[i] = value;
     }
-    
+
 }
 
 
@@ -759,7 +759,7 @@ void TemplateEEController::mutateUniform() // mutate within bounds.
         float randomValue = float(randint()%100) / 100.0; // in [0,1[
         double range = _maxValue - _minValue;
         double value = randomValue * range + _minValue;
-        
+
         _currentGenome[i] = value;
     }
 }
@@ -768,9 +768,9 @@ void TemplateEEController::mutateUniform() // mutate within bounds.
 void TemplateEEController::setIOcontrollerSize()
 {
     // wrt inputs
-    
+
     _nbInputs = 0;
-    
+
     if ( gSensoryInputs_distanceToContact )
         _nbInputs += _wm->_cameraSensorsNb;
     if ( gSensoryInputs_physicalObjectType )
@@ -806,14 +806,14 @@ void TemplateEEController::setIOcontrollerSize()
                 _nbInputs += gNbOfLandmarks;
         }
     }
-    
+
     if ( gEnergyLevel && gSensoryInputs_energyLevel )
         _nbInputs += 1;
 
     // wrt outputs
-    
+
     _nbOutputs = 2;
-    
+
     if ( TemplateEESharedData::gEnergyRequestOutput )
         _nbOutputs += 1; // incl. energy request
 
@@ -824,7 +824,7 @@ void TemplateEEController::setIOcontrollerSize()
         _nbOutputs += gVirtualOutputs;
         _nbInputs += gVirtualOutputs;
     }
-    
+
     if ( gReentrantMapping_motorOutputs )
     {
         _nbInputs += 2;
@@ -839,7 +839,7 @@ void TemplateEEController::initController()
     _nbNeuronsPerHiddenLayer = new std::vector<unsigned int>(_nbHiddenLayers);
     for(unsigned int i = 0; i < _nbHiddenLayers; i++)
         (*_nbNeuronsPerHiddenLayer)[i] = TemplateEESharedData::gNbNeuronsPerHiddenLayer;
-    
+
     createNN();
 
     if ( gVerbose )
@@ -850,16 +850,16 @@ void TemplateEEController::initController()
 void TemplateEEController::initEvolution()
 {
     _currentGenome.clear();
-    
+
     unsigned int const nbGene = computeRequiredNumberOfWeights();
-    
+
     for ( unsigned int i = 0 ; i != nbGene ; i++ )
     {
         _currentGenome.push_back((double)(randint()%TemplateEESharedData::gNeuronWeightRange)/(TemplateEESharedData::gNeuronWeightRange/2)-1.0); // weights: random init between -1 and +1
     }
-    
+
     setNewGenomeStatus(true);
-    
+
     clearReservoir(); // will contain the genomes received from other robots
 }
 
@@ -869,7 +869,7 @@ void TemplateEEController::clearReservoir()
     //std::cout << "[DEBUG] genomesList for agent #" << _wm->getId() << "::" << getBirthdate() << ", at time " << gWorld->getIterations() << "\n";
     //for ( std::map<std::pair<int,int>, std::vector<double> >::iterator it = _genomesList.begin() ; it != _genomesList.end() ; it++ )
     //    std::cout << "[DEBUG] " << (*it).first.first << "::" << (*it).first.second << "\n";
-    
+
     _genomesList.clear(); // empty the list of received genomes
     _sigmaList.clear();
     _fitnessValueList.clear();
@@ -886,14 +886,14 @@ void TemplateEEController::reset()
 void TemplateEEController::mutateSigmaValue()
 {
     float dice = float(randint()%100) / 100.0;
-    
+
     if ( dice <= TemplateEESharedData::gProbaMutation )
     {
         dice = float(randint() %100) / 100.0;
         if ( dice < 0.5 )
         {
             _currentSigma = _currentSigma * ( 1 + TemplateEESharedData::gUpdateSigmaStep ); // increase sigma
-            
+
             if (_currentSigma > TemplateEESharedData::gSigmaMax)
             {
                 _currentSigma = TemplateEESharedData::gSigmaMax;
@@ -902,7 +902,7 @@ void TemplateEEController::mutateSigmaValue()
         else
         {
             _currentSigma = _currentSigma * ( 1 - TemplateEESharedData::gUpdateSigmaStep ); // decrease sigma
-            
+
             if ( _currentSigma < TemplateEESharedData::gSigmaMin )
             {
                 _currentSigma = TemplateEESharedData::gSigmaMin;
@@ -915,27 +915,27 @@ void TemplateEEController::mutateSigmaValue()
 void TemplateEEController::broadcastGenome()
 {
     // remarque \todo: limiting genome transmission is sensitive to sensor order. (but: assume ok)
-    
+
     for( int i = 0 ; i < _wm->_cameraSensorsNb && ( TemplateEESharedData::gLimitGenomeTransmission == false || ( TemplateEESharedData::gLimitGenomeTransmission == true && _nbGenomeTransmission < TemplateEESharedData::gMaxNbGenomeTransmission ) ); i++)
     {
         int targetIndex = _wm->getObjectIdFromCameraSensor(i);
-        
+
         if ( targetIndex >= gRobotIndexStartOffset && targetIndex < gRobotIndexStartOffset+gNbOfRobots )   // sensor ray bumped into a robot : communication is possible
         {
             targetIndex = targetIndex - gRobotIndexStartOffset; // convert image registering index into robot id.
-            
+
             TemplateEEController* targetRobotController = dynamic_cast<TemplateEEController*>(gWorld->getRobot(targetIndex)->getController());
-            
+
             if ( ! targetRobotController )
             {
                 std::cerr << "Error from robot " << _wm->getId() << " : the observer of robot " << targetIndex << " is not compatible." << std::endl;
                 exit(-1);
             }
-            
+
             if ( targetRobotController->isListening() )
             {
                 bool retValue = sendGenome(targetRobotController);
-                
+
                 if ( retValue == true )
                     _nbGenomeTransmission++; // count unique transmissions (ie. nb of different genomes stored).
             }
@@ -980,43 +980,43 @@ void TemplateEEController::loadNewGenome()
     {
         if ( _wm->isAlive() )
             logCurrentState();
-        
+
         // note: at this point, agent got energy, whether because it was revived or because of remaining energy.
-        
+
         if (_genomesList.size() > 0)
         {
             // case: 1+ genome(s) imported, random pick.
-            
+
             performSelection();
             logLineage();
             performVariation();
             clearReservoir();
-            
+
             //logCurrentState();
-            
+
             _wm->setAlive(true);
-            
+
             std::string sLog = std::string("");
             sLog += "" + std::to_string(gWorld->getIterations()) + "," + std::to_string(_wm->getId()) + "::" + std::to_string(_birthdate) + ",status,active\n";
             gLogManager->write(sLog);
             gLogManager->flush();
-            
+
             if ( _wm->getEnergyLevel() == 0 )
                 _wm->setEnergyLevel(gEnergyInit);
-            
+
             _Xinit = _wm->getXReal();
             _Yinit = _wm->getYReal();
             _dSumTravelled = 0;
-            
+
             _wm->setRobotLED_colorValues(255, 0, 0);
-            
+
             // log the genome (or at least the existence of a genome)
             if ( _wm->isAlive() )
             {
                 // Logging: full genome
                 std::string sLog = std::string("");
                 sLog += "" + std::to_string(gWorld->getIterations()) + "," + std::to_string(_wm->getId()) + "::" + std::to_string(_birthdate) + ",genome,";
-                
+
                 /*
                  // write genome (takes a lot of disk space)
                  for(unsigned int i=0; i<_genome.size(); i++)
@@ -1026,7 +1026,7 @@ void TemplateEEController::loadNewGenome()
                  }
                  */
                 sLog += "(...)"; // do not write genome
-                
+
                 sLog += "\n";
                 gLogManager->write(sLog);
                 gLogManager->flush();
@@ -1035,20 +1035,20 @@ void TemplateEEController::loadNewGenome()
         else
         {
             // case: no imported genome and the robot is/was active - robot is set to inactive (which means: robot is put off-line (if gDeathState is true), then wait for new genome (if gListenState is true))
-            
+
             if ( _wm->isAlive() == true )
             {
-                
+
                 // Logging: "no genome"
                 std::string sLog = std::string("");
                 sLog += "" + std::to_string(gWorld->getIterations()) + "," + std::to_string(_wm->getId()) + "::" + std::to_string(_birthdate) + ",genome,n/a.\n";
                 gLogManager->write(sLog);
                 gLogManager->flush();
-                
+
                 reset(); // destroy then create a new NN
-                
+
                 _wm->setAlive(false); // inactive robot *must* import a genome from others (ie. no restart).
-                
+
                 if ( TemplateEESharedData::gNotListeningStateDelay != 0 ) // ie. -1 (infinite,dead) or >0 (temporary,mute)
                 {
                     _isListening = false;
@@ -1056,12 +1056,12 @@ void TemplateEEController::loadNewGenome()
                     _notListeningDelay = TemplateEESharedData::gNotListeningStateDelay;
                     _listeningDelay = TemplateEESharedData::gListeningStateDelay;
                     _wm->setRobotLED_colorValues(0, 0, 255); // is not listening
-                    
+
                     std::string sLog = std::string("");
                     sLog += "" + std::to_string(gWorld->getIterations()) + "," + std::to_string(_wm->getId()) + "::" + std::to_string(_birthdate) + ",status,inactive\n";
                     gLogManager->write(sLog);
                     gLogManager->flush();
-                    
+
                 }
                 else
                 {
@@ -1070,9 +1070,9 @@ void TemplateEEController::loadNewGenome()
                     if ( _listeningDelay > 0 || _listeningDelay == -1 )
                     {
                         _isListening = true;
-                        
+
                         _wm->setRobotLED_colorValues(0, 255, 0); // is listening
-                        
+
                         std::string sLog = std::string("");
                         sLog += "" + std::to_string(gWorld->getIterations()) + "," + std::to_string(_wm->getId()) + "::" + std::to_string(_birthdate) + ",status,listening\n";
                         gLogManager->write(sLog);
@@ -1093,7 +1093,7 @@ void TemplateEEController::loadNewGenome()
 
 void TemplateEEController::logCurrentState()
 {
-    // Logging
+    // Logginghttps://github.com/BCLab-UNM/iAnt-ARGoS/tree/lukey_development
     std::string sLog = "" + std::to_string(gWorld->getIterations()) + "," + std::to_string(_wm->getId()) + "::" + std::to_string(_birthdate) +
     ",age," + std::to_string(gWorld->getIterations()-_birthdate) +
     ",energy," +  std::to_string(_wm->getEnergyLevel()) +
@@ -1142,7 +1142,7 @@ bool TemplateEEController::sendGenome( TemplateEEController* __targetRobotContro
     p->fitness = getFitness();
     p->genome = _currentGenome;
     p->sigma = _currentSigma;
-    
+
     bool retValue = __targetRobotController->receiveGenome(p);
 
     delete p;
@@ -1160,7 +1160,7 @@ bool TemplateEEController::receiveGenome(Packet* p)
 //bool TemplateEEController::receiveGenome(std::vector<double> __genome, std::pair<int,int> __senderId, float __sigma, float __fitness) // sigma and fitness are optional (default: 0)
 {
     std::map<std::pair<int,int>, std::vector<double> >::const_iterator it = _genomesList.find(p->senderId);
-    
+
     if ( it != _genomesList.end() ) // this exact agent's genome is already stored. Exact means: same robot, same generation. Then: update fitness value (the rest in unchanged)
     {
         _fitnessValueList[p->senderId] = p->fitness; // update with most recent fitness

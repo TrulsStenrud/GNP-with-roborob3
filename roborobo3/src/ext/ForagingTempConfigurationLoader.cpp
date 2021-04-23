@@ -5,10 +5,11 @@
 #include "ForagingTemp/include/ForagingTempAgentObserver.h"
 #include "ForagingTemp/include/ForagingTempController.h"
 #include "WorldModels/RobotWorldModel.h"
-#include <stdlib.h>
 #include "../../include/masterthesis/evolvers/ControllerEvolver.h"
 #include "../../include/masterthesis/evolvers/MultiNEATEvolver.h"
 #include "../../include/masterthesis/evolvers/GNPEvolver.h"
+#include "../../include/masterthesis/evolvers/MPFAEvolver.h"
+#include <stdlib.h>
 
 using namespace std;
 
@@ -16,19 +17,24 @@ ControllerEvolver::CONTROLLER ForagingTempConfigurationLoader::controllerType = 
 
 ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 {
+	int cType = 0;
+	gProperties.checkAndGetPropertyValue("gControllerType", &cType, true);
+	controllerType = static_cast<ControllerEvolver::CONTROLLER>(cType);
 	std::cout<<"controller type: "<<controllerType<<std::endl;
 	switch(controllerType){
 	case ControllerEvolver::GNP:
-            _evolver = new GNPEvolver();
+		_evolver = new GNPEvolver();
 		break;
 	case ControllerEvolver::NEAT:
 	case ControllerEvolver::NoveltySearch:
 	case ControllerEvolver::HyperNEAT:
-	case ControllerEvolver::ESHyperNEAT:
 		_evolver = new MultiNEATEvolver(controllerType);
 		break;
 	case ControllerEvolver::MPFA:
-		cout<<"MPFA controller type not implemented yet. Exiting..."<<endl;
+		_evolver = new MPFAEvolver();
+		break;
+	default:
+		cout<<"controller type not implemented yet. Exiting..."<<endl;
 		exit(3);
 		break;
 	}
@@ -59,9 +65,7 @@ AgentObserver* ForagingTempConfigurationLoader::make_AgentObserver(RobotWorldMod
 
 Controller* ForagingTempConfigurationLoader::make_Controller(RobotWorldModel* wm)
 {
-	// få _evolver inn i bildet her. sende argument for hvor mange som skal bli skapt?
 	return _evolver->make_Controller(wm);
-	//return new ForagingTempController(wm);
 }
 
 #endif

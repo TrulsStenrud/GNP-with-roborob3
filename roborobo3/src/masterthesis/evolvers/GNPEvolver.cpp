@@ -13,14 +13,16 @@
 GNPEvolver::GNPEvolver(){
     _evalIndex = 0;
     
-    double populationSize;
+    int populationSize;
     gProperties.checkAndGetPropertyValue("gEvolutionPopulationSize", &populationSize, true);
     
     auto library = GNPController::getNodeLibrary();
     
     _params = new GNP::Parameters();
+    _params->populationSize = populationSize;
     
-    _logger = new Logger("GNP");
+    
+    _logger = new Logger("GNP" + std::to_string(populationSize));
     
     _pop = new GNP::Population(library, _params);
     _logger->log("Generation " + std::to_string(_generation));
@@ -29,7 +31,7 @@ GNPEvolver::GNPEvolver(){
 void GNPEvolver::evalDone(DataPacket* dp){
     _pop->AccessGenomeByIndex(_evalIndex).setFitness(dp->fitness);
     
-    _logger->log(dp->fitness);
+    _logger->log(dp->foragingPercentage);
     
     _evalIndex++;
     

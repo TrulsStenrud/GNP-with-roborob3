@@ -38,7 +38,7 @@ Genome::Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int
     // add processing nodes
     for(int i = 0; i < _nbProcessingNodes; i++){
         for(int j = 0; j < nbEachProcessingNode; j++){
-            double v = randgaussian()/5 + 0.5;
+            double v = random01();//randgaussian()/5 + 0.5;
             if(v < 0){
                 v = 0;
             }else if(v > 1){
@@ -175,7 +175,7 @@ Genome Genome::processingNodeMutate(){
     
     auto newNodes = _nodes;
     
-    newNodes[mNode].v += randgaussian()/5;
+    newNodes[mNode].v = random01();//+= randgaussian()/5;
     if(newNodes[mNode].v < 0.0){
         newNodes[mNode].v = 0.0;
     }else if(newNodes[mNode].v > 1.0){

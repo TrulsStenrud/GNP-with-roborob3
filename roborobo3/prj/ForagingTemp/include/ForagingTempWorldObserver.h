@@ -31,6 +31,7 @@ public:
     void stepPre() override;
     
     double getFitness();
+    double getForagingPercentage();
 };
 
 #endif

@@ -61,6 +61,15 @@ double ForagingTempWorldObserver::getFitness(){
     return fitness;
 }
 
+double ForagingTempWorldObserver::getForagingPercentage(){
+    double foragedObjects = 0;
+    for(auto nest : gNestObjects){
+        foragedObjects += nest->getCollectedGoods();
+    }
+    
+    return (foragedObjects / _nbForagingObjects) * 100;
+}
+
 
 void ForagingTempWorldObserver::stepPre( )
 {
@@ -121,13 +130,13 @@ DataPacket* ForagingTempWorldObserver::constructDataPacket(){
 	// construct datapacket, then send to all registered listeners.
 	DataPacket* dp = new DataPacket();
 	dp->generation = gWorld->getIterations()/_evalTime;
-    auto fitness = getFitness();
     
     if(_captureBehavior){
         dp->behaviorData = _sampledState->getSampledAverage();
     }
     
-    dp->fitness = fitness;
+    dp->fitness = getFitness();
+    dp->foragingPercentage = getForagingPercentage();
 	dp->robots = new std::vector<Robot*>();
 	for(int i=0; i<gWorld->getNbOfRobots(); i++){
 		dp->robots->push_back(gWorld->getRobot(i));

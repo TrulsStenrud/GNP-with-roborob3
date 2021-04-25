@@ -82,7 +82,7 @@ void MyTestEEWorldObserver::reset(){
     }
     placeRobotsInAllNests();
     
-    
+    _nbForagingObjects = 0;
     
     semiClusteredForagingObjects();
     
@@ -105,12 +105,13 @@ void MyTestEEWorldObserver::semiClusteredForagingObjects()
     placeGridOfObjects(150, 150, 4, 4);
     placeGridOfObjects(850, 600, 4, 4);
     placeGridOfObjects(100, 550, 4, 4);
-    randomForagingObjects(45);
+    randomForagingObjects(54);
 }
 
 
 void MyTestEEWorldObserver::randomForagingObjects(int n)
 {
+    _nbForagingObjects += n;
     srand(1);
     for(int i = 0; i < n; i++){
         ObjectFactory::placeRandomForagingObject();
@@ -125,6 +126,8 @@ void MyTestEEWorldObserver::initPre()
 }
 
 void MyTestEEWorldObserver::placeGridOfObjects(int x, int y, int columns, int rows){
+    _nbForagingObjects += columns * rows;
+    
     int cellWidth = 12;
     int cellHeight = 12;
     
@@ -135,24 +138,10 @@ void MyTestEEWorldObserver::placeGridOfObjects(int x, int y, int columns, int ro
     }
 }
 
-void MyTestEEWorldObserver::placeObject(double x, double y){
-    int id = PhysicalObjectFactory::getNextId();
-    
-    auto newItem = new ForagingObject(id);
-    newItem->setDisplayColor(255,128,64);
-    
-    
-    newItem->unregisterObject();
-    newItem->setCoordinates(x, y);
-    gPhysicalObjects.push_back(newItem);
-    newItem->registerObject();
-}
-
 void MyTestEEWorldObserver::placeRobotsInAllNests() {
-    int perNest = gNbOfRobots / gNestObjects.size();
+    int perNest = round((double)gNbOfRobots / gNestObjects.size());
     int width = sqrt(perNest);
     int spacing = 10;
-    
     
     for(int i = 0; i < gNbOfRobots; i++){
         int startX = gNestObjects[i/perNest]->getXReal() - (spacing * width) / 2;

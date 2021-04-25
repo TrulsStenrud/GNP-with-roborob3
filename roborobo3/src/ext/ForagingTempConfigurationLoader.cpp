@@ -13,13 +13,16 @@
 
 using namespace std;
 
-ControllerEvolver::CONTROLLER ForagingTempConfigurationLoader::controllerType = ControllerEvolver::GNP;
+ControllerEvolver::CONTROLLER ForagingTempConfigurationLoader::controllerType = static_cast<ControllerEvolver::CONTROLLER>(-1);
 
 ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 {
 	int cType = 0;
-	gProperties.checkAndGetPropertyValue("gControllerType", &cType, true);
-	controllerType = static_cast<ControllerEvolver::CONTROLLER>(cType);
+    if (controllerType == -1){
+        gProperties.checkAndGetPropertyValue("gControllerType", &cType, true);
+        controllerType = static_cast<ControllerEvolver::CONTROLLER>(cType);
+    }
+	
 	std::cout<<"controller type: "<<controllerType<<std::endl;
 	switch(controllerType){
 	case ControllerEvolver::GNP:

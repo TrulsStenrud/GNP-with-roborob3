@@ -54,7 +54,11 @@ def groupFiles():
             dic[key] = [fil]
     return dic
     
+def test():
+    with open("testfile.txt", 'w') as file:
+        file.write('it worked')
 
 if( __name__ == "__main__"):
-    doStuff()
+    test()
+    #doStuff()
     # plotResult()

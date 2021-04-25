@@ -75,15 +75,17 @@ def boxFiles(files):
                 if not math.isnan(currVal):
                     max_fitnesses[j] = max(max_fitnesses.get(j, 0), currVal)
             
-            if(i % interval == 0):
+            if((i+1) % interval == 0):
                 
+                print(max_fitnesses)
                 for key in max_fitnesses:
+                    
                     value = max_fitnesses[key]
                     algos.append(algo)
-                    generations.append(i)
+                    generations.append(i+1)
                     fitness.append(value)
                 max_fitnesses = {}
-
+        
 
 
     

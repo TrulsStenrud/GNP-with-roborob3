@@ -251,7 +251,7 @@ int gInspectorAgentYStart = 1;
 
 // agent dynamics and structure
 
-int	gInitialNumberOfRobots = 2;
+int	gInitialNumberOfRobots = 0;
 
 float gMaxTranslationalSpeed = 2; // pixels/sec.
 float gMaxTranslationalDeltaValue = gMaxTranslationalSpeed; // maximum delta update value btw current and desired speed.
@@ -1506,7 +1506,9 @@ bool loadProperties( std::string __propertiesFilename )
 
 	if ( gProperties.hasProperty("gInitialNumberOfRobots") )
     {
-		convertFromString<int>(gInitialNumberOfRobots, gProperties.getProperty("gInitialNumberOfRobots"), std::dec);
+        if(gInitialNumberOfRobots == 0){
+            convertFromString<int>(gInitialNumberOfRobots, gProperties.getProperty("gInitialNumberOfRobots"), std::dec);
+        }
     }
 	else
 	{

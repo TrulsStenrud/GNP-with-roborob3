@@ -116,6 +116,10 @@
 		FB0A376025F66CE200489627 /* main2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A375F25F66CE100489627 /* main2.cpp */; };
 		FB0A376825F9123F00489627 /* SampledAverageState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A376625F9123F00489627 /* SampledAverageState.cpp */; };
 		FB3E7D492608EF6000933203 /* Behavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB3E7D472608EF6000933203 /* Behavior.cpp */; };
+		FB4D39F12635816400FF7567 /* MPFAEvolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB4D39ED2635816300FF7567 /* MPFAEvolver.cpp */; };
+		FB4D39F22635816400FF7567 /* MPFAController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB4D39EE2635816300FF7567 /* MPFAController.h */; };
+		FB4D39F32635816400FF7567 /* MPFAController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB4D39EF2635816300FF7567 /* MPFAController.cpp */; };
+		FB4D39F42635816400FF7567 /* MPFAEvolver.h in Sources */ = {isa = PBXBuildFile; fileRef = FB4D39F02635816400FF7567 /* MPFAEvolver.h */; };
 		FB7A658D25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658C25D6C29200A28264 /* MyTestProjectConfigurationLoader.cpp */; };
 		FB7A659225D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h in Sources */ = {isa = PBXBuildFile; fileRef = FB7A659125D6C4AA00A28264 /* MyTestProjectConfigurationLoader.h */; };
 		FB7A659925D6C5DE00A28264 /* MyTestProjectAgentObserver.h in Sources */ = {isa = PBXBuildFile; fileRef = FB7A658625D6C19800A28264 /* MyTestProjectAgentObserver.h */; };
@@ -392,6 +396,10 @@
 		FB0A376725F9123F00489627 /* SampledAverageState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampledAverageState.h; sourceTree = "<group>"; };
 		FB3E7D472608EF6000933203 /* Behavior.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Behavior.cpp; sourceTree = "<group>"; };
 		FB3E7D482608EF6000933203 /* Behavior.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Behavior.h; sourceTree = "<group>"; };
+		FB4D39ED2635816300FF7567 /* MPFAEvolver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MPFAEvolver.cpp; sourceTree = "<group>"; };
+		FB4D39EE2635816300FF7567 /* MPFAController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPFAController.h; sourceTree = "<group>"; };
+		FB4D39EF2635816300FF7567 /* MPFAController.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MPFAController.cpp; sourceTree = "<group>"; };
+		FB4D39F02635816400FF7567 /* MPFAEvolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPFAEvolver.h; sourceTree = "<group>"; };
 		FB7A658425D6C19800A28264 /* MyTestProjectWorldObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectWorldObserver.h; sourceTree = "<group>"; };
 		FB7A658525D6C19800A28264 /* MyTestProjectController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectController.h; sourceTree = "<group>"; };
 		FB7A658625D6C19800A28264 /* MyTestProjectAgentObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyTestProjectAgentObserver.h; sourceTree = "<group>"; };
@@ -1045,6 +1053,7 @@
 			isa = PBXGroup;
 			children = (
 				FB0A371D25F66B8500489627 /* MultiNEATEvolver.cpp */,
+				FB4D39ED2635816300FF7567 /* MPFAEvolver.cpp */,
 				FB092330261DA65200BA2F2E /* GNPEvolver.cpp */,
 			);
 			path = evolvers;
@@ -1055,6 +1064,7 @@
 			children = (
 				FB0A373225F66B9F00489627 /* MultiNEATEvolver.h */,
 				FB092331261DA65200BA2F2E /* GNPEvolver.h */,
+				FB4D39F02635816400FF7567 /* MPFAEvolver.h */,
 				FB0A373425F66B9F00489627 /* ControllerEvolver.h */,
 			);
 			path = evolvers;
@@ -1110,6 +1120,7 @@
 		FB0A371A25F66B8500489627 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FB4D39EF2635816300FF7567 /* MPFAController.cpp */,
 				FB0A371B25F66B8500489627 /* MultiNEATController.cpp */,
 				FB0A371C25F66B8500489627 /* GNPController.cpp */,
 			);
@@ -1154,6 +1165,7 @@
 			isa = PBXGroup;
 			children = (
 				FB0A373325F66B9F00489627 /* MultiNEATController.h */,
+				FB4D39EE2635816300FF7567 /* MPFAController.h */,
 				FB0A373525F66B9F00489627 /* GNPController.h */,
 			);
 			path = controllers;
@@ -1328,6 +1340,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB4D39F12635816400FF7567 /* MPFAEvolver.cpp in Sources */,
+				FB4D39F22635816400FF7567 /* MPFAController.h in Sources */,
+				FB4D39F32635816400FF7567 /* MPFAController.cpp in Sources */,
+				FB4D39F42635816400FF7567 /* MPFAEvolver.h in Sources */,
 				FB0A375A25F66C7A00489627 /* ForagingTempSharedData.cpp in Sources */,
 				FB0A375B25F66C7A00489627 /* ForagingTempWorldObserver.cpp in Sources */,
 				FB0A375C25F66C7A00489627 /* ForagingTempAgentObserver.cpp in Sources */,

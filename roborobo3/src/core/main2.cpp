@@ -12,6 +12,7 @@
 #include <getopt.h>
 #include <unistd.h>
 #include <signal.h>
+#include "../../include/ext/Config/ForagingTempConfigurationLoader.h"
 
 // For getopt
 extern char *optarg;
@@ -95,7 +96,8 @@ int roboroboMain(int argc, char* argv[])
 
     displayGeneralInformation();
 
-    int c = getopt (argc, argv, "vhsl:o:");
+    auto flags = "vhsl:a:r:o:";
+    int c = getopt (argc, argv, flags);
 
     if ( c  == -1 ) // no arguments? display usage.
     {
@@ -132,14 +134,13 @@ int roboroboMain(int argc, char* argv[])
     while ( c  != -1 )
     {
         //std::cout << "Argument: " << (int)c << " ; " << (char)c << std::endl; //todo :: DEBUG
-
         switch (c)
         {
             case 'v':
                 versionInfos();
                 return -1;
                 break;
-
+            
             case 'l':
                 if ( commandline_propertiesfilename == false )
                 {
@@ -151,6 +152,26 @@ int roboroboMain(int argc, char* argv[])
                 {
                     std::cout << "[INFO] Command-line parameter: properties file already set (\"" <<  gPropertiesFilename << "\"). Ignored." << std::endl;
                 }
+                break;
+                
+            case 'a':
+                 
+                if (optarg == std::string("GNP")){
+                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::GNP;
+                }
+                else if(optarg == std::string("NEAT")){
+                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::NEAT;
+                }
+                else if(optarg == std::string("NoveltySearch")){
+                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::NoveltySearch;
+                }
+                else if(optarg == std::string("GNP++")){
+                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::NEAT;
+                }
+                 
+                break;
+            case 'r':
+                gInitialNumberOfRobots = std::stoi(optarg);
                 break;
 
             case 'o':
@@ -192,7 +213,7 @@ int roboroboMain(int argc, char* argv[])
                 break;
         }
 
-        c = getopt (argc, argv, "vhsbl:o:");
+        c = getopt (argc, argv, flags);
     }
 
     /**/

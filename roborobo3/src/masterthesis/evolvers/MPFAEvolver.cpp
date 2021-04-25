@@ -27,7 +27,7 @@ Controller* MPFAEvolver::make_Controller(RobotWorldModel* wm){
 
 void MPFAEvolver::evalDone(DataPacket* dp){
 	_pop->at(_evalIndex).fitness = dp->fitness;
-	_logger->log(dp->fitness);
+	_logger->log(dp->foragingPercentage);
 	_evalIndex++;
 	if(_evalIndex >= _popSize){
 		newGeneration();

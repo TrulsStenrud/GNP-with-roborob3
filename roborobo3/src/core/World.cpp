@@ -25,7 +25,7 @@ struct executor
     std::vector<int>& _vect;
     executor(std::vector<int>& t) : _vect(t) {}
     //    executor(executor& e,tbb::split):_tasks(e._tasks) {}
-    
+
     void operator()(const tbb::blocked_range<size_t>& r) const
     {
         for (size_t i=r.begin();i!=r.end();++i)
@@ -40,10 +40,10 @@ static void testTBB2()
 {
     tbb::task_scheduler_init init;  // Automatic number of threads
     // tbb::task_scheduler_init init(2);  // Explicit number of threads
-    
+
     std::vector<int> vect(100000000); //100000000);
     //std::generate(vect.begin(), vect.end(), initElement);
-    
+
     executor exec(vect);
     tbb::parallel_for(tbb::blocked_range<size_t>(0,vect.size()-1),executor(vect));
     //tbb::parallel_for(size_t(0), size_t(vect.size()),executor(vect));
@@ -57,7 +57,7 @@ static void testTBB2()
 World::World()
 {
     //testTBB2();
-    
+
 	_iterations = 0;
 	_agentsVariation = false;
 	_worldObserver = gConfigurationLoader->make_WorldObserver(this);
@@ -69,7 +69,7 @@ World::~World()
 {
 	for ( int i = 0 ; i != gNbOfRobots ; i++ )
 		if ( gRobots[i] != NULL ) delete gRobots[i];
-	
+
 	delete _worldObserver;
 }
 
@@ -83,7 +83,7 @@ void World::initWorld()
 	}
 
     // * set or test are for initial position of agents and objects
-    
+
     if ( gPhysicalObjectsInitAreaWidth == -1 )
         gPhysicalObjectsInitAreaWidth = gAreaWidth - 20;
     if ( gPhysicalObjectsInitAreaHeight == -1 )
@@ -92,7 +92,7 @@ void World::initWorld()
         gAgentsInitAreaWidth = gAreaWidth;
     if ( gAgentsInitAreaHeight == -1 )
         gAgentsInitAreaHeight = gAreaHeight;
-    
+
     if (
         gPhysicalObjectsInitAreaX < 0 || gPhysicalObjectsInitAreaX > gAreaWidth ||
         gPhysicalObjectsInitAreaY < 0 || gPhysicalObjectsInitAreaY > gAreaHeight ||
@@ -107,29 +107,29 @@ void World::initWorld()
         std::cerr << "[ERROR] Incorrect values for *InitArea* parameters for agents and/or objects.\n";
         exit(-1);
     }
-    
-    
+
+
     // *** create robot mask from image
-    
+
     // * Analyse agent mask and make it into a list of coordinates
-    
+
     int nbPointsInMask = 0;
-    
+
     // count number of significant pixels in mask.
-    
+
     for ( int i = 0 ; i != gRobotWidth ; i++ )
         for ( int j = 0 ; j != gRobotHeight ; j++ )
             if ( getPixel32( gRobotMaskImage , i , j) != SDL_MapRGBA( gRobotMaskImage->format, 0xFF, 0xFF, 0xFF, SDL_ALPHA_OPAQUE ) )
             {
                 nbPointsInMask++;
             }
-    
+
     gRobotMaskData.resize(nbPointsInMask);
     for ( int i = 0 ; i != nbPointsInMask ; i++)
         (gRobotMaskData.at(i)).reserve(2);
-    
+
     // count number of significant pixels in mask.
-    
+
     int currentIndex = 0;
     for ( int i = 0 ; i != gRobotWidth ; i++ )
         for ( int j = 0 ; j != gRobotHeight ; j++ )
@@ -140,21 +140,20 @@ void World::initWorld()
                 currentIndex++;
             }
 
-    
     // *** Set up the world with landmarks, objects and robots
-    
+
     _worldObserver->initPre();
-    
+
     for ( int i = 0 ; i != gNbOfLandmarks ; i++)
     {
         gLandmarks.push_back(new LandmarkObject());
     }
-    
+
     for ( int i = 0 ; i != gNbOfPhysicalObjects ; i++)
     {
         PhysicalObjectFactory::makeObject();
     }
-    
+
 	for ( int i = 0 ; i != gInitialNumberOfRobots ; i++ )
 	{
 		Robot *robot = new Robot(this);
@@ -164,7 +163,7 @@ void World::initWorld()
     for ( int i = 0 ; i != gNbOfRobots ; i++ )
 		gRobotsRegistry[i]=false;
 
-    
+
     _worldObserver->initPost();
 }
 
@@ -175,41 +174,41 @@ void World::updateWorld(const Uint8 *__keyboardStates)
     //    outcome: among many iterations, the effect of ordering is reduced.
     //    This means that roborobo is turn-based, with stochastic update ordering within one turn
 
-    
+
     // * update physical object, if any (in random order)
-    
+
     int shuffledObjectIndex[gNbOfPhysicalObjects];
     for ( int i = 0 ; i < gNbOfPhysicalObjects ; i++ )
         shuffledObjectIndex[i] = i;
-    
+
     std::shuffle(&shuffledObjectIndex[0], &shuffledObjectIndex[gNbOfPhysicalObjects],engine);
     //std::random_shuffle(&shuffledObjectIndex[0], &shuffledObjectIndex[gNbOfPhysicalObjects]); // [!n] remove after 2018-5-1 - random_shuffle was not seeded, and uses rand() - thanks Amine.
-    
+
     for ( int i = 0 ; i < gNbOfPhysicalObjects ; i++ )
         gPhysicalObjects[shuffledObjectIndex[i]]->step();
-    
+
     // * update landmark object, if any
-	
+
     for (std::vector<LandmarkObject*>::iterator it = gLandmarks.begin(); it < gLandmarks.end() ; it++ )
 	{
 		(*it)->step();
 	}
-    
+
 	// * update world level observer (*before* updating agent state and location)
-	
+
     _worldObserver->stepPre();
 
     // * update agents
-	
+
     int shuffledRobotIndex[gNbOfRobots];
     for ( int i = 0 ; i < gNbOfRobots ; i++ )
         shuffledRobotIndex[i] = i;
-    
+
     std::shuffle(&shuffledRobotIndex[0], &shuffledRobotIndex[gNbOfRobots],engine);
     //std::random_shuffle(&shuffledRobotIndex[0], &shuffledRobotIndex[gNbOfRobots]); // [!n] remove after 2018-5-1 - random_shuffle was not seeded, and uses rand() - thanks Amine.
-    
-    
-    
+
+
+
 	// update agent level observers
 	for ( int i = 0 ; i != gNbOfRobots ; i++ )
 		gRobots[shuffledRobotIndex[i]]->callObserverPre();
@@ -239,23 +238,23 @@ void World::updateWorld(const Uint8 *__keyboardStates)
 
         // move agent
         gRobots[shuffledRobotIndex[i]]->move();
-        
+
         // register robot (remark: always register is fine with small robots and/or high density)
         gRobots[shuffledRobotIndex[i]]->registerRobot();
         gRobotsRegistry[shuffledRobotIndex[i]]=true;
     }
-    
+
     // update agent level observers (post robots' move)
     for ( int i = 0 ; i != gNbOfRobots ; i++ )
         gRobots[shuffledRobotIndex[i]]->callObserverPost();
 
-    
+
     // * update world level observer (*after* updating agent state and location)
-    
+
     _worldObserver->stepPost();
-    
+
     gLogManager->flush();
-    
+
 	_iterations++;
 
 }
@@ -266,49 +265,49 @@ bool World::loadFiles()
 	bool returnValue = true;
 
     // Load the dot image
-    
+
     gRobotMaskImage = load_image( gRobotMaskImageFilename );
     gRobotDisplayImage = load_image( gRobotDisplayImageFilename );
-	
+
 	// Load the agent specifications image
-    
-	gRobotSpecsImage = load_image( gRobotSpecsImageFilename ); // no jpg (color loss)	
+
+	gRobotSpecsImage = load_image( gRobotSpecsImageFilename ); // no jpg (color loss)
 
     // Load the foreground image (active borders)
-    
+
     gForegroundImage = load_image( gForegroundImageFilename );
 	if ( gForegroundImageFilename.compare(gForegroundImageFilename.length()-3, 3, "jpg", 0, 3) == 0 )
 	{
 		std::cerr << "[ERROR] foreground: BMP format is *mandatory*\n";
 		returnValue = false;
 	}
-	
+
     gEnvironmentImage = load_image( gEnvironmentImageFilename );
 	if ( gEnvironmentImageFilename.compare(gEnvironmentImageFilename.length()-3, 3, "jpg", 0, 3) == 0 )
 	{
 		std::cerr << "[ERROR] environment: BMP format is *mandatory*\n";
 		returnValue = false;
     }
-	
+
     //gTrajectoryMonitorImage = load_image( gEnvironmentImageFilename ); // prepare for logging trajectories (useful if requested in the config file)   ---- // Created in roborobo::initTrajectoriesMonitor
 
 	// load background image
-	
+
     gBackgroundImage = load_image( gBackgroundImageFilename );
 
 	// Load the ground type image
-	
+
     gFootprintImage = load_image( gFootprintImageFilename );
     gFootprintImageBackup = load_image( gFootprintImageFilename ); // backup for rewriting original values
-    
+
     // Managing problems with loading files (agent mask and specs)
-    
+
     if( gRobotMaskImage == NULL )
     {
 		std::cerr << "Could not load agent mask image\n";
 		returnValue = false;
     }
-	
+
     if ( gRobotDisplayImage == NULL )
     {
 		std::cerr << "Could not load agent display image\n";
@@ -320,39 +319,39 @@ bool World::loadFiles()
 		std::cerr << "Could not load agent specification image\n";
 		returnValue = false;
     }
-	
+
     //If there was a problem in loading the foreground image
     if( gForegroundImage == NULL )
     {
 		std::cerr << "Could not load foreground image\n";
 		returnValue = false;
     }
-	
+
 	if ( gEnvironmentImage == NULL )
     {
 		std::cerr << "Could not load environment image\n";
 		returnValue = false;
-    }	
-	
-	
+    }
+
+
 	//no background image (not a critical error)
 	if ( gBackgroundImage == NULL )
 	{
 		std::cout << "warning: could not load background image (will proceed anyway)\n";
 	}
-	
+
 	// mandatory: image dimensions must be more than display screen dimensions (otw: underfitting)
 	if ( gForegroundImage->w < gScreenWidth || gForegroundImage->h < gScreenHeight )
 	{
 		std::cerr << "foreground image dimensions must be " << gScreenWidth << "x" << gScreenHeight << " or higher (given: " << gForegroundImage->w << "x" << gForegroundImage->h << ") \n";
 		returnValue = false;
 	}
-	
+
 	//If there was a problem in loading the ground type image
     if(  gFootprintImage == NULL )
     {
 		std::cerr << "Could not load ground image\n";
-        returnValue = false;    
+        returnValue = false;
     }
 	else
     {
@@ -362,24 +361,24 @@ bool World::loadFiles()
             returnValue = false;
         }
     }
-	
+
 	// set reference dimensions
 	gRobotWidth = gRobotMaskImage->w ;
 	gRobotHeight = gRobotMaskImage->h ;
-	
+
 	if ( gMaxTranslationalSpeed > gRobotWidth || gMaxTranslationalSpeed > gRobotHeight )
 	{
 		std::cerr << "[ERROR] gMaxTranslationalSpeed value *should not* be superior to agent dimensions (image width and/or height) -- may impact collision accuracy (e.g. teleporting through walls)\n";
 		returnValue = false;
 	}
-	
+
     // set area width&height dimension
-    
+
 	gAreaWidth = gForegroundImage->w;
 	gAreaHeight = gForegroundImage->h;
 
 	// set transparency color
-    
+
 	SDL_SetColorKey( gRobotMaskImage, SDL_TRUE, SDL_MapRGBA( gRobotMaskImage->format, 0xFF, 0xFF, 0xFF, SDL_ALPHA_OPAQUE ) );
    	SDL_SetColorKey( gRobotDisplayImage, SDL_TRUE, SDL_MapRGBA( gRobotMaskImage->format, 0xFF, 0xFF, 0xFF, SDL_ALPHA_OPAQUE ) );
 
@@ -397,7 +396,7 @@ bool World::loadFiles()
 		}
 
     //If everything loaded fine
-	if ( returnValue == false ) 
+	if ( returnValue == false )
 		return false;
 	else
 		return true;

@@ -23,8 +23,8 @@ ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : MyTestEEW
     gLitelogManager->flush();
     _evolver = nullptr;
     gProperties.checkAndGetPropertyValue("gEvaluationTime", &_evalTime, true);
-    
-    
+
+
 }
 
 ForagingTempWorldObserver::~ForagingTempWorldObserver()
@@ -46,17 +46,17 @@ void ForagingTempWorldObserver::setControllerEvolver(ControllerEvolver* evolver)
 
 double ForagingTempWorldObserver::getFitness(){
     double fitness = 0;
-    
+
     for(auto nest : gNestObjects){
         fitness += nest->getCollectedGoods()*gNbOfRobots;
     }
-    
-        for(auto robot : gRobots){
-            auto controller = dynamic_cast<MyTestEEController*>(robot->getController());
-            if(controller->isCarrying()){
-                fitness+=1;
-            }
-        }
+
+	for(auto robot : gRobots){
+		auto controller = dynamic_cast<MyTestEEController*>(robot->getController());
+		if(controller->isCarrying()){
+			fitness+=1;
+		}
+	}
 
     return fitness;
 }
@@ -76,10 +76,10 @@ void ForagingTempWorldObserver::stepPre( )
     // denne blir kalt på slutten av hvert tidstrinn i evolusjonen.
     if( gWorld->getIterations() > 0 && gWorld->getIterations() % _evalTime == 0 )
     {
-        
+
 		DataPacket* dp = constructDataPacket();
         DataForwarder::getDataForwarder()->forwardData(dp);
-        
+
         if(gWorld->getIterations() == gMaxIt){
 			DataForwarder::getDataForwarder()->simulationDone();
         }
@@ -90,14 +90,14 @@ void ForagingTempWorldObserver::stepPre( )
             _sampledState = new SampledAverageState();
         }
         reset();
-        
         delete dp;
+
     }
 
     if(_captureBehavior)
     {
         std::vector<double> state;
-        
+
         for(auto robot : gRobots){
             auto controller = dynamic_cast<MultiNEATController*>(robot->getController());
             if(controller == NULL){
@@ -115,7 +115,7 @@ void ForagingTempWorldObserver::stepPre( )
                 }
             }
         }
-        
+
         for(int i = 0; i < state.size(); i++){
             state[i] = state[i] / gNbOfRobots;
         }
@@ -134,10 +134,11 @@ DataPacket* ForagingTempWorldObserver::constructDataPacket(){
     if(_captureBehavior){
         dp->behaviorData = _sampledState->getSampledAverage();
     }
-    
+
     dp->fitness = getFitness();
     dp->foragingPercentage = getForagingPercentage();
-	dp->robots = new std::vector<Robot*>();
+ 
+    dp->robots = new std::vector<Robot*>();
 	for(int i=0; i<gWorld->getNbOfRobots(); i++){
 		dp->robots->push_back(gWorld->getRobot(i));
 	}

@@ -26,11 +26,11 @@ void GNPController::step(){
 }
 
 GNP::NodeInformation GNPController::getNodeLibrary(){
-    
+
     GNP::NodeInformation info;
     info.nbProcessingNodes = 3;
-    
-    
+
+
 //    for(int i  = 0; i < 8; i++) // must match the number of camera sensors
 //    {
 //        if ( gSensoryInputs_distanceToContact )
@@ -53,26 +53,26 @@ GNP::NodeInformation GNPController::getNodeLibrary(){
 //        }
 //
 //    }
-    
+
     // object sensor: left, forward, right, back
     info.judgementNodeOutputs.push_back(4); // nothing, agent, foraging object, wall
     info.judgementNodeOutputs.push_back(4);
     info.judgementNodeOutputs.push_back(4);
     info.judgementNodeOutputs.push_back(4);
-    
-    
+
+
     // floor sensor
     if ( gSensoryInputs_groundSensors )
     {
         info.judgementNodeOutputs.push_back(2); // pheromone or not
     }
-    
+
     // nest sensor
     info.judgementNodeOutputs.push_back(4); // 4 directions makes sense, right?
-    
+
     // carrying sensor
     info.judgementNodeOutputs.push_back(2);
-    
+
     return info;
 }
 
@@ -83,39 +83,39 @@ void GNPController::buildBrain(GNP::Genome& genome){
 
 std::vector<std::function<void(double)>>* GNPController::getProcesses(){
     auto processes = new std::vector<std::function<void(double)>>();
-    
+
     // move forward
     processes->push_back([&](double v){
         setTranslation(v*2-1);
     });
-    
+
     // move backward
 //    processes->push_back([&](double v){
 //        setTranslation(-v);
 //    });
-    
+
     // Rotate clockwise
     processes->push_back([&](double v){
         setRotation(v*2-1);
     });
-    
+
     // Rotate counter clockwise
 //    processes->push_back([&](double v){
 //        setRotation(0.1*(-v));
 //    });
-    
+
     // Dont rotate
 //    processes->push_back([&](double v){
 //        setRotation(0);
 //    });
-    
+
     // Drop pheromone
     processes->push_back([&](double v){
         if(v > 0.5){ // questionable
             dropPheromone();
         }
     });
-    
+
     return processes;
 }
 
@@ -137,7 +137,7 @@ int GNPController::judgeObjectTypeForSensors(std::vector<int> sensors) {
             wall = true;
         }
     }
-    
+
     if(foragingObject){
         return 0;
     }
@@ -147,14 +147,14 @@ int GNPController::judgeObjectTypeForSensors(std::vector<int> sensors) {
     if(wall){
         return 2;
     }
-    
+
     return 3;
 }
 
 //** TODO currently most of these are [0, 1], but some are just 0 and 1, or [-1, 1]... Have to be decided later
 std::vector<std::function<double()>>* GNPController::getJudgements(){
     auto judgements = new std::vector<std::function<double()>>();
-        
+
 //    for(int i  = 0; i < _wm->_cameraSensorsNb; i++)
 //    {
 //        if ( gSensoryInputs_distanceToContact )
@@ -237,35 +237,37 @@ std::vector<std::function<double()>>* GNPController::getJudgements(){
 //        }
 //
 //    }
-    
+
     // left
+
     judgements->push_back([&](){
         return judgeObjectTypeForSensors({7, 0, 1});
     });
-    
+
     // forward
     judgements->push_back([&](){
         return judgeObjectTypeForSensors({1, 2, 3});
     });
-    
+
     // right
     judgements->push_back([&](){
         return judgeObjectTypeForSensors({3, 4, 5});
     });
-    
+
     // back
     judgements->push_back([&](){
         return judgeObjectTypeForSensors({5, 6, 7});
     });
-    
+
+
     // floor sensor
     if ( gSensoryInputs_groundSensors )
     {
         judgements->push_back([&](){
-            return getPheromoneValue() > 0 ? 0 : 1;
+			return getPheromoneValue() > 0 ? 0 : 1;
         });
     }
-    
+
     // nest sensor
     judgements->push_back([&](){
         double direction = getNestRelativeOrientation();
@@ -283,13 +285,13 @@ std::vector<std::function<double()>>* GNPController::getJudgements(){
         }
         return 0;
     });
-    
+
     // is carrying
     judgements->push_back([&](){
         return isCarrying() ? 1 : 0;
     });
-    
-    
+
+
     return judgements;
 }
 

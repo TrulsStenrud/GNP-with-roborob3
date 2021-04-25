@@ -15,23 +15,23 @@
 
 
 class PheromoneObject : public CircleObject {
-    
+
 public:
     PheromoneObject( int __id );
     ~PheromoneObject() {}
-    
+
     double getStrength();
     void evaporate();
     void makeVisible();
     void updateStrength();
     bool isRegistered();
-    
+
     void step() override;
     void isWalked ( int __idAgent ) override; // callback, triggered by agent
     void isTouched ( int __idAgent ) override; // callback, triggered by agent
     void isPushed( int __id, std::tuple<double, double> __speed ) override; // callback, triggered by collision w/ agent/object
     bool canRegister() override; // test if register object is possible (use only footprint)
-    
+
 private:
     double _decay;
     double _evaporationTreshold;

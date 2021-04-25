@@ -15,7 +15,6 @@
 #include "../../core/Controllers/Controller.h"
 #include "../../GNP/GNPPopulation.h"
 #include "../../GNP/GNPParameters.h"
-#include "../Logger.h"
 
 class GNPEvolver : public ControllerEvolver{
 private:
@@ -23,14 +22,13 @@ private:
     GNP::Population* _pop;
     GNP::Parameters* _params;
     void nextGeneration();
-    Logger* _logger;
-    
+
 public:
     GNPEvolver();
     Controller* make_Controller(RobotWorldModel* wm) override;
     void evalDone(DataPacket* dp) override;
     bool usesBehavior() override;
-    
+
 };
 
 

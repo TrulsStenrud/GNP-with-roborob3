@@ -7,7 +7,6 @@ using namespace std;
 
 MscMain::MscMain(int argc, char* argv[]){
 	DataForwarder::getDataForwarder()->registerListener(this);
-	ForagingTempConfigurationLoader::controllerType = ControllerEvolver::GNP;
 	roboroboMain(argc, argv);
 }
 

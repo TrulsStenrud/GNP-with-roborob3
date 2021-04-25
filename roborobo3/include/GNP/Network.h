@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include "vector"
 #include "GNPStructs.h"
+#include <functional>
+
 
 namespace GNP{
 

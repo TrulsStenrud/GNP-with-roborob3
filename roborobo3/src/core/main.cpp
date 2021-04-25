@@ -6,8 +6,8 @@
  * This class is purely for redirecting program flow to the "masterthesis" folder.
  */
 
-#include "GNPEvolver.h"
-#include "GNPGenome.h"
+#include "../../include/masterthesis/evolvers/GNPEvolver.h"
+#include "../../include/GNP/GNPGenome.h"
 
 int main(int argc, char* argv[]){
 	MscMain* mscMain = new MscMain(argc, argv);

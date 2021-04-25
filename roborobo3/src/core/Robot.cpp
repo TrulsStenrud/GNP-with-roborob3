@@ -18,19 +18,19 @@
 #include "Utilities/Graphics.h"
 
 Robot::Robot( World *__world )
-{    
+{
 	_wm = gConfigurationLoader->make_RobotWorldModel(); // TODO: externalize object referenced to create the new instance
 
 	_wm->_world = __world;
 
 	_wm->_id = gNbOfRobots;
 	gNbOfRobots++;
-	
+
 	//Process agent specification (ie. IR/US/laser sensors)
-	
+
 	// create dynamic array
-	// parse image and add (sensor.x/y, orientation) or (sensorStart.x/y, sensorEnd.x/y)	
-	
+	// parse image and add (sensor.x/y, orientation) or (sensorStart.x/y, sensorEnd.x/y)
+
 	_wm->_cameraSensorsNb = 0;
 
 	//count sensors
@@ -40,7 +40,7 @@ Robot::Robot( World *__world )
 			Uint32 pixel = getPixel32( gRobotSpecsImage , x , y);
 			if ( pixel != SDL_MapRGBA( gRobotSpecsImage->format, 0xFF, 0xFF, 0xFF, SDL_ALPHA_OPAQUE ) )
 				_wm->_cameraSensorsNb++;
-            /* 
+            /*
             // DEBUG
             std::cout << "### " << _wm->_cameraSensorsNb << " -- " << pixel << " ("
                 << "r="  << ( ( pixel & 0xFF0000 ) >> 16 )
@@ -50,13 +50,11 @@ Robot::Robot( World *__world )
                 << ") vs. " << SDL_MapRGBA( gRobotSpecsImage->format, 0xFF, 0xFF, 0xFF, SDL_ALPHA_OPAQUE ) << "###\n";
              */
 		}
-    
     _wm->initCameraSensors(_wm->_cameraSensorsNb );
-	
+
     for ( int i = 0 ; i != _wm->_cameraSensorsNb ; i++ )
 		_wm->setCameraSensorValue(i,SENSOR_REGISTERID,-1);
 	//int sensorIt = 0;
-	
 	//register sensors
 	for ( int x = 0 ; x != gRobotWidth ; x++ )
 		for ( int y = 0 ; y != gRobotHeight ; y++ )
@@ -65,9 +63,9 @@ Robot::Robot( World *__world )
 			if ( pixel != SDL_MapRGBA( gRobotSpecsImage->format, 0xFF, 0xFF, 0xFF, SDL_ALPHA_OPAQUE ) )
 			{
 				// sensor found, register sensor.
-				
+
 				Uint8 r, g, b;
-				SDL_GetRGB(pixel,gRobotSpecsImage->format,&r,&g,&b); 
+				SDL_GetRGB(pixel,gRobotSpecsImage->format,&r,&g,&b);
 
 				if ( _wm->getCameraSensorValue(r,SENSOR_REGISTERID) != -1 )
 				{
@@ -81,9 +79,9 @@ Robot::Robot( World *__world )
 					exit(-1);
 				}
 
-				
+
 				_wm->setCameraSensorValue(r,SENSOR_REGISTERID,r); // no. sensor
-				
+
 				// sensor origin point location wrt. agent center
 				_wm->setCameraSensorValue(r,SENSOR_SOURCENORM, sqrt ( (x-gRobotWidth/2) * (x-gRobotWidth/2) + (y-gRobotHeight/2) * (y-gRobotHeight/2) ) ); // length
 				double angleCosinus = ( (x-(gRobotWidth/2)) / _wm->getCameraSensorValue(r,SENSOR_SOURCENORM) );
@@ -94,7 +92,7 @@ Robot::Robot( World *__world )
 					_wm->setCameraSensorValue(r,SENSOR_SOURCEANGLE, -acos ( angleCosinus ) + M_PI/2 + M_PI*2 ); // angle (in radian)
 
 				// sensor target point location wrt. agent center -- sensor target angle is (green+blue) component values
-				double angle = g+b-90;   // note: '-90deg' is due to image definition convention (in image, 0° means front of agent, which is upward -- while 0° in simulation means facing right) 				
+				double angle = g+b-90;   // note: '-90deg' is due to image definition convention (in image, 0° means front of agent, which is upward -- while 0° in simulation means facing right)
 				double xTarget = ( x - gRobotWidth/2 ) + cos ( angle * M_PI / 180) * gSensorRange;
 				double yTarget = ( y - gRobotHeight/2 ) + sin ( angle * M_PI / 180) * gSensorRange;
 				_wm->setCameraSensorValue(r,SENSOR_TARGETNORM ,sqrt ( xTarget*xTarget + yTarget*yTarget) ); // length (**from agent center**)
@@ -107,10 +105,8 @@ Robot::Robot( World *__world )
 				r++;
 			}
 		}
-    
 	_agentObserver = gConfigurationLoader->make_AgentObserver(_wm);		// TODO: externalize
 	_controller = gConfigurationLoader->make_Controller(_wm);		// TODO: externalize
-
 	reset();
 }
 
@@ -136,7 +132,7 @@ void Robot::reset()
 	str_groupId += "robot[";
 	str_groupId += out.str();
 	str_groupId += "].groupId";
-    
+
     if ( gProperties.hasProperty( str_groupId ) == true )
     {
         int groupId;
@@ -152,7 +148,7 @@ void Robot::reset()
     {
         _wm->setGroupId(0);
     }
-    
+
 	std::string str_Xcoord = "";
 	str_Xcoord += "robot[";
 	str_Xcoord += out.str();
@@ -162,7 +158,7 @@ void Robot::reset()
 	str_Ycoord = "robot[";
 	str_Ycoord += out.str();
 	str_Ycoord += "].y";
-    
+
     int tries = 0; // max number of trials: gLocationFinderMaxNbOfTrials
     bool randomPick = true;
 
@@ -178,12 +174,12 @@ void Robot::reset()
 
 		do {
 			success = true;
-		
+
 			// pick random coordinate
-			
+
             x = (int)(random01() * (double)(gAgentsInitAreaWidth - (2 * gRobotWidth))) + gRobotWidth + gAgentsInitAreaX;
             y = (int)(random01() * (double)(gAgentsInitAreaHeight - (2 * gRobotHeight))) + gRobotHeight + gAgentsInitAreaY;
-           
+
 			// check for agents superposition - ie. if picked position is valid vs. already located agents.
 			for ( int i = 0 ; i != _wm->getId() ; i++ )
 			{
@@ -198,9 +194,9 @@ void Robot::reset()
 			{
 				continue; // no need to perform next check...
 			}
-			
+
 			// check if position is valid in environment
-			
+
 			for ( int i = x - gRobotWidth/2 ; i <= x + gRobotWidth/2 ; i++ )
 			{
 				for ( int j = y - gRobotHeight/2 ; j <= y + gRobotHeight/2 ; j++ ) // && valid == true
@@ -208,10 +204,10 @@ void Robot::reset()
 					// get pixel values
 					Uint8 r, g, b;
 					Uint32 pixel = getPixel32( gEnvironmentImage, i , j);
-					SDL_GetRGB(pixel,gEnvironmentImage->format,&r,&g,&b); 
-					
+					SDL_GetRGB(pixel,gEnvironmentImage->format,&r,&g,&b);
+
 					int color = ((r<<16)+(g<<8)+b);
-					
+
 					// check if empty
 					if ( color != ((255<<16)+(255<<8)+255) ) // r=robot, g=obstacle/object, b=unused
 					{
@@ -221,9 +217,9 @@ void Robot::reset()
 			}
 
 			tries++;
-				
+
 		} while ( success == false && tries < gLocationFinderMaxNbOfTrials );
-			
+
 		if ( tries == gLocationFinderMaxNbOfTrials )
 		{
             std::cerr << "[CRITICAL] Random initialization of initial position for agent #" << _wm->getId() << " after trying " << gLocationFinderMaxNbOfTrials << " random picks (all failed). There may be too few (none?) possible locations (you may try to manually set initial positions). EXITING.\n";
@@ -241,11 +237,11 @@ void Robot::reset()
 	//Initialize internal variables
 	_xDeltaReal=0;
 	_yDeltaReal=0;
-		
+
     // * set orientation
-    
+
     //bool randomOrientation = false;
-    
+
 	std::string str_orient = "";
 	str_orient = "robot[";
 	str_orient += out.str();
@@ -259,14 +255,14 @@ void Robot::reset()
 		_wm->_agentAbsoluteOrientation = random01() * 360. - 180.;
         //randomOrientation = true;
 	}
-    
+
     // display results
-    
+
     if ( gVerbose )
     {
-        
+
         std::cout << "[INFO] Robot #" << _wm->getId() << " positioned at ( "<< std::setw(5) << x << " , " << std::setw(5) << y << " ) with orientation " << std::setw(8) << _wm->_agentAbsoluteOrientation << "° -- ";
-        
+
         if ( randomPick == false )
             std::cout << "[user-defined position]\n";
         else
@@ -276,20 +272,20 @@ void Robot::reset()
                 std::cout << " try]\n";
             else
                 std::cout << " tries]\n";
-            
+
         }
     }
-    
+
     // set other parameters
-	
+
 	_wm->_agentAbsoluteLinearSpeed = 0;
 
 	_wm->_desiredRotationalVelocity = 0;
 	_wm->_desiredTranslationalValue = 0;
-	
+
 	_wm->_maxRotationalDeltaValue = gMaxRotationalSpeed; // ie. change will be instantenous
 	_wm->_maxTranslationalDeltaValue = gMaxTranslationalDeltaValue; // idem.
-	
+
 	_wm->_actualTranslationalValue = 0;
 	_wm->_actualRotationalVelocity = 0;
 
@@ -298,17 +294,15 @@ void Robot::reset()
 		_wm->setCameraSensorValue(i,SENSOR_DISTANCEVALUE, gSensorRange ); // range: max
 		_wm->setCameraSensorValue(i,SENSOR_OBJECTVALUE, 0 ); // type:  none
 	}
-    
+
     for ( int i = 0 ; i < 3 ; i++ )
     {
         _wm->_groundSensorValue[i] = 0; // floor sensor value (taken from gFootprintImage)
     }
-	
+
 	// Initialize agent observer and Behavior Control Architecture
-  
 	_agentObserver->reset();
 	_controller->reset();
-
 }
 
 void Robot::callObserverPre()
@@ -325,7 +319,7 @@ void Robot::stepBehavior()
 {
 	// update status
 	_iterations++;
-	
+
     // compute commands
     _controller->step(); // whether alive or not.
 
@@ -355,12 +349,12 @@ void Robot::displayInfo()
 				std::cout << _wm->getDistanceValueFromCameraSensor(i) << "/" <<  _wm->getCameraSensorMaximumDistanceValue(i) << " ";
 			}
 			std::cout << ") , ( groundSensor: " << _wm->getGroundSensorValue() << " [" << _wm->getGroundSensor_redValue() << "," << _wm->getGroundSensor_greenValue() << "," << _wm->getGroundSensor_blueValue() << "] ) => ( " <<  _wm->_desiredTranslationalValue << " ; " << _wm->_desiredRotationalVelocity << " ) (LED: " << _wm->getRobotLED_redValue() << "," << _wm->getRobotLED_greenValue() << "," << _wm->getRobotLED_blueValue() << ") \n";
-        
+
             std::cout << "[_";
             for( int i = 0 ; i < _wm->_cameraSensorsNb; i++)
             {
                 double value = _wm->getObjectIdFromCameraSensor(i);
-                
+
                 if ( value == -1 )
                     std::cout << " nothing    _";
                 else
@@ -372,7 +366,7 @@ void Robot::displayInfo()
                         else
                             std::cout << " wall "<< std::setw(6) << value << " _";
             }
-            
+
             std::cout << "] " << std::endl;
 		}
     }
@@ -401,21 +395,21 @@ void Robot::behaviorUpdate_remoteController(const Uint8* __keyboardStates) // us
 	else
 		if ( _wm->_desiredTranslationalValue < -gMaxTranslationalSpeed )
 			_wm->_desiredTranslationalValue = -gMaxTranslationalSpeed;
-		 
+
 	if ( gKeyLeft )
 		_wm->_desiredRotationalVelocity = -5; // degrees
 	if ( gKeyRight )
 		_wm->_desiredRotationalVelocity = 5;
-		
+
 	if ( !gKeyUp && !gKeyDown )
 		_wm->_desiredTranslationalValue = 0;
-		
+
 	if ( !gKeyRight && !gKeyLeft )
 	{
-		if ( _wm->_desiredRotationalVelocity > 0 ) 
+		if ( _wm->_desiredRotationalVelocity > 0 )
 			_wm->_desiredRotationalVelocity--;
 		else
-			if ( _wm->_desiredRotationalVelocity < 0 ) 
+			if ( _wm->_desiredRotationalVelocity < 0 )
 				_wm->_desiredRotationalVelocity++;
 	}
 
@@ -434,16 +428,16 @@ void Robot::behaviorUpdate_remoteController(const Uint8* __keyboardStates) // us
 	2. apply environment contraints (call external method)
 	3. translate into internal delta position update (ie. 2d x/y delta values)
 */
-void Robot::applyDynamics() 
+void Robot::applyDynamics()
 {
-	
+
 	_lastAgentAbsoluteOrientation = _wm->_agentAbsoluteOrientation; // in case of collision, original orientation should be restored.
-	
+
 	// * translation
 	// assume controller gives desired speed (the following models a feedback system (fr.: systeme asservi))
-	
+
 	_wm->_actualTranslationalValue = _wm->_agentAbsoluteLinearSpeed;
-	
+
 	if ( _wm->_desiredTranslationalValue != _wm->_agentAbsoluteLinearSpeed )
 	{
 		double diff = fabs( _wm->_desiredTranslationalValue - _wm->_agentAbsoluteLinearSpeed ); // Note: using abs(...) would truncate to integer. Use fabs instead.
@@ -497,7 +491,7 @@ void Robot::applyDynamics()
             }
         }
 	}
-	
+
 	// * rotation
 	// assume controller gives angular velocity.
 
@@ -524,7 +518,7 @@ void Robot::applyDynamics()
                 std::cout << "[ERROR] Robot::applyDynamics() : _wm->_desiredRotationalVelocity is Nan (probably a bug in your project). STOPPING.\n";
                 exit(-1);
             }
-    
+
 	// * compute true displacement (actual (thought to be true) and true (really effected) rotation and translation,
 
 	// update both actual trans/rot values and internal data (see method definition for detailed comments)
@@ -551,20 +545,20 @@ void Robot::move( int __recursiveIt ) // the interface btw agent and world -- in
     {
         backup_desiredTranslationalValue = _wm->_desiredTranslationalValue;
     }
-    
-    
+
+
 	// * compute real valued delta (convert to x/y delta coordinates)
-    
+
 	applyDynamics();
 
 	// * save position
-    
+
     double xReal_old = _wm->_xReal; // backup old position in case of collision
 	double yReal_old = _wm->_yReal;
-	
-	
+
+
 	// * update x/y position
-		
+
 	_xDeltaReal = _wm->_agentAbsoluteLinearSpeed * cos(_wm->_agentAbsoluteOrientation * M_PI / 180);
 	_yDeltaReal = _wm->_agentAbsoluteLinearSpeed * sin(_wm->_agentAbsoluteOrientation * M_PI / 180);
 
@@ -573,13 +567,13 @@ void Robot::move( int __recursiveIt ) // the interface btw agent and world -- in
 
 	//setCoord((int)_wm->_xReal+0.5,(int)_wm->_yReal+0.5); // !n : 2018-07-23 -- original
     setCoord((int)(_wm->_xReal+0.5),(int)(_wm->_yReal+0.5)); // !n : 2018-07-23
-	
+
 	// * collision with (image) border of the environment - position at border, then bounce
-    
+
 	if ( isCollision() )
 	{
         _wm->_desiredTranslationalValue = 0; // cancel any translation order as agent translation speed is set to zero after collision. (note that rotation is still ok)
-		
+
 		if (_wm->_agentAbsoluteLinearSpeed >= 1.0 )
 		{
 			_wm->_agentAbsoluteLinearSpeed--;
@@ -589,15 +583,15 @@ void Robot::move( int __recursiveIt ) // the interface btw agent and world -- in
 			if ( _wm->_agentAbsoluteLinearSpeed <= -1.0 )
 				_wm->_agentAbsoluteLinearSpeed++;
 		}
-		
-		if ( ( _wm->_agentAbsoluteLinearSpeed > -1.0 ) && ( _wm->_agentAbsoluteLinearSpeed < 1.0 ) ) 
+
+		if ( ( _wm->_agentAbsoluteLinearSpeed > -1.0 ) && ( _wm->_agentAbsoluteLinearSpeed < 1.0 ) )
 		{
 			_wm->_agentAbsoluteLinearSpeed = 0; // roborobo assumes pixel-based resolution for solving collision. Ie. ignore sub-pixel translation values. (see _README.TXT for details)
 		}
-		
+
 		_wm->_xReal=xReal_old;
 		_wm->_yReal=yReal_old;
-		
+
 		if (_wm->_agentAbsoluteLinearSpeed != 0 ) // if zero: move is canceled
 		{
 			__recursiveIt++;
@@ -607,15 +601,15 @@ void Robot::move( int __recursiveIt ) // the interface btw agent and world -- in
 		{
 			// special case: agent cannot not move at all - restore original coordinate (remember, _x/yReal are global and modified during recursive call).
 			_wm->_xReal=xReal_old;
-			_wm->_yReal=yReal_old;			
+			_wm->_yReal=yReal_old;
 			//setCoord((int)_wm->_xReal+0.5,(int)_wm->_yReal+0.5); // !n : 2018-07-23 -- original
             setCoord((int)(_wm->_xReal+0.5),(int)(_wm->_yReal+0.5)); // !n : 2018-07-23
 		}
 
 		// update world model variables and internal data
-		
+
 		_wm->_agentAbsoluteLinearSpeed = 0;
-		
+
 		if ( gLocomotionMode == 1 ) // consider obstacle friction or not for rotation?
 		{
 			_wm->_agentAbsoluteOrientation = _lastAgentAbsoluteOrientation;
@@ -623,7 +617,7 @@ void Robot::move( int __recursiveIt ) // the interface btw agent and world -- in
 		}
 		else
 			_wm->_actualRotationalVelocity = _wm->_desiredRotationalVelocity;
-			
+
 		//_wm->_desiredTranslationalValue = _wm->_desiredRotationalVelocity = 0;
 		_wm->_actualTranslationalValue = 0;
 
@@ -633,9 +627,9 @@ void Robot::move( int __recursiveIt ) // the interface btw agent and world -- in
         // actual rotational and translational values matches desired values
         _wm->_actualRotationalVelocity = _wm->_desiredRotationalVelocity;
         _wm->_actualTranslationalValue = _wm->_agentAbsoluteLinearSpeed; // (!) _wm->_desiredTranslationalValue is different as the "desired" translation speed may not be reached due to physical actuator limitations
-        
+
         // * update sensors
-        
+
         for ( int i = 0 ; i != _wm->_cameraSensorsNb ; i++ )
         {
             // Warning: the following is repeated in the show method because coordinates are not stored, but are needed to display the sensor rays.
@@ -643,10 +637,10 @@ void Robot::move( int __recursiveIt ) // the interface btw agent and world -- in
             double y1 = (_wm->_yReal + _wm->getCameraSensorValue(i,SENSOR_SOURCENORM) * sin( _wm->getCameraSensorValue(i,SENSOR_SOURCEANGLE) + _wm->_agentAbsoluteOrientation * M_PI / 180 ) ) ;
             double x2 = (_wm->_xReal + _wm->getCameraSensorValue(i,SENSOR_TARGETNORM) * cos( _wm->getCameraSensorValue(i,SENSOR_TARGETANGLE) + _wm->_agentAbsoluteOrientation * M_PI / 180 ) ) ;
             double y2 = (_wm->_yReal + _wm->getCameraSensorValue(i,SENSOR_TARGETNORM) * sin( _wm->getCameraSensorValue(i,SENSOR_TARGETANGLE) + _wm->_agentAbsoluteOrientation * M_PI / 180 ) ) ;
-            
+
             // cast sensor ray.
             _wm->setCameraSensorValue(i,SENSOR_DISTANCEVALUE, castSensorRay(gEnvironmentImage, x1, y1, &x2, &y2, _wm->getCameraSensorMaximumDistanceValue(i)) ); // x2 and y2 are overriden with collision coordinate if ray hits object. -- not used here.
-            
+
             Uint8 r, g, b;
             Uint32 pixel = getPixel32( gEnvironmentImage, x2 , y2);
             SDL_GetRGB(pixel,gEnvironmentImage->format,&r,&g,&b);
@@ -656,15 +650,15 @@ void Robot::move( int __recursiveIt ) // the interface btw agent and world -- in
                 _wm->setCameraSensorValue(i,SENSOR_OBJECTVALUE, (r<<16)+(g<<8)+b); // type of objects. [0-gRobotIndexStartOffset[ is object, [gRobotIndexStartOffset-...[ is robots
             //_wm->setCameraSensorValue(i,SENSOR_OBJECTVALUE, (r<<16)+(g<<8)+b); // type of objects. [0-gRobotIndexStartOffset[ is object, [gRobotIndexStartOffset-...[ is robots
         }
-        
+
         Uint8 r, g, b;
         Uint32 pixel = getPixel32( gFootprintImage, _wm->_xReal+0.5, _wm->_yReal+0.5);
-        SDL_GetRGB(pixel,gFootprintImage->format,&r,&g,&b); 
+        SDL_GetRGB(pixel,gFootprintImage->format,&r,&g,&b);
         _wm->_groundSensorValue[0] = r;
         _wm->_groundSensorValue[1] = g;
         _wm->_groundSensorValue[2] = b;
     }
-    
+
     if ( __recursiveIt == 0 )
     {
         _wm->_desiredTranslationalValue = backup_desiredTranslationalValue;
@@ -676,9 +670,9 @@ void Robot::move( int __recursiveIt ) // the interface btw agent and world -- in
 bool Robot::isCollision()
 {
     bool collision = false;
-    
+
 	// check collision with borders and environment objects.
-    if ( 
+    if (
 		( _x < 0 ) || ( _x + gRobotWidth >= gAreaWidth ) ||
 		( _y < 0 ) || ( _y + gRobotHeight >= gAreaHeight )
 	   )
@@ -689,7 +683,7 @@ bool Robot::isCollision()
 	else
 	{
         //std::cout << "[DEBUG] Robot #" << _wm->getId() << " collision manager.\n";
-        
+
 		// * environment objects
 		for ( int i = 0 ; i != gRobotWidth ; i++ )
 			for ( int j = 0 ; j != gRobotHeight ; j++ )
@@ -697,7 +691,7 @@ bool Robot::isCollision()
 				if ( getPixel32( gRobotMaskImage , i , j) != SDL_MapRGBA( gEnvironmentImage->format, 0xFF, 0xFF, 0xFF, SDL_ALPHA_OPAQUE ) ) // opt: bounding box instead of pixel-to-pixel test.
 				{
                     // not useful: testing out-of-the-world status
-                    // if ( ( _x + i < 0 ) || ( _x + i  >= gAreaWidth ) || ( _y + j < 0 ) || ( _y + i  >= gAreaHeight ) ) { return true;	}				
+                    // if ( ( _x + i < 0 ) || ( _x + i  >= gAreaWidth ) || ( _y + j < 0 ) || ( _y + i  >= gAreaHeight ) ) { return true;	}
 					Uint32 pixel = getPixel32( gEnvironmentImage , _x+i , _y+j);
 					if (  pixel != SDL_MapRGBA( gEnvironmentImage->format, 0xFF, 0xFF, 0xFF, SDL_ALPHA_OPAQUE ) )
 					{
@@ -705,9 +699,9 @@ bool Robot::isCollision()
                         {
                             Uint8 r, g, b;
                             SDL_GetRGB(pixel,gEnvironmentImage->format,&r,&g,&b);
-                            
+
                             int targetIndex = (r<<16)+(g<<8)+b;
-                            
+
                             if ( targetIndex >= gPhysicalObjectIndexStartOffset && targetIndex < gRobotIndexStartOffset)   // this is a physical object
                             {
                                 targetIndex = targetIndex - gPhysicalObjectIndexStartOffset;
@@ -722,21 +716,21 @@ bool Robot::isCollision()
 					}
 				}
 			}
-	}	
-	
+	}
+
     return collision;
 }
 
 
  /**
     * Display agent on screen. Add information caption if needed.
-	* 
-	* (render mode only) 
+	*
+	* (render mode only)
     */
 void Robot::show(SDL_Surface *surface) // display on screen
-{    
+{
     //Show the dot
-    
+
 	if ( gNiceRendering )
 		apply_surface( _x - gCamera.x, _y - gCamera.y, gRobotDisplayImage, surface ); // OPTIONAL (agent is already visible/registered through the environment image -- but: may be useful for image capture
 
@@ -747,18 +741,18 @@ void Robot::show(SDL_Surface *surface) // display on screen
 			int xcenter = (int)_wm->_xReal + 0.5;
 			int ycenter = (int)_wm->_yReal + 0.5;
 			int r = getWorldModel()->getRobotLED_redValue();
-			int g = getWorldModel()->getRobotLED_greenValue(); 
+			int g = getWorldModel()->getRobotLED_greenValue();
 			int b = getWorldModel()->getRobotLED_blueValue();
-			
+
 			for ( int xTmp = xcenter - dx; xTmp != xcenter + dx + 1 ; xTmp++ )
 				for ( int yTmp = ycenter - dy - 1 ; yTmp != ycenter + dy ; yTmp++ )
 				{
 					putPixel32_secured( surface, xTmp - gCamera.x, yTmp + dy - gCamera.y , SDL_MapRGBA( surface->format, r, g, b, SDL_ALPHA_OPAQUE ) );
-				}		
+				}
 	}
 
 
-	if ( _wm->getId() == gRobotIndexFocus && ( gUserCommandMode || gRobotDisplayFocus ) ) // && _iterations%10 < 5) 
+	if ( _wm->getId() == gRobotIndexFocus && ( gUserCommandMode || gRobotDisplayFocus ) ) // && _iterations%10 < 5)
 	{
 			int dx = 10;
 			int dy = 10;
@@ -767,7 +761,7 @@ void Robot::show(SDL_Surface *surface) // display on screen
 			int r = 255.0 * random01();
 			int g = 255.0 * random01();
 			int b = 255.0 * random01();
-						
+
 			for ( int xTmp = xcenter - dx ; xTmp != xcenter + dx + 1 ; xTmp++ )
 			{
 				putPixel32( surface, xTmp - gCamera.x, ycenter - dy - gCamera.y , SDL_MapRGBA( surface->format, r, g, b, SDL_ALPHA_OPAQUE ) );
@@ -782,7 +776,7 @@ void Robot::show(SDL_Surface *surface) // display on screen
 	}
 
     // * show sensors and orientation
-    
+
 	if ( gDisplaySensors == 1 || gDisplaySensors == 2 || gDisplaySensors == 3 )
 	{
 		// * show sensors
@@ -812,33 +806,33 @@ void Robot::show(SDL_Surface *surface) // display on screen
                     traceRayRGB(surface, int(x1+0.5)-gCamera.x, int(y1+0.5)-gCamera.y, int(x2+0.5)-gCamera.x, int(y2+0.5)-gCamera.y, SENSOR_RAY_RED , SENSOR_RAY_GREEN , SENSOR_RAY_BLUE );
             }
 		}
-        
+
     }
-    
+
     if ( _wm->getId() == gRobotIndexFocus && gUserCommandMode )
     {
         // * user is taking control of targeted agent - show agent and orientation with multiple changing colors
-        
+
         int xOrientationMarkerSource =  (int)(_wm->_xReal);
         int yOrientationMarkerSource =  (int)(_wm->_yReal);
-        
+
         int xOrientationMarkerTarget =  (int)(_wm->_xReal) + gSensorRange*0.75 * cos(( _wm->_agentAbsoluteOrientation + 180 ) * M_PI / 180);
         int yOrientationMarkerTarget =  (int)(_wm->_yReal) + gSensorRange*0.75 * sin(( _wm->_agentAbsoluteOrientation + 180 ) * M_PI / 180);
-        
+
         int r,g,b;
         g = b = (32*_iterations%256) > 128 ? 0 : 255 ;
         r = 0;
-        
+
         // show orientation (multicolor) - this is done by adding a *virtual* tail *behind* the robot
         for ( int xTmp = -1 ; xTmp < 2 ; xTmp+=2 )
             for ( int yTmp = -1 ; yTmp < 2 ; yTmp+=2 )
                 traceRayRGB(surface, (int)(_wm->_xReal+(double)xTmp)  - gCamera.x, (int)(_wm->_yReal+(double)yTmp) - gCamera.y, xOrientationMarkerTarget - gCamera.x, yOrientationMarkerTarget - gCamera.y, r , g , b );
-        
+
         // show position (multicolor)
         for ( int xTmp = -2 ; xTmp != 3 ; xTmp++ )
             for ( int yTmp = -2 ; yTmp != 3 ; yTmp++ )
                 putPixel32( surface, xOrientationMarkerSource - gCamera.x + xTmp, yOrientationMarkerSource - gCamera.y + yTmp , SDL_MapRGB( surface->format, r, b , g ) );
-        
+
     }
     else
     {
@@ -852,9 +846,9 @@ void Robot::show(SDL_Surface *surface) // display on screen
                 for ( int yTmp = -1 ; yTmp < 2 ; yTmp+=2 )
                     traceRayRGB(surface, (int)(_wm->_xReal+(double)xTmp)  - gCamera.x, (int)(_wm->_yReal+(double)yTmp) - gCamera.y, xOrientationMarkerTarget - gCamera.x, yOrientationMarkerTarget - gCamera.y, 90, 113, 148 ); // 255 , 128 , 0
         }
-        
+
     }
-    
+
 }
 
 void Robot::registerRobot()
@@ -894,12 +888,12 @@ int Robot::castSensorRay(SDL_Surface * image, double x1, double y1, double *x2pt
     /**/
     int x2 = (int)(*x2pt + 0.5);
     int y2 = (int)(*y2pt + 0.5);
-    
+
     bool collision = castLine(image, (int)(x1+0.5), (int)(y1+0.5), &x2, &y2, __maxValue);
-    
+
     *x2pt = (double)x2;
     *y2pt = (double)y2;
-    
+
     if ( collision )
         return sqrt ( ( x1 - *x2pt ) * ( x1 - *x2pt ) + ( y1 - *y2pt ) * ( y1 - *y2pt ) );
     else
@@ -931,12 +925,12 @@ void Robot::initRobotPhysics ()
 void Robot::applyRobotPhysics( )
 {
 	// * update internal data
-    
+
     _wm->_agentAbsoluteLinearSpeed = _wm->_actualTranslationalValue;
 	_wm->_agentAbsoluteOrientation += _wm->_actualRotationalVelocity;
-    
+
 	// * recalibrate orientation within ]-180°,+180°]
-    
+
     while ( _wm->_agentAbsoluteOrientation <= -180.0 || _wm->_agentAbsoluteOrientation > 180.0 ) // assume that it is highly unlikely that this while should loop. (depends from maximal angular velocity)
     {
         if ( _wm->_agentAbsoluteOrientation <= -180.0 )

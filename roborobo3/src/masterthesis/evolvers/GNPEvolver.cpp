@@ -24,7 +24,7 @@ GNPEvolver::GNPEvolver(){
     
     _params->populationSize = populationSize;
         
-    _logger = new Logger("GNP" + std::to_string(populationSize));
+    _logger = new Logger("GNP" + std::to_string(gInitialNumberOfRobots));
     
     _pop = new GNP::Population(library, _params);
     _logger->log("Generation " + std::to_string(_generation));

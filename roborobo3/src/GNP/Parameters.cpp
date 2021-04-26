@@ -18,7 +18,7 @@ Parameters::Parameters(){
 
 void Parameters::reset(){
     populationSize = 50;
-    nbParents = 15;
+    nbParents = 10;
     mutationRate = 0.5;
     
     processT = 5;

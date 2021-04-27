@@ -32,7 +32,7 @@ GNPEvolver::GNPEvolver(){
 
 void GNPEvolver::evalDone(DataPacket* dp){
     _pop->AccessGenomeByIndex(_evalIndex).setFitness(dp->fitness);
-
+//    _pop->AccessGenomeByIndex(_evalIndex).printUsage();
     _logger->log(dp->foragingPercentage);
     
     _evalIndex++;

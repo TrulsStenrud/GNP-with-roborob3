@@ -99,6 +99,27 @@ Genome::Genome(std::vector<Node> nodes, std::vector<std::vector<Connection>> con
     initUsage();
 }
 
+void Genome::printUsage(){
+    int nbJ = 0, nbJ_Used = 0, nbP = 0, nbP_Used = 0;
+    
+    for(int i = 0; i < _nodeUsage.size(); i++){
+        if(_nodes[i].type == NodeType::Processing){
+            nbP++;
+            if(_nodeUsage[i] > 0){
+                nbP_Used++;
+            }
+        }
+        else if(_nodes[i].type == NodeType::Judgement){
+            nbJ++;
+            if(_nodeUsage[i] > 0){
+                nbJ_Used++;
+            }
+        }
+    }
+    
+    std::cout << "Judgement used: " << ((double)nbJ_Used / nbJ)*100 << " Processes used: " << ((double)nbP_Used / nbP) * 100 << std::endl;
+}
+
 void Genome::initUsage(){
     _nodeUsage.clear();
 //    assert(_nodeUsage.size() == 0);

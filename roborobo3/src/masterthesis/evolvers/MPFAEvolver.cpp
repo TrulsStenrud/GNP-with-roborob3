@@ -5,7 +5,7 @@
 using namespace std;
 
 MPFAEvolver::MPFAEvolver(){
-	_logger = new Logger("MPFA");
+	_logger = new Logger("MPFA" + std::to_string(gInitialNumberOfRobots));
 
     gProperties.checkAndGetPropertyValue("gEvolutionPopulationSize", &_popSize, true);
     _pop = new vector<MPFAGenome>();

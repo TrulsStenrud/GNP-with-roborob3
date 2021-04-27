@@ -84,7 +84,8 @@ void MyTestEEWorldObserver::reset(){
     
     _nbForagingObjects = 0;
     
-    semiClusteredForagingObjects();
+    randomForagingObjects(10);
+//    semiClusteredForagingObjects();
     
 }
 
@@ -128,8 +129,8 @@ void MyTestEEWorldObserver::initPre()
 void MyTestEEWorldObserver::placeGridOfObjects(int x, int y, int columns, int rows){
     _nbForagingObjects += columns * rows;
     
-    int cellWidth = 12;
-    int cellHeight = 12;
+    int cellWidth = 6;
+    int cellHeight = 6;
     
     for(int i = 0; i < columns; i++){
         for(int j = 0; j < rows; j++){
@@ -141,7 +142,7 @@ void MyTestEEWorldObserver::placeGridOfObjects(int x, int y, int columns, int ro
 void MyTestEEWorldObserver::placeRobotsInAllNests() {
     int perNest = round((double)gNbOfRobots / gNestObjects.size());
     int width = sqrt(perNest);
-    int spacing = 10;
+    int spacing = 5;
     
     for(int i = 0; i < gNbOfRobots; i++){
         int startX = gNestObjects[i/perNest]->getXReal() - (spacing * width) / 2;

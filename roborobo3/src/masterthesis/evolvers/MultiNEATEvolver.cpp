@@ -45,7 +45,7 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
             break;
     }
 
-    _logger = new Logger(type);
+    _logger = new Logger(type + std::to_string(gInitialNumberOfRobots));
 
     initPopulation();
 
@@ -97,7 +97,7 @@ void MultiNEATEvolver::evalDone(DataPacket* dp){
     }
 
 
-    _logger->log(dp->fitness);
+    _logger->log(dp->foragingPercentage);
 
 
 	_evalIndex++;

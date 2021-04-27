@@ -16,7 +16,7 @@
 NestObject::NestObject(int __id ) : EnergyItem( __id ){
 
     _radius = 0;
-    _footprintRadius = 80;
+    _footprintRadius = 30;
     _footprintColorRed = 0xFF;
     _footprintColorGreen = 0xC0;
     _footprintColorBlue = 0xC0;
@@ -59,5 +59,6 @@ void NestObject::isWalked(int __idAgent ){
     if(targetRobotController->isCarrying()){
         targetRobotController->unLoad();
         _collectedGoods++;
+        
     }
 }

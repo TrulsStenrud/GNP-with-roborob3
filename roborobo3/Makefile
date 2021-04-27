@@ -12,7 +12,7 @@ MODULES = TemplateRandomwalk TemplateBoids TemplateMedea TemplateWander Template
 CC           = g++ 
 CCFLAGS      = -Wall -O3 -std=c++11
 LDFLAGS      = `sdl2-config --cflags --libs`
-LIBS      = 
+LIBS      = -Wl,--no-undefined -lm -ldl -lpthread -lrt
 RM           = rm -f 
 MAKE         = make 
 INCLUDE      = -Iinclude/ext -Iinclude/MultiNEAT -Iinclude/masterthesis -Iinclude/masterthesis/controllers -Iinclude/masterthesis/evolvers -Iinclude/GNP -Iinclude/contrib -Iinclude/core -Iprj/ $(shell pkg-config --cflags eigen3)
@@ -60,6 +60,8 @@ verifyMods:
 $(TARGET): $(OBJ)
 ifeq ($(strip $(VERBOSE)),)
 	@echo "[LD]	" $@
+	#@$(CC) $(LDFLAGS) -o $@ $^ -static /usr/local/lib/libSDL2.a /usr/local/lib/libSDL2_image.a $(LIBS)
+	#@$(CC) $(LDFLAGS) -o $@ $^ /usr/local/lib/libSDL2_image.a -static -lSDL2 $(LIBS)
 	@$(CC) $(LDFLAGS) -o $@ $^ -lSDL2 -lSDL2_image $(LIBS)
 else
 	$(CC) $(LDFLAGS) -o $@ $^ -lSDL2 -lSDL2_image $(LIBS)

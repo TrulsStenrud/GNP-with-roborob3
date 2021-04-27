@@ -18,19 +18,13 @@
 ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : MyTestEEWorldObserver( world )
 {
     // superclass constructor called before
-    gLitelogManager->write("# lite logger\n");
-    gLitelogManager->write("# generation,iteration,populationSize,minFitness,maxFitness,avgFitnessNormalized.\n");
-    gLitelogManager->flush();
-    _evolver = nullptr;
+    
     gProperties.checkAndGetPropertyValue("gEvaluationTime", &_evalTime, true);
-
-
 }
 
 ForagingTempWorldObserver::~ForagingTempWorldObserver()
 {
     delete _sampledState;
-    gLitelogFile.close();
 }
 
 void ForagingTempWorldObserver::setControllerEvolver(ControllerEvolver* evolver){

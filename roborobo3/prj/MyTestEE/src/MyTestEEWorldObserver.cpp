@@ -20,26 +20,12 @@ std::vector<NestObject*> gNestObjects; // list of nestObjects added to gPhysical
 MyTestEEWorldObserver::MyTestEEWorldObserver( World* world ) : WorldObserver( world )
 {
     
-    std::string litelogFullFilename = gLogDirectoryname + "/lite_" + gLogFilename;
-    gLitelogFile.open(litelogFullFilename.c_str());
-        
-    if(!gLitelogFile) {
-        std::cout << "[CRITICAL] Cannot open \"lite\" log file " << litelogFullFilename << "." << std::endl << std::endl;
-        exit(-1);
-    }
-        
-    gLitelogManager = new LogManager();
-    gLitelogManager->setLogFile(gLitelogFile);
-    gLitelogManager->flush();
     
-    gLitelogManager->write("# lite logger\n");
-    gLitelogManager->write("# generation,iteration,populationSize,minFitness,maxFitness,avgFitnessNormalized.\n");
-    gLitelogManager->flush();
 }
 
 MyTestEEWorldObserver::~MyTestEEWorldObserver()
 {
-    gLitelogFile.close();
+    
 }
 
 
@@ -84,29 +70,33 @@ void MyTestEEWorldObserver::reset(){
     
     _nbForagingObjects = 0;
     
-    randomForagingObjects(10);
-//    semiClusteredForagingObjects();
-    
+    //randomForagingObjects(256);
+    semiClusteredForagingObjects();
+//    clusteredForagingObjects();
 }
 
 void MyTestEEWorldObserver::clusteredForagingObjects(){
     //placeGridOfObjects(500, 500, 4, 4);
     
     placeGridOfObjects(650, 150, 8, 8);
-    placeGridOfObjects(1250, 650, 3, 3);
-    placeGridOfObjects(1100, 200, 3, 6);
-    placeGridOfObjects(150, 300, 6, 6);
+    placeGridOfObjects(1250, 650, 8, 8);
+    //placeGridOfObjects(1100, 200, 8, 8);
+    placeGridOfObjects(150, 300, 8, 8);
+    placeGridOfObjects(700, 500, 4, 4);
+    placeGridOfObjects(200, 100, 4, 4);
+    placeGridOfObjects(500, 700, 4, 4);
+    placeGridOfObjects(1000, 200, 4, 4);
 }
 
 void MyTestEEWorldObserver::semiClusteredForagingObjects()
 {
     
-    placeGridOfObjects(650, 150, 4, 4);
+    placeGridOfObjects(650, 150, 6, 6);
     placeGridOfObjects(1100, 200, 3, 3);
-    placeGridOfObjects(150, 150, 4, 4);
+    placeGridOfObjects(150, 150, 6, 6);
     placeGridOfObjects(850, 600, 4, 4);
     placeGridOfObjects(100, 550, 4, 4);
-    randomForagingObjects(54);
+    randomForagingObjects(111);
 }
 
 

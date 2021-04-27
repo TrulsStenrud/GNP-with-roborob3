@@ -48,13 +48,13 @@ double ForagingTempWorldObserver::getFitness(){
     double fitness = 0;
 
     for(auto nest : gNestObjects){
-        fitness += nest->getCollectedGoods()*gNbOfRobots;
+        fitness += nest->getCollectedGoods();
     }
 
 	for(auto robot : gRobots){
 		auto controller = dynamic_cast<MyTestEEController*>(robot->getController());
 		if(controller->isCarrying()){
-			fitness+=1;
+			fitness+=1/gNbOfRobots;
 		}
 	}
 
@@ -65,6 +65,10 @@ double ForagingTempWorldObserver::getForagingPercentage(){
     double foragedObjects = 0;
     for(auto nest : gNestObjects){
         foragedObjects += nest->getCollectedGoods();
+    }
+    
+    if(foragedObjects > _nbForagingObjects){
+        std::cout << "[ALERT]" << std::endl;
     }
     
     return (foragedObjects / _nbForagingObjects) * 100;

@@ -43,6 +43,7 @@ public:
     std::vector<Genome> simpleCrossover(Genome& genome);
     void adjustFitness();
     Network* buildNetwork(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements);
+    void printUsage();
     
     void reset(); // removes usage statistics and fitness
     

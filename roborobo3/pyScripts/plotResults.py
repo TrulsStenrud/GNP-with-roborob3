@@ -88,6 +88,11 @@ def boxFiles(files):
         
 
 
+    unique_algos = []
+    for algo in algos:
+        if algo not in unique_algos:
+            unique_algos.append(algo)
+    hue_order = sorted(unique_algos)
     
     df = pd.DataFrame({'Generations': np.array(generations),
                     'Fitness': np.array(fitness),

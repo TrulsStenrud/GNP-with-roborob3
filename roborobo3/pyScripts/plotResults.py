@@ -103,7 +103,7 @@ def boxFiles(files):
 
     fig = plt.figure(figsize=(16, 10))
     sns.axes_style("whitegrid")
-    ax = sns.boxplot(x='Generations', y="Fitness", hue="Algorithm", showmeans=True, data=df, #palette=my_pal, in the case that we want custom colors
+    ax = sns.boxplot(x='Generations', y="Fitness", hue="Algorithm", hue_order=hue_order, showmeans=True, data=df, #palette=my_pal, in the case that we want custom colors
                     meanprops={"marker": "s", "markerfacecolor": "white", "markeredgecolor": "black"}, width=0.8)
     
     adjust_box_widths(fig, 0.6)

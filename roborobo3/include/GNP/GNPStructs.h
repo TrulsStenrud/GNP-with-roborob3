@@ -11,7 +11,7 @@
 
 namespace GNP{
 
-enum NodeType:int{Start=0, Judgement=1, Processing=2};
+enum NodeType:int{Start=0, Judgement=1, Processing=2, NEAT=3};
 
 struct NodeInformation{
     int nbProcessingNodes;
@@ -21,9 +21,9 @@ struct NodeInformation{
 struct Node{
     NodeType type;
     int index;
-    int T;
-    double v;
-    
+    int T; // time cost
+    double v; //value
+
     Node(NodeType type, int index, int T, double v = -1){
         this->type = type;
         this->index = index;
@@ -34,7 +34,7 @@ struct Node{
 struct Connection{
     int node;
     int T;
-    
+
     Connection(int node, int T){
         this->node = node;
         this->T = T;

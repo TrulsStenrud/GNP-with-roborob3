@@ -6,8 +6,8 @@
 //  Copyright © 2021 Nicolas Bredeche. All rights reserved.
 //
 
-#ifndef Genome_hpp
-#define Genome_hpp
+#ifndef GNPGenome_h
+#define GNPGenome_h
 
 #include <stdio.h>
 #include <vector>
@@ -16,7 +16,7 @@
 namespace GNP {
 
 class Genome{
-    
+
 private:
     std::vector<Node> _nodes;
     std::vector<int> _nodeUsage;
@@ -27,10 +27,10 @@ private:
     double _fitness;
     int getRandomNode(int i);
     void initUsage();
-    
+
 public:
     int extracted(int i);
-    
+
     Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachProcessingNode, int nbEachJudgementNode);
     Genome(std::vector<Node> nodes, std::vector<std::vector<Connection>> connections, int nbProcessingNodes, std::vector<int> judgementNodesOutput);
     void setFitness(double fitness);
@@ -44,10 +44,10 @@ public:
     void adjustFitness();
     Network* buildNetwork(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements);
     void printUsage();
-    
+
     void reset(); // removes usage statistics and fitness
-    
+
 };
 }
 
-#endif /* Genome_hpp */
+#endif /* GNPGenome_h */

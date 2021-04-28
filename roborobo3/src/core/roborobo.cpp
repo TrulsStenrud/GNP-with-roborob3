@@ -2246,7 +2246,6 @@ bool loadProperties( std::string __propertiesFilename )
     outputFileNameTmp += "_";
     outputFileNameTmp += getpidAsReadableString();
 	outputFileNameTmp += ".txt";
-
 	// open file
 	const std::string outputFile = outputFileNameTmp;
 	std::ofstream out(outputFile.c_str());

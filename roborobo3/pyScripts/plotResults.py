@@ -146,4 +146,4 @@ def adjust_box_widths(fig, fac):
                     if np.all(l.get_xdata() == [xmin, xmax]):
                         l.set_xdata([xmin_new, xmax_new])
 if __name__ == "__main__":
-    boxResult()
+    plotResult()

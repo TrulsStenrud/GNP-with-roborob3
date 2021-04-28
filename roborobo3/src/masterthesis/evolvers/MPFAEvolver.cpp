@@ -89,6 +89,7 @@ void MPFAEvolver::newGeneration(){
 	}
 	delete _pop;
 	_pop = newPop;
+	_generation++;
 }
 
 // single point crossover

@@ -12,7 +12,7 @@ MODULES = TemplateRandomwalk TemplateBoids TemplateMedea TemplateWander Template
 CC           = g++ 
 CCFLAGS      = -Wall -O3 -std=c++11
 LDFLAGS      = `sdl2-config --cflags --libs`
-LIBS      = -Wl,--no-undefined -lm -ldl -lpthread -lrt
+LIBS      =
 RM           = rm -f 
 MAKE         = make 
 INCLUDE      = -Iinclude/ext -Iinclude/MultiNEAT -Iinclude/masterthesis -Iinclude/masterthesis/controllers -Iinclude/masterthesis/evolvers -Iinclude/GNP -Iinclude/contrib -Iinclude/core -Iprj/ $(shell pkg-config --cflags eigen3)

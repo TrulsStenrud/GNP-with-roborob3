@@ -23,7 +23,27 @@ GNPEvolver::GNPEvolver(){
     _params = new GNP::Parameters();
     
     _params->populationSize = populationSize;
+    
+    if(_params->nbNEATNodes > 0)
+    {
+        auto neatParams = new NEAT::Parameters();
+        neatParams->PopulationSize = _params->populationSize;
+        neatParams->EliteFraction = 0.02;
+
+        int inputs = 35 + 1;
+        int outputs = 3;
+
         
+        // Constructing base genome.
+        NEAT::ActivationFunction activFunc = NEAT::ActivationFunction::UNSIGNED_SIGMOID;
+
+        auto genomeBase = new NEAT::Genome(0,inputs,0,outputs,false, activFunc, activFunc, 0, *neatParams, 0, 0);
+        
+        for(int i = 0;  i < _params->nbNEATNodes; i++){
+            _neatPopulations.push_back(new NEAT::Population(*genomeBase, *neatParams, true, 1.0, 72)); // last argument is seed
+        }
+    }
+    
     _logger = new Logger("GNP" + std::to_string(gInitialNumberOfRobots));
     
     _pop = new GNP::Population(library, _params);
@@ -44,7 +64,13 @@ void GNPEvolver::evalDone(DataPacket* dp){
 
     for(auto rob : gRobots){
         GNPController* cont = static_cast<GNPController*>(rob->getController());
-        cont->buildBrain(_pop->AccessGenomeByIndex(_evalIndex));
+        
+        std::vector<NEAT::Genome> neatGenomes;
+        for(int i = 0; i < _params->nbNEATNodes; i++){
+            neatGenomes.push_back(_neatPopulations[i]->AccessGenomeByIndex(_evalIndex));
+        }
+        
+        cont->buildBrain(_pop->AccessGenomeByIndex(_evalIndex), neatGenomes);
         cont->reset();
     }
 }
@@ -65,6 +91,12 @@ bool GNPEvolver::usesBehavior(){
 
 Controller* GNPEvolver::make_Controller(RobotWorldModel *wm){
     GNP::Genome& genome = _pop->AccessGenomeByIndex(_evalIndex);
-    GNPController* cont = new GNPController(wm, genome);
+    
+    std::vector<NEAT::Genome> neatGenomes;
+    for(int i = 0; i < _params->nbNEATNodes; i++){
+        neatGenomes.push_back(_neatPopulations[i]->AccessGenomeByIndex(_evalIndex));
+    }
+    
+    GNPController* cont = new GNPController(wm, genome, neatGenomes);
     return cont;
 }

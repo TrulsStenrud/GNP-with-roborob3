@@ -26,6 +26,7 @@ void Parameters::reset(){
     connectionT = 0;
     nbEachProcessingNode = 8;
     nbEachJudgementNode = 4;
+    nbNEATNodes = 3;
 }
 
 }

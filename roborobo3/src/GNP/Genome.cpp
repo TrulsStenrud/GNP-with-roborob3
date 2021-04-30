@@ -12,87 +12,15 @@
 namespace GNP{
 
 
-int Genome::getRandomNode(int i) {
-    int nextNode = randint() % (_nodes.size() - 2) + 1;
+int Genome::getRandomNode(int i, int nbNodes) {
+    int nextNode = randint() % (nbNodes - 2) + 1;
     if(nextNode == i){
         nextNode++;
     }
     return nextNode;
 }
 
-Genome::Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachProcessingNode, int nbEachJudgementNode){
-    _nbProcessingNodes = nbProcessingNodes;
-    _judgementNodesOutput = judgementNodesOutput;
-
-
-    // add start node
-    _nodes.push_back(Node(NodeType::Start, 0, 0));
-
-    // add judgement nodes
-    for(int i = 0; i < judgementNodesOutput.size(); i++){
-        for(int j = 0; j < nbEachJudgementNode; j++){
-            _nodes.push_back(Node(NodeType::Judgement, i, judgeT));
-        }
-    }
-
-    // add processing nodes
-    for(int i = 0; i < _nbProcessingNodes; i++){
-        for(int j = 0; j < nbEachProcessingNode; j++){
-            double v = random01();//randgaussian()/5 + 0.5;
-            if(v < 0){
-                v = 0;
-            }else if(v > 1){
-                v = 1;
-            }
-
-            _nodes.push_back(Node(NodeType::Processing, i, processT, v));
-        }
-    }
-
-    for(int i = 0; i < _nodes.size(); i++){
-
-        switch(_nodes[i].type){ //node type
-            case NodeType::Start:
-            {
-                int firstNode = randint() % (_nodes.size() - 1) + 1;
-
-                _connections.push_back({Connection(firstNode,  connectionT)});
-            }break;
-
-            case NodeType::Judgement: // judgement node
-            {
-                std::vector<Connection> connections;
-                int nbConnections = _judgementNodesOutput[_nodes[i].index];
-
-                for (int j = 0; j < nbConnections; j++){
-                    int nextNode = getRandomNode(i);
-                    connections.push_back(Connection(nextNode, connectionT));
-                }
-
-                _connections.push_back(connections);
-
-            }break;
-
-            case NodeType::Processing: // processing node
-            {
-                int nextNode = randint() % (_nodes.size() - 2) + 1;
-                if(nextNode == i){
-                    nextNode++;
-                }
-                _connections.push_back({Connection(nextNode,  connectionT)});
-            }break;
-
-        }
-
-    }
-
-    initUsage();
-}
-
-Genome::Genome(std::vector<Node> nodes, std::vector<std::vector<Connection>> connections, int nbProcessingNodes, std::vector<int> judgementNodesOutput){
-
-    _nbProcessingNodes = nbProcessingNodes;
-    _judgementNodesOutput = judgementNodesOutput;
+Genome::Genome(std::vector<Node> nodes, std::vector<std::vector<Connection>> connections){
     _nodes = nodes;
     _connections = connections;
 
@@ -122,7 +50,7 @@ void Genome::printUsage(){
 
 void Genome::initUsage(){
     _nodeUsage.clear();
-//    assert(_nodeUsage.size() == 0);
+
     _nodeUsage = std::vector<int>(_nodes.size(), 0);
 
     _connectionUsage.clear();
@@ -177,8 +105,6 @@ Genome Genome::mutate(){
         default:
             exit(-1);
     }
-
-
 }
 
 Genome Genome::processingNodeMutate(){
@@ -204,7 +130,7 @@ Genome Genome::processingNodeMutate(){
         newNodes[mNode].v = 1.0;
     }
 
-    return Genome(newNodes, _connections, _nbProcessingNodes, _judgementNodesOutput);
+    return Genome(newNodes, _connections);
 }
 
 struct Point{
@@ -227,10 +153,10 @@ Genome Genome::simpleMutate(){
 
     auto newConnections = _connections;
 
-    int randomNode = getRandomNode(mCon.x);
+    int randomNode = getRandomNode(mCon.x, _nodes.size());
     newConnections[mCon.x][mCon.y].node = randomNode;
 
-    return Genome(_nodes, newConnections, _nbProcessingNodes, _judgementNodesOutput);
+    return Genome(_nodes, newConnections);
 }
 
 Genome* Genome::uniformMutation(double probability){
@@ -240,13 +166,13 @@ Genome* Genome::uniformMutation(double probability){
     for(int i = 0; i < _connections.size(); i++){
         for(int j = 0; j < _connections[i].size(); j++){
             if(random01() > probability){
-                int randomNode = getRandomNode(i);
+                int randomNode = getRandomNode(i, _nodes.size());
                 newConnections[i][j].node = randomNode;
             }
         }
     }
 
-    return new Genome(_nodes, newConnections, _nbProcessingNodes, _judgementNodesOutput);
+    return new Genome(_nodes, newConnections);
 }
 
 std::vector<Genome> Genome::crossover(Genome& genome){
@@ -274,8 +200,8 @@ std::vector<Genome> Genome::crossover(Genome& genome){
     }
 
     return {
-        Genome(_nodes,  o1Connections, _nbProcessingNodes, _judgementNodesOutput),
-        Genome(_nodes,  o2Connections, _nbProcessingNodes, _judgementNodesOutput)
+        Genome(_nodes,  o1Connections),
+        Genome(_nodes,  o2Connections)
     };
 }
 
@@ -301,13 +227,13 @@ std::vector<Genome> Genome::simpleCrossover(Genome& genome){
 
 
     return {
-        Genome(_nodes,  o1Connections, _nbProcessingNodes, _judgementNodesOutput),
-        Genome(_nodes,  o2Connections, _nbProcessingNodes, _judgementNodesOutput)
+        Genome(_nodes,  o1Connections),
+        Genome(_nodes,  o2Connections)
     };
 }
 
-Network* Genome::buildNetwork(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements){
-    return new Network(processes, judgements, _nodes, _connections, _nodeUsage, _connectionUsage);
+Network* Genome::buildNetwork(){
+    return new Network(_nodes, _connections, _nodeUsage, _connectionUsage);
 }
 
 void Genome::reset(){
@@ -323,5 +249,89 @@ void Genome::setFitness(double fitness){
     _fitness = fitness;
 }
 
+
+Genome Genome::createGenome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachProcessingNode, int nbEachJudgementNode, int nbNeatNodes){
+    
+    std::vector<Node> nodes;
+    std::vector<std::vector<Connection>> connections;
+    
+    int neatT = 1;
+    
+    // add start node
+    nodes.push_back(Node(NodeType::Start, 0, 0));
+
+    // add judgement nodes
+    for(int i = 0; i < judgementNodesOutput.size(); i++){
+        for(int j = 0; j < nbEachJudgementNode; j++){
+            nodes.push_back(Node(NodeType::Judgement, i, judgeT));
+        }
+    }
+
+    // add processing nodes
+    for(int i = 0; i < nbProcessingNodes; i++){
+        for(int j = 0; j < nbEachProcessingNode; j++){
+            double v = random01();//randgaussian()/5 + 0.5;
+            if(v < 0){
+                v = 0;
+            }else if(v > 1){
+                v = 1;
+            }
+
+            nodes.push_back(Node(NodeType::Processing, i, processT, v));
+        }
+    }
+    
+    // add neat nodes
+    for(int i = 0; i < nbNeatNodes; i++){
+        nodes.push_back(Node(NodeType::NEAT, i, neatT));
+    }
+
+    for(int i = 0; i < nodes.size(); i++){
+
+        switch(nodes[i].type){
+            case NodeType::Start:
+            {
+                int firstNode = randint() % (nodes.size() - 1) + 1;
+
+                connections.push_back({Connection(firstNode,  connectionT)});
+            }break;
+
+            case NodeType::Judgement:
+            {
+                std::vector<Connection> con;
+                int nbConnections = judgementNodesOutput[nodes[i].index];
+
+                for (int j = 0; j < nbConnections; j++){
+                    int nextNode = getRandomNode(i, nodes.size());
+                    con.push_back(Connection(nextNode, connectionT));
+                }
+
+                connections.push_back(con);
+
+            }break;
+
+            case NodeType::Processing:
+            {
+                int nextNode = randint() % (nodes.size() - 2) + 1;
+                if(nextNode == i){
+                    nextNode++;
+                }
+                connections.push_back({Connection(nextNode,  connectionT)});
+            }break;
+            case NodeType::NEAT:
+            {
+                int nextNode = randint() % (nodes.size() - 2) + 1;
+                if(nextNode == i){
+                    nextNode++;
+                }
+                connections.push_back({Connection(nextNode,  connectionT)});
+            }break;
+
+        }
+
+    }
+    
+    return Genome(nodes, connections);
 }
 
+}

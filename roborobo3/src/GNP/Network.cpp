@@ -5,18 +5,18 @@
 //  Created by Truls Stenrud on 08/04/2021.
 //  Copyright © 2021 Nicolas Bredeche. All rights reserved.
 //
-
+#pragma once
+#include "common.h"
 #include "Network.h"
-#include "GNPEvolver.h"
+
 
 namespace GNP{
 
 
 
-Network::Network(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements, std::vector<Node> nodes, std::vector<std::vector<Connection>> connections, std::vector<int>& nodeUsage, std::vector<std::vector<int>>& connectionUsage): _connectionUsage(connectionUsage), _nodeUsage(nodeUsage){
+Network::Network(std::vector<Node> nodes, std::vector<std::vector<Connection>> connections, std::vector<int>& nodeUsage, std::vector<std::vector<int>>& connectionUsage): _connectionUsage(connectionUsage), _nodeUsage(nodeUsage){
     
-    _processes = processes;
-    _judgements = judgements;
+    
     _nodes = nodes;
     _connections = connections;
 }
@@ -39,14 +39,14 @@ void Network::step(){
             case NodeType::Judgement:
             {
                 auto judgeIndex = _nodes[_currentNode].index;
-                nextConnection = (*_judgements)[judgeIndex]();
+//                nextConnection = controller->judge(judgeIndex);
                 
             }break;
                 
             case NodeType::Processing:
             {
                 auto processIndex = _nodes[_currentNode].index;
-                (*_processes)[processIndex](_nodes[_currentNode].v);
+//                controller->process(processIndex, _nodes[_currentNode].v);
                 
                 nextConnection = 0;
             }break;

@@ -6,7 +6,7 @@
 //  Copyright © 2021 Nicolas Bredeche. All rights reserved.
 //
 
-#include "GNPPopulation.h"
+#include "../../include/GNP/GNPPopulation.h"
 #include "Utilities/Misc.h"
 #include <algorithm>
 
@@ -17,8 +17,11 @@ Population::Population(NodeInformation nodeInformation, Parameters* params){
     _params = params;
     _nodeInformation = nodeInformation;
 
+   
+    
+    
     for(int i = 0; i < _params->populationSize; i++){
-        _genes.push_back(Genome(nodeInformation.nbProcessingNodes,  nodeInformation.judgementNodeOutputs, _params->processT, _params->judgeT, _params->connectionT, _params->nbEachProcessingNode, _params->nbEachJudgementNode));
+        _genes.push_back(Genome::createGenome(nodeInformation.nbProcessingNodes,  nodeInformation.judgementNodeOutputs, _params->processT, _params->judgeT, _params->connectionT, _params->nbEachProcessingNode, _params->nbEachJudgementNode, _params->nbNEATNodes));
     }
 }
 

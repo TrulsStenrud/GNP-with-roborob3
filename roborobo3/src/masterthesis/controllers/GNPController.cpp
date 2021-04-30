@@ -5,8 +5,12 @@
 
 #define NB_SENSORS 8 // should be coherent with gRobotSpecsImageFilename value read from the property file.
 
-GNPController::GNPController(RobotWorldModel *wm, GNP::Genome& genome):MyTestEEController(wm){
-    _gnpNetwork = genome.buildNetwork(getProcesses(), getJudgements());
+GNPController::GNPController(RobotWorldModel *wm, GNP::Genome& genome, std::vector<NEAT::Genome> neatGenomes):MyTestEEController(wm){
+    
+    for(int i = 0; i < neatGenomes.size(); i++){
+        _neatNetworks.push_back(new NEAT::NeuralNetwork());
+    }
+    buildBrain(genome, neatGenomes);
 }
 
 GNPController::~GNPController(){
@@ -76,48 +80,93 @@ GNP::NodeInformation GNPController::getNodeLibrary(){
     return info;
 }
 
-void GNPController::buildBrain(GNP::Genome& genome){
+int GNPController::judge(int judgeIndex){
+    
+    double direction;
+    
+    switch(judgeIndex){
+        case 0:
+            return judgeObjectTypeForSensors({7, 0, 1}); // left
+        case 1:
+            return judgeObjectTypeForSensors({1, 2, 3}); // front
+        case 2:
+            return judgeObjectTypeForSensors({3, 4, 5}); //right
+        case 3:
+            return judgeObjectTypeForSensors({5, 6, 7}); //back
+        case 4:
+            return getPheromoneValue() > 0 ? 0 : 1; // pheromone sensor
+        case 5:
+            direction = getNestRelativeOrientation();
+            if(direction < -0.75){
+                return 0;
+            }
+            if(direction < -0.25){
+                return 1;
+            }
+            if(direction <= 0.25){
+                return 2;
+            }
+            if(direction <= 0.75){
+                return 3;
+            }
+            return 0;
+        
+        case 7:
+            return isCarrying() ? 1 : 0;
+        
+        default:
+            std::cout << "[Error] - Judgement index outside of range: " << judgeIndex << std::endl;
+            exit(-1);
+            
+    }
+}
+void GNPController::process(int processIndex, double value){
+    
+    switch(processIndex){
+        case 0:
+            setTranslation(value*2-1);
+            break;
+        case 1:
+            setRotation(value*2-1);
+            break;
+        case 2:
+            if(value > 0.5){ // questionable
+                dropPheromone();
+            }
+            break;
+        default:
+            std::cout << "[Error] - Process index outside of range: " << processIndex << std::endl;
+            exit(-1);
+    }
+}
+void GNPController::processNeat(int neatIndex){
+    auto inputs = buildInputVector();
+    _neatNetworks[neatIndex]->Input(inputs);
+    
+    _neatNetworks[neatIndex]->ActivateFast(); // Fast funker kun med unsigned sigmoid som aktiveringsfunksjon.
+    std::vector<double> output = _neatNetworks[neatIndex]->Output();
+    
+    setTranslation(output[0]*2 - 1);
+    setRotation(output[1]*2 - 1);
+
+    if(output[2] > 0.5){
+        dropPheromone();
+    }
+}
+
+void GNPController::buildBrain(GNP::Genome& genome, std::vector<NEAT::Genome> neatGenomes){
     delete _gnpNetwork;
-    _gnpNetwork = genome.buildNetwork(getProcesses(), getJudgements());
+
+    for(int i = 0; i < neatGenomes.size(); i++){
+//        neatGenomes[i].BuildPhenotype(*_neatNetworks[i]);
+    }
+//    for(auto& [nGenome, nn] : zip(neatGenomes, _neatNetworks)){
+//        nGenome.BuildPhenotype(nn);
+//    }
+    _gnpNetwork = genome.buildNetwork();
 }
 
-std::vector<std::function<void(double)>>* GNPController::getProcesses(){
-    auto processes = new std::vector<std::function<void(double)>>();
 
-    // move forward
-    processes->push_back([&](double v){
-        setTranslation(v*2-1);
-    });
-
-    // move backward
-//    processes->push_back([&](double v){
-//        setTranslation(-v);
-//    });
-
-    // Rotate clockwise
-    processes->push_back([&](double v){
-        setRotation(v*2-1);
-    });
-
-    // Rotate counter clockwise
-//    processes->push_back([&](double v){
-//        setRotation(0.1*(-v));
-//    });
-
-    // Dont rotate
-//    processes->push_back([&](double v){
-//        setRotation(0);
-//    });
-
-    // Drop pheromone
-    processes->push_back([&](double v){
-        if(v > 0.5){ // questionable
-            dropPheromone();
-        }
-    });
-
-    return processes;
-}
 
 int GNPController::judgeObjectTypeForSensors(std::vector<int> sensors) {
     bool wall = false, agent = false, foragingObject = false;
@@ -151,151 +200,103 @@ int GNPController::judgeObjectTypeForSensors(std::vector<int> sensors) {
     return 3;
 }
 
-//** TODO currently most of these are [0, 1], but some are just 0 and 1, or [-1, 1]... Have to be decided later
-std::vector<std::function<double()>>* GNPController::getJudgements(){
-    auto judgements = new std::vector<std::function<double()>>();
-
-//    for(int i  = 0; i < _wm->_cameraSensorsNb; i++)
-//    {
-//        if ( gSensoryInputs_distanceToContact )
-//            judgements->push_back([&, i](){
-//
-//                double distance = _wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i);
-//
-//                if(distance <= 1){
-//                    return 0;
-//                }
-//                else if(distance < 0.5)
-//                    return 1;
-//                else
-//                    return 2;
-//
-//            });
-//
-//
-//
-//        if ( gSensoryInputs_physicalObjectType )
-//        {
-//            judgements->push_back([&, i](){
-//
-//                int objectId = _wm->getObjectIdFromCameraSensor(i);
-//                // input: physical object? which type?
-//                if ( PhysicalObject::isInstanceOf(objectId) )
-//                {
-//                    if(gPhysicalObjects[objectId - gPhysicalObjectIndexStartOffset]->getType() == 5) //foragingObject
-//                    {
-//                        return 1;
-//                    }
-//                    else
-//                    {
-//                        return 0;
-//                    }
-//
-//                }
-//                else
-//                {
-//                    // not a physical object. But: should still fill in the inputs (with zeroes)
-//                    return 0;
-//
-//                }
-//
-//            });
-//        }
-//
-//        if ( gSensoryInputs_isOtherAgent )
-//        {
-//            judgements->push_back([&, i](){
-//                int objectId = _wm->getObjectIdFromCameraSensor(i);
-//                // input: another agent? If yes: same group?
-//                if ( Agent::isInstanceOf(objectId) )
-//                {
-//                    // this is an agent
-//                    return 1;
-//                }
-//                else
-//                {
-//                    return 0;
-//                }
-//            });
-//        }
-//
-//        if ( gSensoryInputs_isWall )
-//        {
-//            judgements->push_back([&, i](){
-//
-//                int objectId = _wm->getObjectIdFromCameraSensor(i);
-//                // input: wall or empty?
-//                if ( objectId >= 0 && objectId < gPhysicalObjectIndexStartOffset ) // not empty, but cannot be identified: this is a wall.
-//                {
-//                    return 1;
-//                }
-//                else
-//                {
-//                    return 0;
-//                }
-//            });
-//        }
-//
-//    }
-
-    // left
-
-    judgements->push_back([&](){
-        return judgeObjectTypeForSensors({7, 0, 1});
-    });
-
-    // forward
-    judgements->push_back([&](){
-        return judgeObjectTypeForSensors({1, 2, 3});
-    });
-
-    // right
-    judgements->push_back([&](){
-        return judgeObjectTypeForSensors({3, 4, 5});
-    });
-
-    // back
-    judgements->push_back([&](){
-        return judgeObjectTypeForSensors({5, 6, 7});
-    });
 
 
-    // floor sensor
-    if ( gSensoryInputs_groundSensors )
-    {
-        judgements->push_back([&](){
-			return getPheromoneValue() > 0 ? 0 : 1;
-        });
-    }
-
-    // nest sensor
-    judgements->push_back([&](){
-        double direction = getNestRelativeOrientation();
-        if(direction < -0.75){
-            return 0;
-        }
-        if(direction < -0.25){
-            return 1;
-        }
-        if(direction <= 0.25){
-            return 2;
-        }
-        if(direction <= 0.75){
-            return 3;
-        }
-        return 0;
-    });
-
-    // is carrying
-    judgements->push_back([&](){
-        return isCarrying() ? 1 : 0;
-    });
-
-
-    return judgements;
-}
 
 GNP::Network* GNPController::getNetwork(){
     return _gnpNetwork;
 }
 
+void GNPController::applyOutputVector(std::vector<double> output){
+    setTranslation(output[0]*2 - 1);
+    setRotation(output[1]*2 - 1);
+
+    if(output[2] > 0.5){
+        dropPheromone();
+    }
+}
+
+std::vector<double> GNPController::buildInputVector(){
+    //straight up copied from MultiNEATCOntroller.cpp
+    
+    
+    std::vector<double> inputs;
+    
+    // distance sensors
+    for(int i  = 0; i < _wm->_cameraSensorsNb; i++)
+    {
+        if ( gSensoryInputs_distanceToContact )
+            inputs.push_back( _wm->getDistanceValueFromCameraSensor(i) / _wm->getCameraSensorMaximumDistanceValue(i) );
+        
+        int objectId = _wm->getObjectIdFromCameraSensor(i);
+        
+        if ( gSensoryInputs_physicalObjectType )
+        {
+            // input: physical object? which type?
+            if ( PhysicalObject::isInstanceOf(objectId) )
+            {
+                if(gPhysicalObjects[objectId - gPhysicalObjectIndexStartOffset]->getType() == 5) //foragingObject
+                {
+                    inputs.push_back( 1 ); // match
+                }
+                else
+                {
+                    inputs.push_back( 0 );
+                }
+                
+            }
+            else
+            {
+                // not a physical object. But: should still fill in the inputs (with zeroes)
+                inputs.push_back( 0 );
+                
+            }
+        }
+        
+        if ( gSensoryInputs_isOtherAgent )
+        {
+            // input: another agent? If yes: same group?
+            if ( Agent::isInstanceOf(objectId) )
+            {
+                // this is an agent
+                inputs.push_back( 1 );
+            }
+            else
+            {
+                inputs.push_back( 0 ); // not an agent...
+            }
+        }
+        
+        if ( gSensoryInputs_isWall )
+        {
+            // input: wall or empty?
+            if ( objectId >= 0 && objectId < gPhysicalObjectIndexStartOffset ) // not empty, but cannot be identified: this is a wall.
+            {
+                inputs.push_back( 1 );
+            }
+            else
+            {
+                inputs.push_back( 0 ); // nothing. (objectId=-1)
+            }
+        }
+        
+    }
+    
+    // floor sensor
+    if ( gSensoryInputs_groundSensors )
+    {
+        inputs.push_back(getPheromoneValue());
+    }
+    
+    // nest sensor
+    inputs.push_back(getNestRelativeOrientation());
+    
+    if(isCarrying()){
+        inputs.push_back(1);
+    }else{
+        inputs.push_back(0);
+    }
+    
+    inputs.push_back(1);
+    return inputs;
+}

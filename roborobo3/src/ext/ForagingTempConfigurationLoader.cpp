@@ -26,7 +26,8 @@ ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 	std::cout<<"controller type: "<<controllerType<<std::endl;
 	switch(controllerType){
 	case ControllerEvolver::GNP:
-		_evolver = new GNPEvolver();
+    case ControllerEvolver::GNPPlusPLus:
+		_evolver = new GNPEvolver(controllerType);
 		break;
 	case ControllerEvolver::NEAT:
 	case ControllerEvolver::NoveltySearch:

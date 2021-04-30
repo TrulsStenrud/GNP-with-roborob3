@@ -26,7 +26,7 @@ private:
     std::vector<NEAT::Population*> _neatPopulations;
 
 public:
-    GNPEvolver();
+    GNPEvolver(ControllerEvolver::CONTROLLER);
     Controller* make_Controller(RobotWorldModel* wm) override;
     void evalDone(DataPacket* dp) override;
     bool usesBehavior() override;

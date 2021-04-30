@@ -77,7 +77,7 @@ def boxFiles(files):
             
             if((i+1) % interval == 0):
                 
-                print(max_fitnesses)
+                
                 for key in max_fitnesses:
                     
                     value = max_fitnesses[key]

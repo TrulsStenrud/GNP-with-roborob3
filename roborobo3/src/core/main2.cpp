@@ -166,7 +166,7 @@ int roboroboMain(int argc, char* argv[])
                     ForagingTempConfigurationLoader::controllerType = ControllerEvolver::NoveltySearch;
                 }
                 else if(optarg == std::string("GNP++")){
-                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::NEAT;
+                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::GNPPlusPLus;
                 }
                 else if(optarg == std::string("MPFA")){
                     ForagingTempConfigurationLoader::controllerType = ControllerEvolver::MPFA;

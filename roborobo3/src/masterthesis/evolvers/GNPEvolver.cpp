@@ -11,7 +11,7 @@
 #include "RoboroboMain/roborobo.h"
 #include "../../../include/GNP/GNPGenome.h"
 
-GNPEvolver::GNPEvolver(){
+GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
     _evalIndex = 0;
 
     int populationSize;
@@ -21,6 +21,10 @@ GNPEvolver::GNPEvolver(){
     auto library = GNPController::getNodeLibrary();
 
     _params = new GNP::Parameters();
+    
+    if(controllerType == CONTROLLER::GNPPlusPLus){
+        _params->nbNEATNodes = 3;
+    }
     
     _params->populationSize = populationSize;
     

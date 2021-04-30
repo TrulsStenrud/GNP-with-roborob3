@@ -13,7 +13,7 @@ protected:
 	int _generation = 0;
 	Logger* _logger;
 public:
-	enum CONTROLLER:int{GNP=0, NEATGNP=1, NEAT=2, NoveltySearch=3, HyperNEAT=4, ESHyperNEAT=5, MPFA=6, DDSA=7};
+	enum CONTROLLER:int{GNP=0, NEATGNP=1, NEAT=2, NoveltySearch=3, HyperNEAT=4, ESHyperNEAT=5, MPFA=6, DDSA=7, GNPPlusPLus=8};
 	virtual Controller* make_Controller(RobotWorldModel* wm) = 0;
 	virtual void evalDone(DataPacket* dp) = 0;
     virtual bool usesBehavior() = 0;

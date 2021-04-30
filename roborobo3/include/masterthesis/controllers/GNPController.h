@@ -16,7 +16,7 @@ private:
     std::vector<NEAT::NeuralNetwork*> _neatNetworks;
     std::vector<double> buildInputVector();
     void applyOutputVector(std::vector<double> output);
-    GNP::Network* _gnpNetwork;
+    GNP::Network* _gnpNetwork = nullptr;
     int judgeObjectTypeForSensors(std::vector<int> sensors);
     
 public:

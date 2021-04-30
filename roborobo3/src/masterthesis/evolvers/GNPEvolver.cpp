@@ -43,8 +43,9 @@ GNPEvolver::GNPEvolver(){
             _neatPopulations.push_back(new NEAT::Population(*genomeBase, *neatParams, true, 1.0, 72)); // last argument is seed
         }
     }
+    std::string name = _params->nbNEATNodes > 0 ? "GNP++" : "GNP";
     
-    _logger = new Logger("GNP" + std::to_string(gInitialNumberOfRobots));
+    _logger = new Logger(name + std::to_string(gInitialNumberOfRobots));
     
     _pop = new GNP::Population(library, _params);
     _logger->log("Generation " + std::to_string(_generation));

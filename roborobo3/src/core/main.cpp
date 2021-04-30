@@ -10,6 +10,7 @@
 #include "../../include/GNP/GNPGenome.h"
 
 int main(int argc, char* argv[]){
+    
 	MscMain* mscMain = new MscMain(argc, argv);
 	delete mscMain;
 	std::exit(0);

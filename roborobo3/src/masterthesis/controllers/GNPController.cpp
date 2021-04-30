@@ -8,8 +8,9 @@
 GNPController::GNPController(RobotWorldModel *wm, GNP::Genome& genome, std::vector<NEAT::Genome> neatGenomes):MyTestEEController(wm){
     
     for(int i = 0; i < neatGenomes.size(); i++){
-        _neatNetworks.push_back(new NEAT::NeuralNetwork());
+       _neatNetworks.push_back(new NEAT::NeuralNetwork());
     }
+    
     buildBrain(genome, neatGenomes);
 }
 
@@ -26,7 +27,7 @@ void GNPController::reset(){
 }
 
 void GNPController::step(){
-    _gnpNetwork->step();
+    _gnpNetwork->step(this);
 }
 
 GNP::NodeInformation GNPController::getNodeLibrary(){
@@ -111,7 +112,7 @@ int GNPController::judge(int judgeIndex){
             }
             return 0;
         
-        case 7:
+        case 6:
             return isCarrying() ? 1 : 0;
         
         default:
@@ -158,11 +159,9 @@ void GNPController::buildBrain(GNP::Genome& genome, std::vector<NEAT::Genome> ne
     delete _gnpNetwork;
 
     for(int i = 0; i < neatGenomes.size(); i++){
-//        neatGenomes[i].BuildPhenotype(*_neatNetworks[i]);
+        neatGenomes[i].BuildPhenotype(*_neatNetworks[i]);
     }
-//    for(auto& [nGenome, nn] : zip(neatGenomes, _neatNetworks)){
-//        nGenome.BuildPhenotype(nn);
-//    }
+    
     _gnpNetwork = genome.buildNetwork();
 }
 

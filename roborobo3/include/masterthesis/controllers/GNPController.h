@@ -1,10 +1,12 @@
-#pragma once
+#ifndef GNPController_h
+#define GNPController_h
 
 #include "../../core/WorldModels/RobotWorldModel.h"
 #include "../../../prj/MyTestEE/include/MyTestEEController.h"
 #include "../../GNP/Network.h"
 #include "../../MultiNEAT/NeuralNetwork.h"
 #include "../../GNP/GNPGenome.h"
+#include "../../MultiNEAT/Genome.h"
 
 
 class GNPController : public MyTestEEController{
@@ -33,3 +35,4 @@ public:
     static GNP::NodeInformation getNodeLibrary();
 };
 
+#endif /* GNPController_h */

@@ -52,6 +52,12 @@ GNPEvolver::GNPEvolver(){
 
 void GNPEvolver::evalDone(DataPacket* dp){
     _pop->AccessGenomeByIndex(_evalIndex).setFitness(dp->fitness);
+    
+    for(int i = 0; i < _params->nbNEATNodes; i++){
+        _neatPopulations[i]->AccessGenomeByIndex(_evalIndex).SetFitness(dp->fitness);
+    }
+    
+    
 //    _pop->AccessGenomeByIndex(_evalIndex).printUsage();
     _logger->log(dp->foragingPercentage);
     
@@ -81,6 +87,10 @@ void GNPEvolver::nextGeneration(){
     std::cout<<"generation "<<_generation<<" complete"<<std::endl;
 
     _pop->Epoch();
+    for(auto pop : _neatPopulations){
+        pop->Epoch();
+    }
+    
     _logger->newLine();
     _logger->log("Generation " + std::to_string(_generation));
 }

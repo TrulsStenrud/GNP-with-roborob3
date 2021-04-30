@@ -5,14 +5,13 @@
 //  Created by Truls Stenrud on 08/04/2021.
 //  Copyright © 2021 Nicolas Bredeche. All rights reserved.
 //
-
-#ifndef Network_h
-#define Network_h
+#pragma once
 
 #include <stdio.h>
 #include "vector"
 #include "GNPStructs.h"
-//#include "../masterthesis/controllers/GNPController.h"
+
+class GNPController;
 
 namespace GNP{
 
@@ -24,10 +23,11 @@ private:
     std::vector<std::vector<int>>& _connectionUsage;
     int _currentNode = 0;
 public:
+    
     Network(std::vector<Node> nodes, std::vector<std::vector<Connection>> connections, std::vector<int>& nodeUsage, std::vector<std::vector<int>>& connectionUsage);
-    void step();
+    
+    void step(GNPController* controller);
 };
 
 }
 
-#endif /* Network_h */

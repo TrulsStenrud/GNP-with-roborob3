@@ -80,18 +80,19 @@ void Population::simpleOperators(){
     std::cout << "sum " << sum << std::endl;
     std::vector<Genome> parents;
     std::vector<Genome> mutations;
+    std::vector<Genome> genesCopy = _genes;
 
-    parents.push_back(getBest(_genes)); // elitism
+    parents.push_back(getBest(genesCopy)); // elitism
 
     int nbMutations = _params->populationSize * _params->mutationRate;
 
     while(parents.size() < _params->nbParents){
-        parents.push_back(tournementSelection(_genes, 10));
+        parents.push_back(tournementSelection(genesCopy, 10));
     }
     while(mutations.size() < nbMutations){
         mutations.push_back(tournementSelection(_genes, 10).mutate());
     }
-
+    
     parents.insert(parents.end(), mutations.begin(), mutations.end());
 
     while(parents.size() < _params->populationSize){

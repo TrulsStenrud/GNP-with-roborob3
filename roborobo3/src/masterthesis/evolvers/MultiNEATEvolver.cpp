@@ -17,6 +17,8 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
 
     _params->PopulationSize = populationSize;
     _params->EliteFraction = 0.02;
+    _params->RouletteWheelSelection = false;
+    _params->NoveltySearch_Dynamic_Pmin = true;
 
     int inputs = 35 + 1;
     int outputs = 3;

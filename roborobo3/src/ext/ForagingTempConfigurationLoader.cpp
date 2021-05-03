@@ -17,12 +17,13 @@ ControllerEvolver::CONTROLLER ForagingTempConfigurationLoader::controllerType = 
 
 ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 {
+	DataForwarder::getDataForwarder()->registerListener(this);
 	int cType = 0;
     if (controllerType == -1){
         gProperties.checkAndGetPropertyValue("gControllerType", &cType, true);
         controllerType = static_cast<ControllerEvolver::CONTROLLER>(cType);
     }
-	
+
 	std::cout<<"controller type: "<<controllerType<<std::endl;
 	switch(controllerType){
 	case ControllerEvolver::GNP:
@@ -45,7 +46,15 @@ ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 
 ForagingTempConfigurationLoader::~ForagingTempConfigurationLoader()
 {
-	//destroy
+	DataForwarder::getDataForwarder()->removeListener(this);
+	delete _evolver;
+}
+
+void ForagingTempConfigurationLoader::onGenerationDone(DataPacket* data){
+
+}
+
+void ForagingTempConfigurationLoader::onSimulationDone(){
 	delete _evolver;
 }
 

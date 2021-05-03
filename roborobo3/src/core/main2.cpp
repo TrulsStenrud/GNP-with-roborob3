@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include "../../include/ext/Config/ForagingTempConfigurationLoader.h"
+#include "../../include/masterthesis/MscMain.h"
 
 // For getopt
 extern char *optarg;
@@ -96,7 +97,11 @@ int roboroboMain(int argc, char* argv[])
 
     displayGeneralInformation();
 
-    auto flags = "vhsl:a:r:o:";
+    std::string roboroboFlags = "vhbsl:r:o:";
+	std::string mscFlags = "a:q:w:e:t:y:u:i:p:d:f:g:j:k:z:x:c:n:";
+	std::string temp = roboroboFlags + mscFlags;
+	auto flags = temp.c_str();
+
     int c = getopt (argc, argv, flags);
 
     if ( c  == -1 ) // no arguments? display usage.
@@ -134,13 +139,20 @@ int roboroboMain(int argc, char* argv[])
     while ( c  != -1 )
     {
         //std::cout << "Argument: " << (int)c << " ; " << (char)c << std::endl; //todo :: DEBUG
+        int flagPos = mscFlags.find(c);
+		if(flagPos != std::string::npos){
+			// Flag belonging to MscMain. Forwarding it there for processing.
+			MscMain::processArgument(c);
+			c = getopt (argc, argv, flags);
+			continue;
+		}
         switch (c)
         {
             case 'v':
                 versionInfos();
                 return -1;
                 break;
-            
+
             case 'l':
                 if ( commandline_propertiesfilename == false )
                 {
@@ -153,26 +165,7 @@ int roboroboMain(int argc, char* argv[])
                     std::cout << "[INFO] Command-line parameter: properties file already set (\"" <<  gPropertiesFilename << "\"). Ignored." << std::endl;
                 }
                 break;
-                
-            case 'a':
-                 
-                if (optarg == std::string("GNP")){
-                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::GNP;
-                }
-                else if(optarg == std::string("NEAT")){
-                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::NEAT;
-                }
-                else if(optarg == std::string("NoveltySearch")){
-                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::NoveltySearch;
-                }
-                else if(optarg == std::string("GNP++")){
-                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::NEAT;
-                }
-                else if(optarg == std::string("MPFA")){
-                    ForagingTempConfigurationLoader::controllerType = ControllerEvolver::MPFA;
-                }
-                 
-                break;
+
             case 'r':
                 gInitialNumberOfRobots = std::stoi(optarg);
                 break;

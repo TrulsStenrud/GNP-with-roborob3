@@ -17,6 +17,7 @@ class Logger{
   private:
     std::ofstream _logFile;
     LogManager *_logManager = NULL;
+    std::string _resultFile;
 public:
     Logger(std::string name);
     ~Logger();

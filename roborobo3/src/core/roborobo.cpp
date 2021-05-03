@@ -351,7 +351,6 @@ void clean_up()
     }
 
 	if ( inspectorAgent != NULL ) delete(inspectorAgent);
-
     delete gWorld;
 }
 

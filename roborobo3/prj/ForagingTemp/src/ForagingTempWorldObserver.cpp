@@ -18,7 +18,7 @@
 ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : MyTestEEWorldObserver( world )
 {
     // superclass constructor called before
-    
+
     gProperties.checkAndGetPropertyValue("gEvaluationTime", &_evalTime, true);
 }
 
@@ -60,11 +60,11 @@ double ForagingTempWorldObserver::getForagingPercentage(){
     for(auto nest : gNestObjects){
         foragedObjects += nest->getCollectedGoods();
     }
-    
+
     if(foragedObjects > _nbForagingObjects){
         std::cout << "[ALERT]" << std::endl;
     }
-    
+
     return (foragedObjects / _nbForagingObjects) * 100;
 }
 
@@ -78,10 +78,6 @@ void ForagingTempWorldObserver::stepPre( )
 		DataPacket* dp = constructDataPacket();
         DataForwarder::getDataForwarder()->forwardData(dp);
 
-        if(gWorld->getIterations() == gMaxIt){
-			DataForwarder::getDataForwarder()->simulationDone();
-        }
-
         _evolver->evalDone(dp);
         if(_captureBehavior){
             delete _sampledState;
@@ -90,6 +86,9 @@ void ForagingTempWorldObserver::stepPre( )
         reset();
         delete dp;
 
+        if(gWorld->getIterations() == gMaxIt){
+			DataForwarder::getDataForwarder()->simulationDone();
+        }
     }
 
     if(_captureBehavior)
@@ -128,14 +127,14 @@ DataPacket* ForagingTempWorldObserver::constructDataPacket(){
 	// construct datapacket, then send to all registered listeners.
 	DataPacket* dp = new DataPacket();
 	dp->generation = gWorld->getIterations()/_evalTime;
-    
+
     if(_captureBehavior){
         dp->behaviorData = _sampledState->getSampledAverage();
     }
 
     dp->fitness = getFitness();
     dp->foragingPercentage = getForagingPercentage();
- 
+
     dp->robots = new std::vector<Robot*>();
 	for(int i=0; i<gWorld->getNbOfRobots(); i++){
 		dp->robots->push_back(gWorld->getRobot(i));

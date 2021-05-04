@@ -14,6 +14,7 @@
 #include "../DataListener.h"
 #include "../../core/Controllers/Controller.h"
 #include "../../GNP/GNPPopulation.h"
+#include "../../MultiNEAT/Population.h"
 #include "../../GNP/GNPParameters.h"
 
 class GNPEvolver : public ControllerEvolver{
@@ -22,9 +23,10 @@ private:
     GNP::Population* _pop;
     GNP::Parameters* _params;
     void nextGeneration();
+    std::vector<NEAT::Population*> _neatPopulations;
 
 public:
-    GNPEvolver();
+    GNPEvolver(ControllerEvolver::CONTROLLER);
     Controller* make_Controller(RobotWorldModel* wm) override;
     void evalDone(DataPacket* dp) override;
     bool usesBehavior() override;

@@ -1,31 +1,38 @@
-#pragma once
+#ifndef GNPController_h
+#define GNPController_h
 
-#include "../../../include/core/Controllers/Controller.h"
-#include "../evolvers/ControllerEvolver.h"
 #include "../../core/WorldModels/RobotWorldModel.h"
 #include "../../../prj/MyTestEE/include/MyTestEEController.h"
-#include "../../GNP/GNPGenome.h"
 #include "../../GNP/Network.h"
-#include "../evolvers/GNPEvolver.h"
+#include "../../MultiNEAT/NeuralNetwork.h"
+#include "../../GNP/GNPGenome.h"
+#include "../../MultiNEAT/Genome.h"
 
 
 class GNPController : public MyTestEEController{
 
 private:
-    std::vector<std::function<void(double)>>* getProcesses();
-
-    std::vector<std::function<double()>>* getJudgements();
-    double normalize(double num); // normalizes a number to [-1, 1]
-    GNP::Network* _gnpNetwork;
+    
+    std::vector<NEAT::NeuralNetwork*> _neatNetworks;
+    std::vector<double> buildInputVector();
+    void applyOutputVector(std::vector<double> output);
+    GNP::Network* _gnpNetwork = nullptr;
     int judgeObjectTypeForSensors(std::vector<int> sensors);
+    
 public:
-    GNPController(RobotWorldModel *wm, GNP::Genome& genome);
+    GNPController(RobotWorldModel *wm, GNP::Genome& genome, std::vector<NEAT::Genome> neatGenomes={});
     ~GNPController();
     void reset() override;
     void step() override;
-    void buildBrain(GNP::Genome& genome);
+    
+    void buildBrain(GNP::Genome& genome, std::vector<NEAT::Genome> neatGenomes={});
     GNP::Network* getNetwork();
+    
+    int judge(int judgeIndex);
+    void process(int processIndex, double value);
+    void processNeat(int neatIndex);
 
     static GNP::NodeInformation getNodeLibrary();
 };
 
+#endif /* GNPController_h */

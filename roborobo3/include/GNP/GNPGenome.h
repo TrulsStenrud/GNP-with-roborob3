@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <vector>
 #include "Network.h"
+#include "NeuralNetwork.h"
 
 namespace GNP {
 
@@ -22,17 +23,14 @@ private:
     std::vector<int> _nodeUsage;
     std::vector<std::vector<Connection>> _connections;
     std::vector<std::vector<int>> _connectionUsage;
-    std::vector<int> _judgementNodesOutput;
-    int _nbProcessingNodes;
+    
     double _fitness;
-    int getRandomNode(int i);
+    static int getRandomNode(int i, int nbNodes);
     void initUsage();
 
 public:
-    int extracted(int i);
-
-    Genome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachProcessingNode, int nbEachJudgementNode);
-    Genome(std::vector<Node> nodes, std::vector<std::vector<Connection>> connections, int nbProcessingNodes, std::vector<int> judgementNodesOutput);
+    
+    Genome(std::vector<Node> nodes, std::vector<std::vector<Connection>> connections);
     void setFitness(double fitness);
     double getFitness();
     Genome mutate();
@@ -42,11 +40,12 @@ public:
     std::vector<Genome> crossover(Genome& genome);
     std::vector<Genome> simpleCrossover(Genome& genome);
     void adjustFitness();
-    Network* buildNetwork(std::vector<std::function<void(double)>>* processes, std::vector<std::function<double()>>* judgements);
+    Network* buildNetwork();
     void printUsage();
-
     void reset(); // removes usage statistics and fitness
-
+    
+    static Genome createGenome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachProcessingNode, int nbEachJudgementNode, int nbNeatNodes);
+    
 };
 }
 

@@ -29,6 +29,8 @@ void Parameters::reset(){
 //    gProperties.checkAndGetPropertyValue("gNbParents", &nbParents, false);
 //    gProperties.checkAndGetPropertyValue("gNbEachProcessingNode", &nbEachProcessingNode, false);
 //    gProperties.checkAndGetPropertyValue("gNbEachJudgementNode", &nbEachJudgementNode, false);
+    nbNEATNodes = 0;
+
 }
 
 }

@@ -6,7 +6,7 @@
 //  Copyright © 2021 Nicolas Bredeche. All rights reserved.
 //
 
-#include "GNPPopulation.h"
+#include "../../include/GNP/GNPPopulation.h"
 #include "Utilities/Misc.h"
 #include <algorithm>
 
@@ -17,8 +17,11 @@ Population::Population(NodeInformation nodeInformation, Parameters* params){
     _params = params;
     _nodeInformation = nodeInformation;
 
+   
+    
+    
     for(int i = 0; i < _params->populationSize; i++){
-        _genes.push_back(Genome(nodeInformation.nbProcessingNodes,  nodeInformation.judgementNodeOutputs, _params->processT, _params->judgeT, _params->connectionT, _params->nbEachProcessingNode, _params->nbEachJudgementNode));
+        _genes.push_back(Genome::createGenome(nodeInformation.nbProcessingNodes,  nodeInformation.judgementNodeOutputs, _params->processT, _params->judgeT, _params->connectionT, _params->nbEachProcessingNode, _params->nbEachJudgementNode, _params->nbNEATNodes));
     }
 }
 
@@ -77,18 +80,19 @@ void Population::simpleOperators(){
     std::cout << "sum " << sum << std::endl;
     std::vector<Genome> parents;
     std::vector<Genome> mutations;
+    std::vector<Genome> genesCopy = _genes;
 
-    parents.push_back(getBest(_genes)); // elitism
+    parents.push_back(getBest(genesCopy)); // elitism
 
     int nbMutations = _params->populationSize * _params->mutationRate;
 
     while(parents.size() < _params->nbParents){
-        parents.push_back(tournementSelection(_genes, 10));
+        parents.push_back(tournementSelection(genesCopy, 10));
     }
     while(mutations.size() < nbMutations){
         mutations.push_back(tournementSelection(_genes, 10).mutate());
     }
-
+    
     parents.insert(parents.end(), mutations.begin(), mutations.end());
 
     while(parents.size() < _params->populationSize){

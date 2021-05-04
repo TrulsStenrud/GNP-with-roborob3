@@ -1285,8 +1285,18 @@ bool loadProperties( std::string __propertiesFilename )
 
 	if ( gProperties.hasProperty("gMaxIt") )
 		convertFromString<int>(gMaxIt, gProperties.getProperty("gMaxIt"), std::dec);
-	else
+    else if(gProperties.hasProperty("gGenerations")
+            && gProperties.hasProperty("gEvolutionPopulationSize")
+            && gProperties.hasProperty("gEvaluationTime")){
+        int gen, popSize, evalTime;
+        convertFromString<int>(gen, gProperties.getProperty("gGenerations"), std::dec);
+        convertFromString<int>(popSize, gProperties.getProperty("gEvolutionPopulationSize"), std::dec);
+        convertFromString<int>(evalTime, gProperties.getProperty("gEvaluationTime"), std::dec);
+        gMaxIt = popSize * gen * evalTime;
+    }
+    else
 	{
+
 		std::cerr << "[ERROR] gMaxIt value is missing.\n";
 		returnValue = false;
 	}

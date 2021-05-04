@@ -30,6 +30,7 @@ public:
     int connectionT;
     int nbEachProcessingNode;
     int nbEachJudgementNode;
+    int nbNEATNodes;
 };
 }
 #endif /* Parameters_hpp */

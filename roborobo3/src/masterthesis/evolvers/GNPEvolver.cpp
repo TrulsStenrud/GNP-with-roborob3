@@ -11,7 +11,7 @@
 #include "RoboroboMain/roborobo.h"
 #include "../../../include/GNP/GNPGenome.h"
 
-GNPEvolver::GNPEvolver(){
+GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
     _evalIndex = 0;
 
     int populationSize;
@@ -22,9 +22,34 @@ GNPEvolver::GNPEvolver(){
 
     _params = new GNP::Parameters();
     
+    if(controllerType == CONTROLLER::GNPPlusPLus){
+        _params->nbNEATNodes = 3;
+    }
+    
     _params->populationSize = populationSize;
+    
+    if(_params->nbNEATNodes > 0)
+    {
+        auto neatParams = new NEAT::Parameters();
+        neatParams->PopulationSize = _params->populationSize;
+        neatParams->EliteFraction = 0.02;
+
+        int inputs = 35 + 1;
+        int outputs = 3;
+
         
-    _logger = new Logger("GNP" + std::to_string(gInitialNumberOfRobots));
+        // Constructing base genome.
+        NEAT::ActivationFunction activFunc = NEAT::ActivationFunction::UNSIGNED_SIGMOID;
+
+        auto genomeBase = new NEAT::Genome(0,inputs,0,outputs,false, activFunc, activFunc, 0, *neatParams, 0, 0);
+        
+        for(int i = 0;  i < _params->nbNEATNodes; i++){
+            _neatPopulations.push_back(new NEAT::Population(*genomeBase, *neatParams, true, 1.0, 72)); // last argument is seed
+        }
+    }
+    std::string name = _params->nbNEATNodes > 0 ? "GNP++" : "GNP";
+    
+    _logger = new Logger(name + std::to_string(gInitialNumberOfRobots));
     
     _pop = new GNP::Population(library, _params);
     _logger->log("Generation " + std::to_string(_generation));
@@ -32,6 +57,12 @@ GNPEvolver::GNPEvolver(){
 
 void GNPEvolver::evalDone(DataPacket* dp){
     _pop->AccessGenomeByIndex(_evalIndex).setFitness(dp->fitness);
+    
+    for(int i = 0; i < _params->nbNEATNodes; i++){
+        _neatPopulations[i]->AccessGenomeByIndex(_evalIndex).SetFitness(dp->fitness);
+    }
+    
+    
 //    _pop->AccessGenomeByIndex(_evalIndex).printUsage();
     _logger->log(dp->foragingPercentage);
     
@@ -44,7 +75,13 @@ void GNPEvolver::evalDone(DataPacket* dp){
 
     for(auto rob : gRobots){
         GNPController* cont = static_cast<GNPController*>(rob->getController());
-        cont->buildBrain(_pop->AccessGenomeByIndex(_evalIndex));
+        
+        std::vector<NEAT::Genome> neatGenomes;
+        for(int i = 0; i < _params->nbNEATNodes; i++){
+            neatGenomes.push_back(_neatPopulations[i]->AccessGenomeByIndex(_evalIndex));
+        }
+        
+        cont->buildBrain(_pop->AccessGenomeByIndex(_evalIndex), neatGenomes);
         cont->reset();
     }
 }
@@ -55,6 +92,10 @@ void GNPEvolver::nextGeneration(){
     std::cout<<"generation "<<_generation<<" complete"<<std::endl;
 
     _pop->Epoch();
+    for(auto pop : _neatPopulations){
+        pop->Epoch();
+    }
+    
     _logger->newLine();
     _logger->log("Generation " + std::to_string(_generation));
 }
@@ -65,6 +106,12 @@ bool GNPEvolver::usesBehavior(){
 
 Controller* GNPEvolver::make_Controller(RobotWorldModel *wm){
     GNP::Genome& genome = _pop->AccessGenomeByIndex(_evalIndex);
-    GNPController* cont = new GNPController(wm, genome);
+    
+    std::vector<NEAT::Genome> neatGenomes;
+    for(int i = 0; i < _params->nbNEATNodes; i++){
+        neatGenomes.push_back(_neatPopulations[i]->AccessGenomeByIndex(_evalIndex));
+    }
+    
+    GNPController* cont = new GNPController(wm, genome, neatGenomes);
     return cont;
 }

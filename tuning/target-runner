@@ -1,0 +1,76 @@
+#!/bin/bash
+###############################################################################
+# This script is the command that is executed every run.
+# Check the examples in examples/
+#
+# This script is run in the execution directory (execDir, --exec-dir).
+#
+# PARAMETERS:
+# $1 is the candidate configuration number
+# $2 is the instance ID
+# $3 is the seed
+# $4 is the instance name
+# The rest ($* after `shift 4') are parameters to the run
+#
+# RETURN VALUE:
+# This script should print one numerical value: the cost that must be minimized.
+# Exit with 0 if no error, with 1 in case of error
+###############################################################################
+#error() {
+#    echo "`TZ=UTC date`: $0: error: $@"
+#    exit 1
+#}
+
+EXE=./roborobo
+#EXE=konsole -e  /usr/bin/cb_console_runner LD_LIBRARY_PATH=:. /roborobo
+FIXED_PARAMS="-l foraging_temp.properties -b -a NEAT"
+
+CONFIG_ID=$1
+INSTANCE_ID=$2
+SEED=$3
+INSTANCE=$4
+#shift 4 || error "Not enough parameters"
+CONFIG_PARAMS=$*
+
+STDOUT=c${CONFIG_ID}-${INSTANCE_ID}-${SEED}
+LOGPATH=logs/${STDOUT}.csv
+
+#if [ ! -x "${EXE}" ]; then
+#    error "${EXE}: not found or not executable (pwd: $(pwd))"
+#fi
+
+# If the program just prints a number, we can use 'exec' to avoid
+# creating another process, but there can be no other commands after exec.
+#exec $EXE ${FIXED_PARAMS} -i $INSTANCE ${CONFIG_PARAMS}
+# exit 1
+# 
+# Otherwise, save the output to a file, and parse the result from it.
+# (If you wish to ignore segmentation faults you can use '{}' around
+# the command.)
+#$EXE ${FIXED_PARAMS} -i $INSTANCE --seed ${SEED} ${CONFIG_PARAMS} 1> ${STDOUT} 2> ${STDERR}
+
+$EXE ${FIXED_PARAMS} ${CONFIG_PARAMS} -n ${STDOUT} > /dev/null
+# # This may be used to introduce a delay if there are filesystem
+# # issues.
+#SLEEPTIME=5
+#while [ ! -s "${LOGPATH}" ]; do
+#    echo "${LOGPATH}"
+#    sleep $SLEEPTIME
+#done
+#echo "done"
+
+# This is an example of reading a number from the output.
+# It assumes that the objective value is the first number in
+# the first column of the last line of the output.
+if [ -s "${LOGPATH}" ]; then
+    #echo "found"
+    #COST=$(tail -n 1 ${STDOUT} | grep -e '^[[:space:]]*[+-]\?[0-9]' | cut -f1)
+    MAX=$(awk -F\; 'BEGIN{max=0} {for(i=2;i<=NF;i++){if($i > max) max=$i}} END{print max}' ${LOGPATH})
+    #echo "$MAX"
+    COST=$MAX
+    echo "$COST"
+    #rm -f "${LOGPATH}"
+    exit 0
+else
+    error "${LOGPATH}: No such file or directory"
+fi

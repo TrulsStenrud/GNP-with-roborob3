@@ -5,6 +5,7 @@
 #include "../../core/WorldModels/RobotWorldModel.h"
 #include "../DataListener.h"
 #include "ControllerEvolver.h"
+#include "../MscMain.h"
 
 using namespace std;
 
@@ -29,10 +30,10 @@ private:
 	vector<MPFAGenome>* _pop;
 	int _evalIndex;
 	int _popSize;
-	int _tournamentSize = 2;
-	double _crossoverChance = 0.7;
-	double _mutationChance = 0.2;
-	double _mutationModifier = 0.5; // mutation modifies a value by randgaussian * _mutationModifier * range, where range is the difference between limits.
+	int _tournamentSize = gMscTournamentSize;
+	double _crossoverChance = gMscCrossoverRate;
+	double _mutationChance = gMscMutationRate;
+	double _mutationModifier = gMscMutationModifier; // mutation modifies a value by randgaussian * _mutationModifier * range, where range is the difference between limits.
 
 	double getRandBetween(double low, double high);
 	void initPopulation();

@@ -23,7 +23,7 @@
 
 EXE=./roborobo
 #EXE=konsole -e  /usr/bin/cb_console_runner LD_LIBRARY_PATH=:. /roborobo
-FIXED_PARAMS="-l foraging_temp.properties -b -a MPFA"
+FIXED_PARAMS="-l foraging_temp.properties -b -a NEAT"
 
 CONFIG_ID=$1
 INSTANCE_ID=$2

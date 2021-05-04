@@ -12,6 +12,7 @@
 #include "World/World.h"
 #include "RoboroboMain/roborobo.h"
 #include <vector>
+#include "../../../include/masterthesis/MscMain.h"
 
 NestObject::NestObject(int __id ) : EnergyItem( __id ){
 
@@ -23,8 +24,8 @@ NestObject::NestObject(int __id ) : EnergyItem( __id ){
     _collectedGoods = 0;
 
     PheromoneList = new std::vector<ImaginaryPheromone>();
-	gProperties.checkAndGetPropertyValue("gPheromoneDecay", &_decay, true);
-	gProperties.checkAndGetPropertyValue("gPheromoneEvaporationTreshold", &_evaporationTreshold, true);
+	_decay = gMscPheromoneDecay;
+	_evaporationTreshold = gMscPheromoneEvaporationTreshold;
 
     resetValues();
 }
@@ -59,6 +60,6 @@ void NestObject::isWalked(int __idAgent ){
     if(targetRobotController->isCarrying()){
         targetRobotController->unLoad();
         _collectedGoods++;
-        
+
     }
 }

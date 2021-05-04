@@ -11,6 +11,7 @@
 #include "RoboroboMain/roborobo.h"
 #include <Utilities/Graphics.h>
 #include "MyTestEE/include/ObjectFactory.h"
+#include "../../../include/masterthesis/MscMain.h"
 
 
 
@@ -21,9 +22,8 @@ PheromoneObject::PheromoneObject(int __id) : CircleObject( __id ){
     _radius=0;
     _footprintRadius = 4;
 
-    gProperties.checkAndGetPropertyValue("gPheromoneDecay", &_decay, true);
-	gProperties.checkAndGetPropertyValue("gPheromoneEvaporationTreshold", &_evaporationTreshold, true);
-
+	_decay = gMscPheromoneDecay;
+	_evaporationTreshold = gMscPheromoneEvaporationTreshold;
 
     _strength = 1;
     regrowTime = -1;

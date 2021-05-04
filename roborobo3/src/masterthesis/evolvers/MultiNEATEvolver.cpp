@@ -4,6 +4,7 @@
 #include "RoboroboMain/roborobo.h"
 #include "../../../prj/ForagingTemp/include/Behavior.h"
 #include <sstream>
+#include "../MscMain.h"
 
 using namespace std;
 
@@ -19,6 +20,13 @@ MultiNEATEvolver::MultiNEATEvolver(ControllerEvolver::CONTROLLER contType){
     _params->EliteFraction = 0.02;
     _params->RouletteWheelSelection = false;
     _params->NoveltySearch_Dynamic_Pmin = true;
+    _params->OverallMutationRate = gMscMutationRate;
+    _params->CrossoverRate = gMscCrossoverRate;
+    _params->TournamentSize = gMscTournamentSize;
+    _params->YoungAgeTreshold = gMscYoungAgeThreshold;
+    _params->OldAgeTreshold = gMscOldAgeThreshold;
+    _params->PhasedSearching = gMscPhasedSearching;
+    _params->DeltaCoding = gMscDeltaCoding;
 
     int inputs = 35 + 1;
     int outputs = 3;

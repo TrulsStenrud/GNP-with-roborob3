@@ -1,0 +1,11 @@
+Full guide: https://github.com/MLopez-Ibanez/irace
+
+Install:
+1) Install R.
+2) R -e "install.packages('irace')"
+
+Running irace:
+1) cd to the tuning folder.
+2) R --silent -e "library(irace);system.file(package='irace')"
+3) Copy the folder that gets printed.
+4) *folder*/bin/irace --parallel x, where x is the amount of threads you want.

@@ -98,7 +98,7 @@ int roboroboMain(int argc, char* argv[])
     displayGeneralInformation();
 
     std::string roboroboFlags = "vhbsl:r:o:";
-	std::string mscFlags = "a:q:w:e:t:y:u:i:p:d:f:g:j:k:z:x:c:n:";
+	std::string mscFlags = "a:q:w:e:t:y:u:i:p:d:f:g:j:k:z:x:c:n:m:1:2:";
 	std::string temp = roboroboFlags + mscFlags;
 	auto flags = temp.c_str();
 

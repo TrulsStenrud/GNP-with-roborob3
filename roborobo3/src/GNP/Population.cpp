@@ -21,25 +21,26 @@ Population::Population(NodeInformation nodeInformation, Parameters* params){
     
     
     for(int i = 0; i < _params->populationSize; i++){
-        _genes.push_back(Genome::createGenome(nodeInformation.nbProcessingNodes,  nodeInformation.judgementNodeOutputs, _params->processT, _params->judgeT, _params->connectionT, _params->nbEachProcessingNode, _params->nbEachJudgementNode, _params->nbNEATNodes));
+        _genes.push_back(Genome::createGenome(nodeInformation.nbProcessingNodes,  nodeInformation.judgementNodeOutputs, _params->processT, _params->judgeT, _params->connectionT, _params->neatT, _params->nbEachProcessingNode, _params->nbEachJudgementNode, _params->nbNEATNodes));
     }
 }
 
-bool genome_greater(Genome& ls, Genome& rs)
-{
-    return (ls.getFitness() > rs.getFitness());
-}
 
 void Population::Epoch(){
 
 
-    simpleOperators();
+    simpleOperators2();
 
     for(Genome& gene : _genes){
         gene.reset();
     }
 }
 
+
+bool genome_greater(Genome& ls, Genome& rs)
+{
+    return (ls.getFitness() > rs.getFitness());
+}
 
 Genome tournementSelection(std::vector<Genome>& genes, int t){
     int currentBest = randint() % genes.size();
@@ -72,6 +73,15 @@ Genome getBest(std::vector<Genome>& genes){
     return result;
 }
 
+Genome getRandom(std::vector<Genome>& genes){
+    int r = randint() % genes.size();
+    
+    Genome result = genes[r];
+    genes.erase(genes.begin() + r);
+
+    return result;
+}
+
 void Population::simpleOperators(){
     double sum = 0;
     for(auto& gene : _genes){
@@ -87,10 +97,10 @@ void Population::simpleOperators(){
     int nbMutations = _params->populationSize * _params->mutationRate;
 
     while(parents.size() < _params->nbParents){
-        parents.push_back(tournementSelection(genesCopy, 10));
+        parents.push_back(tournementSelection(genesCopy, _params->tournamentSize));
     }
     while(mutations.size() < nbMutations){
-        mutations.push_back(tournementSelection(_genes, 10).mutate());
+        mutations.push_back(tournementSelection(_genes, _params->tournamentSize).mutate());
     }
     
     parents.insert(parents.end(), mutations.begin(), mutations.end());
@@ -114,6 +124,39 @@ void Population::simpleOperators(){
     _genes = parents;
 }
 
+void Population::simpleOperators2(){
+    double sum = 0;
+    for(auto& gene : _genes){
+        sum+=pow(gene.getFitness(), 1);
+    }
+    std::cout << "sum " << sum << std::endl;
+    
+    
+
+    std::vector<Genome> result;
+    
+    result.push_back(getBest(_genes)); // elitism
+    
+    while(result.size() < _params->populationSize){
+        Genome geneA = tournementSelection(_genes, _params->tournamentSize);
+        Genome geneB = tournementSelection(_genes, _params->tournamentSize);
+        
+        std::vector<Genome> toAdd;
+        if(random01() < _params->crossoverRate){
+            auto offspring = geneA.crossover(geneB);
+            toAdd.insert(toAdd.end(), offspring.begin(), offspring.end());
+        }
+        
+        toAdd.push_back(random01() < _params->mutationRate ? geneA.mutate() : geneA);
+        toAdd.push_back(random01() < _params->mutationRate ? geneB.mutate() : geneB);
+    
+        while(!toAdd.empty() && result.size() < _params->populationSize){
+            result.push_back(getRandom(toAdd));
+        }
+    }
+    
+    _genes = result;
+}
 
 void Population::doProbabilitySelection(){
 

@@ -250,12 +250,10 @@ void Genome::setFitness(double fitness){
 }
 
 
-Genome Genome::createGenome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachProcessingNode, int nbEachJudgementNode, int nbNeatNodes){
+Genome Genome::createGenome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int neatT, int nbEachProcessingNode, int nbEachJudgementNode, int nbNeatNodes){
     
     std::vector<Node> nodes;
     std::vector<std::vector<Connection>> connections;
-    
-    int neatT = 1;
     
     // add start node
     nodes.push_back(Node(NodeType::Start, 0, 0));

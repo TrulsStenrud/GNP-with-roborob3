@@ -44,7 +44,7 @@ public:
     void printUsage();
     void reset(); // removes usage statistics and fitness
     
-    static Genome createGenome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int nbEachProcessingNode, int nbEachJudgementNode, int nbNeatNodes);
+    static Genome createGenome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int neatT, int nbEachProcessingNode, int nbEachJudgementNode, int nbNeatNodes);
     
 };
 }

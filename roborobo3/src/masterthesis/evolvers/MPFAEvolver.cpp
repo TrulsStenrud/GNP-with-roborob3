@@ -1,7 +1,7 @@
 #include "MPFAEvolver.h"
 #include "MPFAController.h"
 #include "../../../include/core/Utilities/Misc.h"
-#include "../MscMain.h"
+#include "MscMain.h"
 
 using namespace std;
 

@@ -25,8 +25,11 @@ public:
     int populationSize;
     int nbParents;
     double mutationRate;
+    double crossoverRate;
     int processT;
     int judgeT;
+    int neatT;
+    int tournamentSize;
     int connectionT;
     int nbEachProcessingNode;
     int nbEachJudgementNode;

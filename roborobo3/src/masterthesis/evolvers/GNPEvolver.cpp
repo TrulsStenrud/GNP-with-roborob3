@@ -10,6 +10,7 @@
 #include "GNPController.h"
 #include "RoboroboMain/roborobo.h"
 #include "../../../include/GNP/GNPGenome.h"
+#include "MscMain.h"
 
 GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
     _evalIndex = 0;
@@ -23,10 +24,20 @@ GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
     _params = new GNP::Parameters();
     
     if(controllerType == CONTROLLER::GNPPlusPLus){
-        _params->nbNEATNodes = 3;
+        _params->nbNEATNodes = gMscNbNeatNodes;
     }
     
     _params->populationSize = populationSize;
+    _params->nbParents = gMscNbParents;
+    _params->mutationRate = gMscMutationRate;
+    _params->crossoverRate = gMscMutationRate;
+    _params->tournamentSize = gMscTournamentSize;
+    _params->nbEachJudgementNode = gMscNbEachJudgementNode;
+    _params->nbEachProcessingNode = gMscNbEachProcessingNode;
+    _params->processT = gMscProcessT;
+    _params->judgeT = gMscJudgeT;
+    _params->neatT = gMscNeatT;
+    
     
     if(_params->nbNEATNodes > 0)
     {

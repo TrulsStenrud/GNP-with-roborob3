@@ -95,6 +95,15 @@ void MscMain::processArgument(char c){
 		case 'n':
 			gMscLogName = static_cast<std::string>(optarg);
 			break;
+        case 'm':
+            gMscJudgeT =stoi(optarg);
+            break;
+        case '1':
+            gMscProcessT =stoi(optarg);
+            break;
+        case '2':
+            gMscNeatT =stoi(optarg);
+            break;
 	}
 }
 
@@ -115,6 +124,9 @@ void MscMain::initiateParameters(){
 	gProperties.checkAndGetPropertyValue("gMscNbParents", &gMscNbParents, false);
 	gProperties.checkAndGetPropertyValue("gMscNbEachProcessingNode", &gMscNbEachProcessingNode, false);
 	gProperties.checkAndGetPropertyValue("gMscNbEachJudgementNode", &gMscNbEachJudgementNode, false);
+    
+    // GNP++
+    gProperties.checkAndGetPropertyValue("gMscNbNeatNodes", &gMscNbNeatNodes, false);
 
 	// MPFA
 	gProperties.checkAndGetPropertyValue("gMscMutationModifier", &gMscMutationModifier, false);
@@ -140,14 +152,20 @@ double gMscPheromoneDecay = 0.001;
 double gMscPheromoneEvaporationTreshold = 0.08;
 
 // General evolver parameters.
-double gMscMutationRate = 0.3;
-double gMscCrossoverRate = 0.7;
+double gMscMutationRate = 0.7;
+double gMscCrossoverRate = 0.5;
 double gMscTournamentSize = 3;
 
 // GNP
 double gMscNbParents = 10;
 int gMscNbEachProcessingNode = 8;
 int gMscNbEachJudgementNode = 4;
+int gMscProcessT = 5;
+int gMscJudgeT = 1;
+
+// GNP++
+int gMscNbNeatNodes = 3;
+int gMscNeatT = 5;
 
 // MPFA
 double gMscMutationModifier = 0.5;

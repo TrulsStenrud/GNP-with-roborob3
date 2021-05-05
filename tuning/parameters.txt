@@ -38,16 +38,22 @@ gMscPheromoneEvaporationTreshold "-w " r (0.0, 0.5)
 gMscMutationRate "-e " r (0.0, 1.0)
 gMscCrossoverRate "-t " r (0.0, 1.0)
 gMscTournamentSize "-y " i (2,15)
+
 #gMscNbParents "-u " i (5, 30) # not used anymore, use crossoverRate
-#gMscNbEachProcessingNode "-i " i (1, 12)
-#gMscNbEachJudgementNode "-p " i (1, 12)
+gMscNbEachProcessingNode "-i " i (1, 12)
+gMscNbEachJudgementNode "-p " i (1, 12)
+gMscJudgeT "-m" i (1, 10)
+gMscProcessT "-1" i (1, 10)
+
+#gMscNeatT "-2" i (1, 10)
+
 #gMscMutationModifier "-d " r (0.0, 1.0)
-gMscYoungAgeThreshold "-f " i (0, 15)
+#gMscYoungAgeThreshold "-f " i (0, 15)
 #gMscYoungAgeFitnessBoost "-g " r (1.0, 1.5)
-gMscOldAgeThreshold "-j " i (30, 70)
+#gMscOldAgeThreshold "-j " i (30, 70)
 #gMscOldAgePenalty "-k " r (0.2, 1.0)
-gMscPhasedSearching "-z " i (0, 1)
-gMscDeltaCoding "-x " i (0, 1) | gMscPhasedSearching==1
+#gMscPhasedSearching "-z " i (0, 1)
+#gMscDeltaCoding "-x " i (0, 1) | gMscPhasedSearching==1
 #gMscSampledAverageTimeWindow "-c " i (10, 100)
 
 

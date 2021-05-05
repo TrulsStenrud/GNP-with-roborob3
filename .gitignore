@@ -1,6 +1,6 @@
 # contains patterns to be ignored, or exact names (start with '!')
 *.[oa]
-logs/
+logs/*
 !roborobo3/roborobo
 .DS_Store
 *.xcuserstate
@@ -11,3 +11,5 @@ roborobo3.xcodeproj/xcuserdata/trulsstenrud.xcuserdatad/xcschemes/xcschememanage
 *.vscode*
 roborobo3/pyScripts/*
 !roborobo3/pyScripts/*.py
+.Rhistory
+*.Rdata

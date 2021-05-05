@@ -27,9 +27,7 @@ Population::Population(NodeInformation nodeInformation, Parameters* params){
 
 
 void Population::Epoch(){
-
-
-    simpleOperators2();
+    simpleOperators();
 
     for(Genome& gene : _genes){
         gene.reset();
@@ -82,49 +80,8 @@ Genome getRandom(std::vector<Genome>& genes){
     return result;
 }
 
+
 void Population::simpleOperators(){
-    double sum = 0;
-    for(auto& gene : _genes){
-        sum+=pow(gene.getFitness(), 1);
-    }
-    std::cout << "sum " << sum << std::endl;
-    std::vector<Genome> parents;
-    std::vector<Genome> mutations;
-    std::vector<Genome> genesCopy = _genes;
-
-    parents.push_back(getBest(genesCopy)); // elitism
-
-    int nbMutations = _params->populationSize * _params->mutationRate;
-
-    while(parents.size() < _params->nbParents){
-        parents.push_back(tournementSelection(genesCopy, _params->tournamentSize));
-    }
-    while(mutations.size() < nbMutations){
-        mutations.push_back(tournementSelection(_genes, _params->tournamentSize).mutate());
-    }
-    
-    parents.insert(parents.end(), mutations.begin(), mutations.end());
-
-    while(parents.size() < _params->populationSize){
-        int pA = random01() * _params->nbParents;
-        int pB = random01() * _params->nbParents;
-        while (pA == pB){
-            pB = random01() * _params->nbParents;
-        }
-
-        auto offspsring = parents[pA].simpleCrossover(parents[pB]);
-
-        parents.push_back(offspsring[0]);
-
-        if(parents.size() < _params->populationSize){
-            parents.push_back(offspsring[1]);
-        }
-    }
-
-    _genes = parents;
-}
-
-void Population::simpleOperators2(){
     double sum = 0;
     for(auto& gene : _genes){
         sum+=pow(gene.getFitness(), 1);
@@ -156,68 +113,6 @@ void Population::simpleOperators2(){
     }
     
     _genes = result;
-}
-
-void Population::doProbabilitySelection(){
-
-    std::vector<Genome> parents;
-
-    for(Genome& gene : _genes){
-        gene.adjustFitness();
-    }
-
-    std::vector<double> probabilityFitness;
-
-    std::sort(_genes.begin(), _genes.end(), genome_greater);
-
-    double power = 1;
-    double t = 0;
-    double sum = 0;
-    for(auto gene : _genes){
-        sum+=pow(gene.getFitness(), power);
-    }
-    std::cout << "sum " << sum << std::endl;
-    for(auto gene : _genes){
-        t += pow(gene.getFitness(), power);
-        probabilityFitness.push_back(t);
-    }
-
-    parents.push_back(_genes[0]); //elitism
-
-    while(parents.size() < _params->nbParents){
-        double r = random01();
-        for(int i = 0; i < _genes.size(); i++){
-            if (probabilityFitness[i] > r) {
-                    parents.push_back(_genes[i]);
-                break;
-            }
-        }
-    }
-
-    while(parents.size() < _params->populationSize){
-        int pA = random01() * _params->nbParents;
-        int pB = random01() * _params->nbParents;
-        while (pA == pB){
-            pB = random01() * _params->nbParents;
-        }
-
-        auto offspsring = parents[pA].crossover(parents[pB]);
-
-        if(random01() > _params->mutationRate)
-        parents.push_back(offspsring[0]);
-        else
-            parents.push_back(offspsring[0].mutate());
-
-        if(parents.size() < _params->populationSize){
-            if(random01() > _params->mutationRate)
-                parents.push_back(offspsring[1]);
-            else
-                parents.push_back(offspsring[1].mutate());
-        }
-    }
-
-
-    _genes = parents;
 }
 
 

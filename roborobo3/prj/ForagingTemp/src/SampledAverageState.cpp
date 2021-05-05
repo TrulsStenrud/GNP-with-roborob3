@@ -8,6 +8,7 @@
 
 #include "ForagingTemp/include/SampledAverageState.h"
 #include "RoboroboMain/roborobo.h"
+#include "MscMain.h"
 
 SampledAverageState::SampledAverageState(int timewindow){
     _timeWindow = timewindow;
@@ -15,7 +16,7 @@ SampledAverageState::SampledAverageState(int timewindow){
 }
 
 SampledAverageState::SampledAverageState(){
-    gProperties.checkAndGetPropertyValue("gSampledAverageTimeWindow", &_timeWindow, true);
+    _timeWindow = gMscSampledAverageTimeWindow;
     _counter = 0;
 }
 

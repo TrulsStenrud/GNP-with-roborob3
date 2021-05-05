@@ -11,8 +11,8 @@
 
 int main(int argc, char* argv[]){
 	// Needed for irace. Supresses console output.
-//	std::cout.setstate(std::ios_base::failbit);
-//	std::cerr.setstate(std::ios_base::failbit);
+	std::cout.setstate(std::ios_base::failbit);
+	std::cerr.setstate(std::ios_base::failbit);
 
 	MscMain* mscMain = new MscMain(argc, argv);
 	delete mscMain;

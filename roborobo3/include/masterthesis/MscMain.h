@@ -30,6 +30,12 @@ extern double gMscTournamentSize;
 extern double gMscNbParents;
 extern int gMscNbEachProcessingNode;
 extern int gMscNbEachJudgementNode;
+extern int gMscProcessT;
+extern int gMscJudgeT;
+
+// GNP++
+extern int gMscNbNeatNodes;
+extern int gMscNeatT;
 
 // MPFA
 extern double gMscMutationModifier;

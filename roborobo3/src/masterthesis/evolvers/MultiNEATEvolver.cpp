@@ -4,7 +4,7 @@
 #include "RoboroboMain/roborobo.h"
 #include "../../../prj/ForagingTemp/include/Behavior.h"
 #include <sstream>
-#include "../MscMain.h"
+#include "MscMain.h"
 
 using namespace std;
 

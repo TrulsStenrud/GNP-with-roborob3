@@ -26,6 +26,7 @@ private:
     NodeInformation _nodeInformation;
     void doProbabilitySelection();
     void simpleOperators();
+    void simpleOperators2();
 public:
     Population(NodeInformation nodeInformation, Parameters* _params);
     Genome& AccessGenomeByIndex(int const index);

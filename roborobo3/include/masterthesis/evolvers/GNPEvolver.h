@@ -22,8 +22,8 @@ private:
     int _evalIndex; // Index of genome to evaluate.
     GNP::Population* _pop;
     GNP::Parameters* _params;
-    NEAT::Parameters* _neatParams;
-    NEAT::Genome* _neatGenomeBase;
+    NEAT::Parameters* _neatParams = nullptr;
+    NEAT::Genome* _neatGenomeBase = nullptr;;
     void nextGeneration();
     std::vector<NEAT::Population*> _neatPopulations;
 

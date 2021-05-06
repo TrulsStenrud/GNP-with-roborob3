@@ -11,7 +11,7 @@
 
 int getRandom(std::vector<int>& genes){
     int r = randint() % genes.size();
-    
+
     int result = genes[r];
     genes.erase(genes.begin() + r);
 
@@ -25,7 +25,7 @@ int main(int argc, char* argv[]){
 	MscMain* mscMain = new MscMain(argc, argv);
 	delete mscMain;
 	std::exit(0);
-    
+
 }
 
 

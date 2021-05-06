@@ -22,11 +22,14 @@ private:
     int _evalIndex; // Index of genome to evaluate.
     GNP::Population* _pop;
     GNP::Parameters* _params;
+    NEAT::Parameters* _neatParams;
+    NEAT::Genome* _neatGenomeBase;
     void nextGeneration();
     std::vector<NEAT::Population*> _neatPopulations;
 
 public:
     GNPEvolver(ControllerEvolver::CONTROLLER);
+    ~GNPEvolver();
     Controller* make_Controller(RobotWorldModel* wm) override;
     void evalDone(DataPacket* dp) override;
     bool usesBehavior() override;

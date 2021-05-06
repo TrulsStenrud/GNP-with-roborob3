@@ -88,7 +88,7 @@ void ForagingTempWorldObserver::stepPost(){
         reset();
         delete dp;
 
-        if(gWorld->getIterations() == gMaxIt){
+        if(gWorld->getIterations() + 1 == gMaxIt){
             DataForwarder::getDataForwarder()->simulationDone();
         }
     }

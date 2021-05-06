@@ -1292,7 +1292,7 @@ bool loadProperties( std::string __propertiesFilename )
         convertFromString<int>(gen, gProperties.getProperty("gGenerations"), std::dec);
         convertFromString<int>(popSize, gProperties.getProperty("gEvolutionPopulationSize"), std::dec);
         convertFromString<int>(evalTime, gProperties.getProperty("gEvaluationTime"), std::dec);
-        gMaxIt = popSize * gen * evalTime;
+        gMaxIt = (popSize * gen * evalTime) - 1;
     }
     else
 	{

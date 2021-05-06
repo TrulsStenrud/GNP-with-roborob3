@@ -40,9 +40,9 @@ GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
 
     if(_params->nbNEATNodes > 0)
     {
-        auto neatParams = new NEAT::Parameters();
-        neatParams->PopulationSize = _params->populationSize;
-        neatParams->EliteFraction = 0.02;
+        _neatParams = new NEAT::Parameters();
+        _neatParams->PopulationSize = _params->populationSize;
+        _neatParams->EliteFraction = 0.02;
 
         int inputs = 35 + 1;
         int outputs = 3;
@@ -51,10 +51,10 @@ GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
         // Constructing base genome.
         NEAT::ActivationFunction activFunc = NEAT::ActivationFunction::UNSIGNED_SIGMOID;
 
-        auto genomeBase = new NEAT::Genome(0,inputs,0,outputs,false, activFunc, activFunc, 0, *neatParams, 0, 0);
+        _neatGenomeBase = new NEAT::Genome(0,inputs,0,outputs,false, activFunc, activFunc, 0, *_neatParams, 0, 0);
 
         for(int i = 0;  i < _params->nbNEATNodes; i++){
-            _neatPopulations.push_back(new NEAT::Population(*genomeBase, *neatParams, true, 1.0, 72)); // last argument is seed
+            _neatPopulations.push_back(new NEAT::Population(*_neatGenomeBase, *_neatParams, true, 1.0, 72)); // last argument is seed
         }
     }
     std::string name = _params->nbNEATNodes > 0 ? "GNP++" : "GNP";
@@ -63,6 +63,17 @@ GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
 
     _pop = new GNP::Population(library, _params);
     _logger->log("Generation " + std::to_string(_generation));
+}
+
+GNPEvolver::~GNPEvolver(){
+    delete _params;
+    delete _pop;
+    delete _logger;
+    delete _neatParams;
+    delete _neatGenomeBase;
+    for(NEAT::Population* pop : _neatPopulations){
+        delete pop;
+    }
 }
 
 void GNPEvolver::evalDone(DataPacket* dp){

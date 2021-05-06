@@ -29,6 +29,7 @@ public:
     ~ForagingTempWorldObserver();
     void setControllerEvolver(ControllerEvolver* evolver);
     void stepPre() override;
+    void stepPost() override;
     
     double getFitness();
     double getForagingPercentage();

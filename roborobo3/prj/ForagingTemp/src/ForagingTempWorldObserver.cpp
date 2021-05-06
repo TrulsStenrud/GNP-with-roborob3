@@ -68,14 +68,16 @@ double ForagingTempWorldObserver::getForagingPercentage(){
     return (foragedObjects / _nbForagingObjects) * 100;
 }
 
-
 void ForagingTempWorldObserver::stepPre( )
 {
-    // denne blir kalt på slutten av hvert tidstrinn i evolusjonen.
-    if( gWorld->getIterations() > 0 && gWorld->getIterations() % _evalTime == 0 )
+ //do nothing
+}
+
+void ForagingTempWorldObserver::stepPost(){
+    if( (gWorld->getIterations() + 1) % _evalTime == 0 )
     {
 
-		DataPacket* dp = constructDataPacket();
+        DataPacket* dp = constructDataPacket();
         DataForwarder::getDataForwarder()->forwardData(dp);
 
         _evolver->evalDone(dp);
@@ -87,7 +89,7 @@ void ForagingTempWorldObserver::stepPre( )
         delete dp;
 
         if(gWorld->getIterations() == gMaxIt){
-			DataForwarder::getDataForwarder()->simulationDone();
+            DataForwarder::getDataForwarder()->simulationDone();
         }
     }
 
@@ -119,9 +121,6 @@ void ForagingTempWorldObserver::stepPre( )
         _sampledState->addState(state);
     }
 }
-
-
-
 
 DataPacket* ForagingTempWorldObserver::constructDataPacket(){
 	// construct datapacket, then send to all registered listeners.

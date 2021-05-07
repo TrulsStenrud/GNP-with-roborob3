@@ -1,0 +1,5 @@
+
+# Novelty search
+gMscSampledAverageTimeWindow "-c " i (10, 200)
+
+

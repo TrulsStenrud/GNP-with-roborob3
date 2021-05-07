@@ -1,0 +1,21 @@
+
+ =-= Roborobo! 
+ =-= nicolas.bredeche(at)upmc.fr
+ =-= Current build name      : Kyoto build (roborobo^3 w/ SDL2)
+ =-= Official version tag    : 20180704
+ =-= Compilation version tag : May  4 2021 - 15:54:20
+
+[INFO] Command-line parameter: properties will be loaded from file "foraging_temp.properties".
+[INFO] Current location : /cluster/home/trulsst/GNP-with-roborob3/tuning/bin
+
+
+controller type: 2
+[INFO] gBatchMode value set as command-line paramater.
+[WARNING] gRobotDisplayImageFilename string value is missing (value will be copied from gRobotMaskImageFilename).
+[WARNING] No default gLogFilename string value. Log data will be written in "datalog_20210506-10h55m25s153889us_3356653.txt"
+[INFO] No default gLogDirectoryname string value. Log data will be written in "logs/"
+
+[timestamp::start] 20210506-10h55m25s153889us
+[timestamp::stop ] 20210506-10h55m26s984136us
+[Chronometer] 1 second.
+

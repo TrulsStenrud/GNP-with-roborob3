@@ -1,6 +1,6 @@
 # contains patterns to be ignored, or exact names (start with '!')
 *.[oa]
-logs/*
+logs
 !roborobo3/roborobo
 .DS_Store
 *.xcuserstate

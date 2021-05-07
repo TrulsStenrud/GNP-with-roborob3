@@ -56,6 +56,23 @@ Genome tournementSelection(std::vector<Genome>& genes, int t){
     return result;
 }
 
+int indexTournementSelection(std::vector<Genome>& genes, int t, int exclude = -1){
+    int size = exclude == -1 ? genes.size() -1 : genes.size();
+    
+    int currentBest = randint() % size;
+
+    for(int i = 1; i < t; i++){
+        int candidate = randint() % size;
+        if(candidate == exclude){
+            candidate++;
+        }
+        if(genes[candidate].getFitness() > genes[currentBest].getFitness()){
+            currentBest = candidate;
+        }
+    }
+    return currentBest;
+}
+
 Genome getBest(std::vector<Genome>& genes){
     int currentBest = 0;
 
@@ -95,18 +112,39 @@ void Population::simpleOperators(){
     result.push_back(getBest(_genes)); // elitism
     
     while(result.size() < _params->populationSize){
-        Genome geneA = tournementSelection(_genes, _params->tournamentSize);
-        Genome geneB = tournementSelection(_genes, _params->tournamentSize);
+        int iA = indexTournementSelection(_genes, _params->tournamentSize);
+        int iB = indexTournementSelection(_genes, _params->tournamentSize, iA);
+        
+        Genome geneA = _genes[iA];
+        Genome geneB = _genes[iB];
+        bool aModified = false;
+        bool bModified = false;
         
         std::vector<Genome> toAdd;
+        
         if(random01() < _params->crossoverRate){
             auto offspring = geneA.crossover(geneB);
             toAdd.insert(toAdd.end(), offspring.begin(), offspring.end());
+            aModified = bModified = true;
         }
         
-        toAdd.push_back(random01() < _params->mutationRate ? geneA.mutate() : geneA);
-        toAdd.push_back(random01() < _params->mutationRate ? geneB.mutate() : geneB);
+        if(random01() < _params->mutationRate){
+            toAdd.push_back(geneA.mutate());
+            aModified = true;
+        }
+        if(random01() < _params->mutationRate){
+            toAdd.push_back(geneB.mutate());
+            bModified = true;
+        }
     
+        if(!aModified){
+            toAdd.push_back(geneA);
+        }
+        if(!bModified){
+            toAdd.push_back(geneB);
+        }
+        
+        
         while(!toAdd.empty() && result.size() < _params->populationSize){
             result.push_back(getRandom(toAdd));
         }

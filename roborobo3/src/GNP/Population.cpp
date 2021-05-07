@@ -96,17 +96,30 @@ void Population::simpleOperators(){
     
     while(result.size() < _params->populationSize){
         Genome geneA = tournementSelection(_genes, _params->tournamentSize);
-        Genome geneB = tournementSelection(_genes, _params->tournamentSize);
-        
+
         std::vector<Genome> toAdd;
-        if(random01() < _params->crossoverRate){
-            auto offspring = geneA.crossover(geneB);
-            toAdd.insert(toAdd.end(), offspring.begin(), offspring.end());
+        
+        if(random01() < _params->mutationRate){
+            toAdd.push_back(geneA.mutate());
         }
         
-        toAdd.push_back(random01() < _params->mutationRate ? geneA.mutate() : geneA);
-        toAdd.push_back(random01() < _params->mutationRate ? geneB.mutate() : geneB);
+        if(!_genes.empty())
+        {
+            Genome geneB = tournementSelection(_genes, _params->tournamentSize);
+            if(random01() < _params->crossoverRate){
+                auto offspring = geneA.crossover(geneB);
+                toAdd.insert(toAdd.end(), offspring.begin(), offspring.end());
+            }
+            
+            if(random01() < _params->mutationRate){
+                toAdd.push_back(geneB.mutate());
+            }
+            toAdd.push_back(geneB);
+        }
     
+        toAdd.push_back(geneA);
+        
+        
         while(!toAdd.empty() && result.size() < _params->populationSize){
             result.push_back(getRandom(toAdd));
         }

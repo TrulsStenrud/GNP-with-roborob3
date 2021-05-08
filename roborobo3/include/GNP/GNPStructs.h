@@ -9,12 +9,14 @@
 #ifndef Header_h
 #define Header_h
 
+#include "common.h"
 namespace GNP{
 
 enum NodeType:int{Start=0, Judgement=1, Processing=2, NEAT=3};
 
 struct NodeInformation{
     int nbProcessingNodes;
+    int nbVariableProcessingNodes;
     std::vector<int> judgementNodeOutputs;
 };
 

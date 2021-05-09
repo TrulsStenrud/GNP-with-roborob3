@@ -110,7 +110,7 @@ Genome Genome::mutate(){
 Genome Genome::processingNodeMutate(){
     std::vector<int> usedProcessingNodes;
     for(int i = 0; i < _nodeUsage.size(); i++){
-        if(_nodes[i].type == NodeType::Processing && _nodeUsage[i] > 0){
+        if(_nodes[i].type == NodeType::Processing && _nodes[i].v != -1 && _nodeUsage[i] > 0){
             usedProcessingNodes.push_back(i);
         }
     }
@@ -250,7 +250,7 @@ void Genome::setFitness(double fitness){
 }
 
 
-Genome Genome::createGenome(int nbProcessingNodes, std::vector<int> judgementNodesOutput, int processT, int judgeT, int connectionT, int neatT, int nbEachProcessingNode, int nbEachJudgementNode, int nbNeatNodes){
+Genome Genome::createGenome(NodeInformation nodeInformation, Parameters params){
     
     std::vector<Node> nodes;
     std::vector<std::vector<Connection>> connections;
@@ -259,29 +259,32 @@ Genome Genome::createGenome(int nbProcessingNodes, std::vector<int> judgementNod
     nodes.push_back(Node(NodeType::Start, 0, 0));
 
     // add judgement nodes
-    for(int i = 0; i < judgementNodesOutput.size(); i++){
-        for(int j = 0; j < nbEachJudgementNode; j++){
-            nodes.push_back(Node(NodeType::Judgement, i, judgeT));
+    for(int i = 0; i < nodeInformation.judgementNodeOutputs.size(); i++){
+        for(int j = 0; j < params.nbEachJudgementNode; j++){
+            nodes.push_back(Node(NodeType::Judgement, i, params.judgeT));
         }
     }
 
+    // add variable processing nodes
+    for(int i = 0; i < nodeInformation.nbVariableProcessingNodes; i++){
+        for(int j = 0; j < params.nbEachProcessingNode; j++){
+            double v = random01();
+            
+            nodes.push_back(Node(NodeType::Processing, i, params.processT, v));
+        }
+    }
+    
     // add processing nodes
-    for(int i = 0; i < nbProcessingNodes; i++){
-        for(int j = 0; j < nbEachProcessingNode; j++){
-            double v = random01();//randgaussian()/5 + 0.5;
-            if(v < 0){
-                v = 0;
-            }else if(v > 1){
-                v = 1;
-            }
-
-            nodes.push_back(Node(NodeType::Processing, i, processT, v));
+    for(int i = 0; i < nodeInformation.nbProcessingNodes; i++){
+        int id = nodeInformation.nbVariableProcessingNodes + i;
+        for(int j = 0; j < params.nbEachProcessingNode; j++){
+            nodes.push_back(Node(NodeType::Processing, id, params.processT));
         }
     }
     
     // add neat nodes
-    for(int i = 0; i < nbNeatNodes; i++){
-        nodes.push_back(Node(NodeType::NEAT, i, neatT));
+    for(int i = 0; i < params.nbNEATNodes; i++){
+        nodes.push_back(Node(NodeType::NEAT, i, params.neatT));
     }
 
     for(int i = 0; i < nodes.size(); i++){
@@ -291,17 +294,17 @@ Genome Genome::createGenome(int nbProcessingNodes, std::vector<int> judgementNod
             {
                 int firstNode = randint() % (nodes.size() - 1) + 1;
 
-                connections.push_back({Connection(firstNode,  connectionT)});
+                connections.push_back({Connection(firstNode,  params.connectionT)});
             }break;
 
             case NodeType::Judgement:
             {
                 std::vector<Connection> con;
-                int nbConnections = judgementNodesOutput[nodes[i].index];
+                int nbConnections = nodeInformation.judgementNodeOutputs[nodes[i].index];
 
                 for (int j = 0; j < nbConnections; j++){
                     int nextNode = getRandomNode(i, nodes.size());
-                    con.push_back(Connection(nextNode, connectionT));
+                    con.push_back(Connection(nextNode, params.connectionT));
                 }
 
                 connections.push_back(con);
@@ -314,7 +317,7 @@ Genome Genome::createGenome(int nbProcessingNodes, std::vector<int> judgementNod
                 if(nextNode == i){
                     nextNode++;
                 }
-                connections.push_back({Connection(nextNode,  connectionT)});
+                connections.push_back({Connection(nextNode,  params.connectionT)});
             }break;
             case NodeType::NEAT:
             {
@@ -322,7 +325,7 @@ Genome Genome::createGenome(int nbProcessingNodes, std::vector<int> judgementNod
                 if(nextNode == i){
                     nextNode++;
                 }
-                connections.push_back({Connection(nextNode,  connectionT)});
+                connections.push_back({Connection(nextNode,  params.connectionT)});
             }break;
 
         }

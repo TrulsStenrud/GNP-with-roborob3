@@ -21,7 +21,7 @@ Population::Population(NodeInformation nodeInformation, Parameters* params){
     
     
     for(int i = 0; i < _params->populationSize; i++){
-        _genes.push_back(Genome::createGenome(nodeInformation.nbProcessingNodes,  nodeInformation.judgementNodeOutputs, _params->processT, _params->judgeT, _params->connectionT, _params->neatT, _params->nbEachProcessingNode, _params->nbEachJudgementNode, _params->nbNEATNodes));
+        _genes.push_back(Genome::createGenome(nodeInformation, *_params));
     }
 }
 

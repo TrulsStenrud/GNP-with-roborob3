@@ -33,7 +33,8 @@ void GNPController::step(){
 GNP::NodeInformation GNPController::getNodeLibrary(){
 
     GNP::NodeInformation info;
-    info.nbProcessingNodes = 3;
+    info.nbVariableProcessingNodes = 2;
+    info.nbProcessingNodes = 1;
 
 
 //    for(int i  = 0; i < 8; i++) // must match the number of camera sensors
@@ -122,7 +123,6 @@ int GNPController::judge(int judgeIndex){
     }
 }
 void GNPController::process(int processIndex, double value){
-    
     switch(processIndex){
         case 0:
             setTranslation(value*2-1);
@@ -131,9 +131,7 @@ void GNPController::process(int processIndex, double value){
             setRotation(value*2-1);
             break;
         case 2:
-            if(value > 0.5){ // questionable
                 dropPheromone();
-            }
             break;
         default:
             std::cout << "[Error] - Process index outside of range: " << processIndex << std::endl;

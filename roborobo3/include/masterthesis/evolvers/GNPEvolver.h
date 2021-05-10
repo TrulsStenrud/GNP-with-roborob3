@@ -26,6 +26,7 @@ private:
     NEAT::Genome* _neatGenomeBase = nullptr;;
     void nextGeneration();
     std::vector<NEAT::Population*> _neatPopulations;
+    Logger* _nodeUsageLogger = nullptr;
 
 public:
     GNPEvolver(ControllerEvolver::CONTROLLER);

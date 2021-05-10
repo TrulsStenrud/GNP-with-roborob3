@@ -33,6 +33,8 @@ extern int gMscNbEachJudgementNode;
 extern int gMscProcessT;
 extern int gMscJudgeT;
 
+extern bool gMscLogGnpNodeUsage;
+
 // GNP++
 extern int gMscNbNeatNodes;
 extern int gMscNeatT;

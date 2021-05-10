@@ -60,8 +60,17 @@ GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
     std::string name = _params->nbNEATNodes > 0 ? "GNP++" : "GNP";
 
     _logger = new Logger(name + std::to_string(gInitialNumberOfRobots));
-
+    
     _pop = new GNP::Population(library, _params);
+    
+    if(gMscLogGnpNodeUsage){
+        _nodeUsageLogger = new Logger("usage_" + name + std::to_string(gInitialNumberOfRobots));
+        for(GNP::Node node : _pop->AccessGenomeByIndex(0).getNodes()){
+            
+            _nodeUsageLogger->log(std::to_string(node.T) + "  :" + std::to_string(node.index));
+        }
+        _nodeUsageLogger->newLine();
+    }
     _logger->log("Generation " + std::to_string(_generation));
 }
 
@@ -74,6 +83,7 @@ GNPEvolver::~GNPEvolver(){
     for(NEAT::Population* pop : _neatPopulations){
         delete pop;
     }
+    delete _nodeUsageLogger;
 }
 
 void GNPEvolver::evalDone(DataPacket* dp){
@@ -111,7 +121,25 @@ void GNPEvolver::nextGeneration(){
     _generation++;
 
     std::cout<<"generation "<<_generation<<" complete"<<std::endl;
-
+    
+    
+    if(gMscLogGnpNodeUsage){
+        std::vector <int> result = std::vector<int>(_pop->AccessGenomeByIndex(0).getNodes().size(), 0);
+        for(int i = 0; i < _params->populationSize; i++){
+            GNP::Genome& genome = _pop->AccessGenomeByIndex(i);
+            auto usage = genome.getNodeUsage();
+            std::transform (result.begin(), result.end(), usage.begin(), result.begin(), std::plus<int>());
+        }
+        
+        for(auto value : result){
+            _nodeUsageLogger->log(value);
+        }
+        _nodeUsageLogger->newLine();
+        
+    }
+    
+    
+    
     _pop->Epoch();
     for(auto pop : _neatPopulations){
         pop->Epoch();

@@ -67,7 +67,7 @@ GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
         _nodeUsageLogger = new Logger("usage_" + name + std::to_string(gInitialNumberOfRobots));
         for(GNP::Node node : _pop->AccessGenomeByIndex(0).getNodes()){
             
-            _nodeUsageLogger->log(std::to_string(node.T) + "  :" + std::to_string(node.index));
+            _nodeUsageLogger->log(std::to_string(node.type) + ":" + std::to_string(node.index));
         }
         _nodeUsageLogger->newLine();
     }

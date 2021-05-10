@@ -104,6 +104,9 @@ void MscMain::processArgument(char c){
         case '2':
             gMscNeatT =stoi(optarg);
             break;
+        case '3':
+            gMscNbNeatNodes =stoi(optarg);
+            break;
 	}
 }
 

@@ -17,9 +17,6 @@ Population::Population(NodeInformation nodeInformation, Parameters* params){
     _params = params;
     _nodeInformation = nodeInformation;
 
-   
-    
-    
     for(int i = 0; i < _params->populationSize; i++){
         _genes.push_back(Genome::createGenome(nodeInformation, *_params));
     }

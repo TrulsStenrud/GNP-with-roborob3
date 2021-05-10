@@ -45,6 +45,10 @@ public:
     void printUsage();
     void reset(); // removes usage statistics and fitness
     
+    std::vector<Node> getNodes();
+    std::vector<int> getNodeUsage();
+    std::vector<std::vector<int>> getConnectionUsage();
+    
     static Genome createGenome(NodeInformation nodeInformation, Parameters params);
     
 };

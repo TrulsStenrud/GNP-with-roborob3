@@ -15,7 +15,7 @@ namespace GNP{
 int Genome::getRandomNode(int i, int nbNodes) {
     int nextNode = randint() % (nbNodes - 2) + 1;
     if(nextNode == i){
-        nextNode++;
+        nextNode = nbNodes-1;
     }
     return nextNode;
 }
@@ -249,6 +249,17 @@ void Genome::setFitness(double fitness){
     _fitness = fitness;
 }
 
+std::vector<Node> Genome::getNodes(){
+    return _nodes;
+}
+
+std::vector<int> Genome::getNodeUsage(){
+    return _nodeUsage;
+}
+
+std::vector<std::vector<int>> Genome::getConnectionUsage(){
+    return _connectionUsage;
+}
 
 Genome Genome::createGenome(NodeInformation nodeInformation, Parameters params){
     

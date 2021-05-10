@@ -40,7 +40,7 @@ void Logger::log(double value){
 }
 
 void Logger::log(std::string text){
-    _logManager->write(text);
+    _logManager->write(";" + text);
 }
 
 void Logger::newLine(){

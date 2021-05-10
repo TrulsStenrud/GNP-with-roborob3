@@ -60,7 +60,7 @@ void MscMain::processArgument(char c){
 			gMscTournamentSize = stoi(optarg);
 			break;
 		case 'u':
-			gMscNbParents = stoi(optarg);
+			gMscLogGnpNodeUsage = true;
 			break;
 		case 'i':
 			gMscNbEachProcessingNode = stoi(optarg);
@@ -166,9 +166,12 @@ int gMscNbEachJudgementNode = 4;
 int gMscProcessT = 5;
 int gMscJudgeT = 1;
 
+bool gMscLogGnpNodeUsage = false;
+
 // GNP++
 int gMscNbNeatNodes = 3;
 int gMscNeatT = 5;
+
 
 // MPFA
 double gMscMutationModifier = 0.5;

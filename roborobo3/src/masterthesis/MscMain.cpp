@@ -155,8 +155,8 @@ double gMscPheromoneDecay = 0.001;
 double gMscPheromoneEvaporationTreshold = 0.08;
 
 // General evolver parameters.
-double gMscMutationRate = 0.7;
-double gMscCrossoverRate = 0.5;
+double gMscMutationRate = 0.25;
+double gMscCrossoverRate = 0.7;
 double gMscTournamentSize = 3;
 
 // GNP

@@ -18,6 +18,7 @@ class Logger{
     std::ofstream _logFile;
     LogManager *_logManager = NULL;
     std::string _resultFile;
+    bool firstInLine = true;
 public:
     Logger(std::string name);
     ~Logger();

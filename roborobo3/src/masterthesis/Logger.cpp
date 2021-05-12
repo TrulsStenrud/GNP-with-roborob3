@@ -35,17 +35,22 @@ void Logger::log(double value){
     auto str = std::to_string(value);
     // remove trailing zeroes
     str.erase ( str.find_last_not_of('0') + 1, std::string::npos );
-    _logManager->write(";" +  str);
-
+    log(str);
 }
 
 void Logger::log(std::string text){
-    _logManager->write(";" + text);
+    if(firstInLine){
+        firstInLine = false;
+    }else{
+        text = ";" + text;
+    }
+
+    _logManager->write(text);
 }
 
 void Logger::newLine(){
     _logManager->write("\n");
     _logManager->flush();
-
+    firstInLine = true;
 }
 

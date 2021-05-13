@@ -20,6 +20,10 @@ Network::Network(std::vector<Node> nodes, std::vector<std::vector<Connection>> c
     _connections = connections;
 }
 
+void Network::reset(){
+    _currentNode = 0;
+}
+
 void Network::step(GNPController* controller){
     int maxCost = 5; // TODO set somewhere else
     int cost = 0;

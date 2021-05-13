@@ -18,7 +18,6 @@ Parameters::Parameters(){
 
 void Parameters::reset(){
     populationSize = 50;
-    nbParents = 10;
     mutationRate = 0.5;
     crossoverRate = 0.5;
     processT = 5;
@@ -28,11 +27,7 @@ void Parameters::reset(){
     nbEachProcessingNode = 8;
     nbEachJudgementNode = 4;
     tournamentSize = 10;
-//    gProperties.checkAndGetPropertyValue("gNbParents", &nbParents, false);
-//    gProperties.checkAndGetPropertyValue("gNbEachProcessingNode", &nbEachProcessingNode, false);
-//    gProperties.checkAndGetPropertyValue("gNbEachJudgementNode", &nbEachJudgementNode, false);
     nbNEATNodes = 0;
-
 }
 
 }

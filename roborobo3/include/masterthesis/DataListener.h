@@ -3,10 +3,9 @@
 #include "../core/Agents/Robot.h"
 
 struct DataPacket{
-	std::vector<Robot*>* robots;
-	int generation;
-	float fitness;
-    float foragingPercentage;
+	int generation = 0;
+	float fitness = 0;
+    float foragingPercentage = 0;
     std::vector<std::vector<double>> behaviorData;
 };
 

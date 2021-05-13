@@ -13,6 +13,8 @@ class World;
 
 extern std::vector<NestObject*> gNestObjects; // list of nestObjects added to gPhysicalObjects
 
+enum PlacementConfiguration:int{Random=0, SemiCluster=1, Cluster=2, MIX=3};
+
 class MyTestEEWorldObserver : public WorldObserver
 {
 public:
@@ -36,7 +38,7 @@ protected:
     void randomForagingObjects(int n);
     void placeGridOfObjects(int x, int y, int columns, int rows);
     void placeRobotsInAllNests();
-    void reset();
+    void reset(PlacementConfiguration configuration);
 };
 
 #endif

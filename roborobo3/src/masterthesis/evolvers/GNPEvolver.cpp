@@ -27,7 +27,6 @@ GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
         _params->nbNEATNodes = gMscNbNeatNodes;
     }
     _params->populationSize = populationSize;
-    _params->nbParents = gMscNbParents;
     _params->mutationRate = gMscMutationRate;
     _params->crossoverRate = gMscMutationRate;
     _params->tournamentSize = gMscTournamentSize;

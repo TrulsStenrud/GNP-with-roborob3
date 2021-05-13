@@ -105,8 +105,10 @@ void MscMain::processArgument(char c){
             gMscNeatT =stoi(optarg);
             break;
         case '3':
-            gMscNbNeatNodes =stoi(optarg);
+            gMscNbNeatNodes = stoi(optarg);
             break;
+        case '4':
+            gMscPlacementConfiguration = static_cast<PlacementConfiguration>(stoi(optarg));
 	}
 }
 
@@ -122,9 +124,16 @@ void MscMain::initiateParameters(){
 	gProperties.checkAndGetPropertyValue("gMscMutationRate", &gMscMutationRate, false);
 	gProperties.checkAndGetPropertyValue("gMscCrossoverRate", &gMscCrossoverRate, false);
 	gProperties.checkAndGetPropertyValue("gMscTournamentSize", &gMscTournamentSize, false);
+    
+    int temp = -1;
+    gProperties.checkAndGetPropertyValue("gMscPlacementConfiguration", &temp, false);
+    if(temp != -1){
+        gMscPlacementConfiguration = static_cast<PlacementConfiguration>(temp);
+        std::cout << "walla balla" << std::endl;
+    }
+    
 
 	// GNP
-	gProperties.checkAndGetPropertyValue("gMscNbParents", &gMscNbParents, false);
 	gProperties.checkAndGetPropertyValue("gMscNbEachProcessingNode", &gMscNbEachProcessingNode, false);
 	gProperties.checkAndGetPropertyValue("gMscNbEachJudgementNode", &gMscNbEachJudgementNode, false);
     
@@ -154,13 +163,14 @@ std::string gMscLogName = "";
 double gMscPheromoneDecay = 0.001;
 double gMscPheromoneEvaporationTreshold = 0.08;
 
+
 // General evolver parameters.
 double gMscMutationRate = 0.25;
 double gMscCrossoverRate = 0.7;
 double gMscTournamentSize = 3;
+PlacementConfiguration gMscPlacementConfiguration = PlacementConfiguration::SemiCluster;
 
 // GNP
-double gMscNbParents = 10;
 int gMscNbEachProcessingNode = 8;
 int gMscNbEachJudgementNode = 4;
 int gMscProcessT = 5;

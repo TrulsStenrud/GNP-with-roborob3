@@ -24,6 +24,7 @@ void print(std::string text){
 
 void GNPController::reset(){
     MyTestEEController::reset();
+    _gnpNetwork->reset();
 }
 
 void GNPController::step(){

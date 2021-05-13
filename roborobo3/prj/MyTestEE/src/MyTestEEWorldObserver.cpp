@@ -40,7 +40,7 @@ void MyTestEEWorldObserver::addNestObject(double x, double y) {
     gNestObjects.push_back(nest);
 }
 
-void MyTestEEWorldObserver::reset(){
+void MyTestEEWorldObserver::reset(PlacementConfiguration configuration){
     
     if(gNestObjects.size() == 0){
         addNestObject(1200, 350);
@@ -70,9 +70,20 @@ void MyTestEEWorldObserver::reset(){
     
     _nbForagingObjects = 0;
     
-    //randomForagingObjects(256);
-    semiClusteredForagingObjects();
-//    clusteredForagingObjects();
+    switch (configuration) {
+        case PlacementConfiguration::Random:
+            randomForagingObjects(256);
+            break;
+        case PlacementConfiguration::SemiCluster:
+            semiClusteredForagingObjects();
+            break;
+        case PlacementConfiguration::Cluster:
+            clusteredForagingObjects();
+            break;
+        default:
+            std::cout << "[ERROR] unsupported configuration: " << configuration << std::endl;
+            break;
+    }
 }
 
 void MyTestEEWorldObserver::clusteredForagingObjects(){
@@ -112,7 +123,7 @@ void MyTestEEWorldObserver::randomForagingObjects(int n)
 void MyTestEEWorldObserver::initPre()
 {
     int temp = gNbOfPhysicalObjects;
-    reset();
+    
     gNbOfPhysicalObjects = temp;
 }
 

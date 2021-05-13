@@ -16,7 +16,7 @@
 #include "Agents/Robot.h"
 #include "World/PhysicalObjectFactory.h"
 #include "World/PhysicalObject.h"
-
+#include "MscMain.h"
 // project-wide Global data
 
 #define PAUSE_COMMAND 200 //400 // Pause between each user keyboard command (GUI mode only)

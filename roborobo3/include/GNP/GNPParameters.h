@@ -23,7 +23,6 @@ public:
     Parameters();
     
     int populationSize;
-    int nbParents;
     double mutationRate;
     double crossoverRate;
     int processT;

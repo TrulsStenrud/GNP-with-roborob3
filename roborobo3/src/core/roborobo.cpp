@@ -1292,7 +1292,11 @@ bool loadProperties( std::string __propertiesFilename )
         convertFromString<int>(gen, gProperties.getProperty("gGenerations"), std::dec);
         convertFromString<int>(popSize, gProperties.getProperty("gEvolutionPopulationSize"), std::dec);
         convertFromString<int>(evalTime, gProperties.getProperty("gEvaluationTime"), std::dec);
-        gMaxIt = (popSize * gen * evalTime) - 1;
+        int maxIt = (popSize * gen * evalTime);
+        if(gMscPlacementConfiguration == PlacementConfiguration::MIX){
+            maxIt *= 3;
+        }
+        gMaxIt = maxIt - 1;
     }
     else
 	{

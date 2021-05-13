@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "DataListener.h"
-
+#include "MyTestEEWorldObserver.h"
 
 class MscMain : public DataListener{
 	private:
@@ -20,6 +20,7 @@ class MscMain : public DataListener{
 extern std::string gMscLogName;
 extern double gMscPheromoneDecay;
 extern double gMscPheromoneEvaporationTreshold;
+extern PlacementConfiguration gMscPlacementConfiguration;
 
 // General evolver parameters.
 extern double gMscMutationRate;
@@ -27,7 +28,6 @@ extern double gMscCrossoverRate;
 extern double gMscTournamentSize;
 
 // GNP
-extern double gMscNbParents;
 extern int gMscNbEachProcessingNode;
 extern int gMscNbEachJudgementNode;
 extern int gMscProcessT;

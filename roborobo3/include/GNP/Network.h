@@ -27,6 +27,7 @@ public:
     Network(std::vector<Node> nodes, std::vector<std::vector<Connection>> connections, std::vector<int>& nodeUsage, std::vector<std::vector<int>>& connectionUsage);
     
     void step(GNPController* controller);
+    void reset();
 };
 
 }

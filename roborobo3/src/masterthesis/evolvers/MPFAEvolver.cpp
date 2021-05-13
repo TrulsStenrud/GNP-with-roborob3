@@ -42,7 +42,7 @@ void MPFAEvolver::evalDone(DataPacket* dp){
 		_logger->newLine();
 		_logger->log("Generation " + std::to_string(_generation));
 	}
-	for(Robot* rob : *(dp->robots)){
+	for(Robot* rob : gRobots){
 		MPFAController* cont = static_cast<MPFAController*>(rob->getController());
 		cont->setParameters(_pop->at(_evalIndex));
 		cont->reset();

@@ -13,6 +13,7 @@
 #include "../../../include/masterthesis/DataForwarder.h"
 #include "../../../include/core/Agents/Robot.h"
 #include "../../../include/masterthesis/controllers/MultiNEATController.h"
+#include "MscMain.h"
 
 
 ForagingTempWorldObserver::ForagingTempWorldObserver( World* world ) : MyTestEEWorldObserver( world )
@@ -73,24 +74,57 @@ void ForagingTempWorldObserver::stepPre( )
  //do nothing
 }
 
+void ForagingTempWorldObserver::initConfigurations() {
+    if(gMscPlacementConfiguration == PlacementConfiguration::MIX){
+        _evalConfigurations.push_back(PlacementConfiguration::Random);
+        _evalConfigurations.push_back(PlacementConfiguration::SemiCluster);
+        _evalConfigurations.push_back(PlacementConfiguration::Cluster);
+    }
+    else{
+        _evalConfigurations.push_back(gMscPlacementConfiguration);
+    }
+}
+
+void ForagingTempWorldObserver::resetField(){
+    reset(_evalConfigurations.back());
+    _evalConfigurations.pop_back();
+}
+
+void ForagingTempWorldObserver::initPre(){
+    MyTestEEWorldObserver::initPre();
+    _dp = new DataPacket();
+    initConfigurations();
+    int temp = gNbOfPhysicalObjects;
+    resetField();
+    gNbOfPhysicalObjects = temp;
+}
+
 void ForagingTempWorldObserver::stepPost(){
     if( (gWorld->getIterations() + 1) % _evalTime == 0 )
     {
-
-        DataPacket* dp = constructDataPacket();
-        DataForwarder::getDataForwarder()->forwardData(dp);
-
-        _evolver->evalDone(dp);
-        if(_captureBehavior){
-            delete _sampledState;
-            _sampledState = new SampledAverageState();
+        appendToDataPacket();
+        
+        if(_evalConfigurations.empty()){
+            if(gMscPlacementConfiguration == PlacementConfiguration::MIX){
+                _dp->foragingPercentage /= 3;
+            }
+            DataForwarder::getDataForwarder()->forwardData(_dp);
+            _evolver->evalDone(_dp);
+            delete _dp;
+            
+            if(_captureBehavior){
+                delete _sampledState;
+                _sampledState = new SampledAverageState();
+            }
+            if(gWorld->getIterations() >= gMaxIt){
+                DataForwarder::getDataForwarder()->simulationDone();
+            }
+            
+            _dp = new DataPacket();
+            initConfigurations();
         }
-        reset();
-        delete dp;
-
-        if(gWorld->getIterations() == gMaxIt){
-            DataForwarder::getDataForwarder()->simulationDone();
-        }
+            
+        resetField();
     }
 
     if(_captureBehavior)
@@ -122,23 +156,16 @@ void ForagingTempWorldObserver::stepPost(){
     }
 }
 
-DataPacket* ForagingTempWorldObserver::constructDataPacket(){
-	// construct datapacket, then send to all registered listeners.
-	DataPacket* dp = new DataPacket();
-	dp->generation = gWorld->getIterations()/_evalTime;
+void ForagingTempWorldObserver::appendToDataPacket(){
+	_dp->generation = gWorld->getIterations()/_evalTime;
 
     if(_captureBehavior){
-        dp->behaviorData = _sampledState->getSampledAverage();
+        _dp->behaviorData = _sampledState->getSampledAverage();
     }
 
-    dp->fitness = getFitness();
-    dp->foragingPercentage = getForagingPercentage();
-
-    dp->robots = new std::vector<Robot*>();
-	for(int i=0; i<gWorld->getNbOfRobots(); i++){
-		dp->robots->push_back(gWorld->getRobot(i));
-	}
-	return dp;
+    _dp->fitness += getFitness();
+    
+    _dp->foragingPercentage += getForagingPercentage();
 }
 
 

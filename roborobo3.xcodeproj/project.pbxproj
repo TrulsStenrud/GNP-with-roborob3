@@ -115,6 +115,7 @@
 		FB0A375D25F66C7A00489627 /* ForagingTempController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A371625F66B6C00489627 /* ForagingTempController.cpp */; };
 		FB0A376025F66CE200489627 /* main2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A375F25F66CE100489627 /* main2.cpp */; };
 		FB0A376825F9123F00489627 /* SampledAverageState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB0A376625F9123F00489627 /* SampledAverageState.cpp */; };
+		FB3B54C026595796006A5570 /* NoveltySearchEvolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB3B54BE26595795006A5570 /* NoveltySearchEvolver.cpp */; };
 		FB3E7D492608EF6000933203 /* Behavior.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB3E7D472608EF6000933203 /* Behavior.cpp */; };
 		FB4D39F12635816400FF7567 /* MPFAEvolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB4D39ED2635816300FF7567 /* MPFAEvolver.cpp */; };
 		FB4D39F22635816400FF7567 /* MPFAController.h in Sources */ = {isa = PBXBuildFile; fileRef = FB4D39EE2635816300FF7567 /* MPFAController.h */; };
@@ -394,6 +395,8 @@
 		FB0A376425F798AD00489627 /* foraging_temp.properties */ = {isa = PBXFileReference; lastKnownFileType = text; path = foraging_temp.properties; sourceTree = "<group>"; };
 		FB0A376625F9123F00489627 /* SampledAverageState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SampledAverageState.cpp; sourceTree = "<group>"; };
 		FB0A376725F9123F00489627 /* SampledAverageState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampledAverageState.h; sourceTree = "<group>"; };
+		FB3B54BE26595795006A5570 /* NoveltySearchEvolver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NoveltySearchEvolver.cpp; sourceTree = "<group>"; };
+		FB3B54BF26595795006A5570 /* NoveltySearchEvolver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoveltySearchEvolver.h; sourceTree = "<group>"; };
 		FB3E7D472608EF6000933203 /* Behavior.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Behavior.cpp; sourceTree = "<group>"; };
 		FB3E7D482608EF6000933203 /* Behavior.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Behavior.h; sourceTree = "<group>"; };
 		FB4D39ED2635816300FF7567 /* MPFAEvolver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MPFAEvolver.cpp; sourceTree = "<group>"; };
@@ -1055,6 +1058,7 @@
 				FB0A371D25F66B8500489627 /* MultiNEATEvolver.cpp */,
 				FB4D39ED2635816300FF7567 /* MPFAEvolver.cpp */,
 				FB092330261DA65200BA2F2E /* GNPEvolver.cpp */,
+				FB3B54BE26595795006A5570 /* NoveltySearchEvolver.cpp */,
 			);
 			path = evolvers;
 			sourceTree = "<group>";
@@ -1165,6 +1169,7 @@
 			isa = PBXGroup;
 			children = (
 				FB0A373325F66B9F00489627 /* MultiNEATController.h */,
+				FB3B54BF26595795006A5570 /* NoveltySearchEvolver.h */,
 				FB4D39EE2635816300FF7567 /* MPFAController.h */,
 				FB0A373525F66B9F00489627 /* GNPController.h */,
 			);
@@ -1416,6 +1421,7 @@
 				37BA27411BC3D014002DF5DC /* LogManager.cpp in Sources */,
 				FB0A376025F66CE200489627 /* main2.cpp in Sources */,
 				37BA27371BC3D014002DF5DC /* StringUtils.cpp in Sources */,
+				FB3B54C026595796006A5570 /* NoveltySearchEvolver.cpp in Sources */,
 				37A9F91B1E28AA7E00006059 /* TemplateVanillaEEConfigurationLoader.cpp in Sources */,
 				FBF9C1C52614979600C715C0 /* Genome.cpp in Sources */,
 				FBF9C1C0261491D500C715C0 /* Population.cpp in Sources */,

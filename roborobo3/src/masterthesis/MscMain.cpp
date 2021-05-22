@@ -25,6 +25,7 @@ void MscMain::onSimulationDone(){
 }
 
 void MscMain::processArgument(char c){
+    std::cout << c << std::endl;
 	switch(c){
 		case 'a':
 			if (optarg == std::string("GNP")){
@@ -109,6 +110,33 @@ void MscMain::processArgument(char c){
             break;
         case '4':
             gMscPlacementConfiguration = static_cast<PlacementConfiguration>(stoi(optarg));
+        case '5':
+            gMscDynamicPMin = stoi(optarg);
+            break;
+        case '6':
+            gMscNoveltySearchK = stoi(optarg);
+            break;
+        case '7':
+            gMscNoveltySearchPMin = stod(optarg);
+            break;
+        case '8':
+            gMscNoveltySearch_No_Archiving_Stagnation_Treshold = stoi(optarg);
+            break;
+        case '9':
+            gMscNoveltySearch_Pmin_lowering_multiplier = stod(optarg);
+            break;
+        case ']':
+            gMscNoveltySearch_Pmin_min = stod(optarg);
+            break;
+        case '[':
+            gMscNoveltySearch_Quick_Archiving_Min_Evaluations = stoi(optarg);
+            break;
+        case ')':
+            gMscNoveltySearch_Pmin_raising_multiplier = stod(optarg);
+            break;
+        case '(':
+            gMscNoveltySearch_Recompute_Sparseness_Each = stoi(optarg);
+            break;
 	}
 }
 
@@ -196,4 +224,13 @@ bool gMscDeltaCoding = false; // dependent on PhasedSearching being true.
 
 // Novelty search
 double gMscSampledAverageTimeWindow = 50; // Parameter for the novelty measure.}
+unsigned int gMscNoveltySearchK = 15;
+double gMscNoveltySearchPMin = 0.5;
+bool gMscDynamicPMin = true;
+unsigned int gMscNoveltySearch_No_Archiving_Stagnation_Treshold = 150;
+double gMscNoveltySearch_Pmin_lowering_multiplier = 0.9;
+double gMscNoveltySearch_Pmin_min = 0.05;
+unsigned int gMscNoveltySearch_Quick_Archiving_Min_Evaluations = 8;
+double gMscNoveltySearch_Pmin_raising_multiplier = 1.1;
+unsigned int gMscNoveltySearch_Recompute_Sparseness_Each = 25;
 

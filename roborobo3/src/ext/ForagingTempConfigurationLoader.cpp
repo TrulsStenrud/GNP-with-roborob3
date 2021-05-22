@@ -7,6 +7,7 @@
 #include "WorldModels/RobotWorldModel.h"
 #include "../../include/masterthesis/evolvers/ControllerEvolver.h"
 #include "../../include/masterthesis/evolvers/MultiNEATEvolver.h"
+#include "NoveltySearchEvolver.h"
 #include "../../include/masterthesis/evolvers/GNPEvolver.h"
 #include "../../include/masterthesis/evolvers/MPFAEvolver.h"
 #include <stdlib.h>
@@ -31,10 +32,13 @@ ForagingTempConfigurationLoader::ForagingTempConfigurationLoader()
 		_evolver = new GNPEvolver(controllerType);
 		break;
 	case ControllerEvolver::NEAT:
-	case ControllerEvolver::NoveltySearch:
+	
 	case ControllerEvolver::HyperNEAT:
 		_evolver = new MultiNEATEvolver(controllerType);
 		break;
+    case ControllerEvolver::NoveltySearch:
+        _evolver = new NoveltySearchEvolver();
+        break;
 	case ControllerEvolver::MPFA:
 		_evolver = new MPFAEvolver();
 		break;

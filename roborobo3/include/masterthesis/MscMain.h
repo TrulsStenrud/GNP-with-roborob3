@@ -52,3 +52,12 @@ extern bool gMscDeltaCoding; // default false. dependent on PhasedSearching bein
 
 // Novelty search
 extern double gMscSampledAverageTimeWindow; // Parameter for the novelty measure.
+extern unsigned int gMscNoveltySearchK;
+extern double gMscNoveltySearchPMin;
+extern bool gMscDynamicPMin;
+extern unsigned int gMscNoveltySearch_No_Archiving_Stagnation_Treshold;
+extern double gMscNoveltySearch_Pmin_lowering_multiplier;
+extern double gMscNoveltySearch_Pmin_min;
+extern unsigned int gMscNoveltySearch_Quick_Archiving_Min_Evaluations;
+extern double gMscNoveltySearch_Pmin_raising_multiplier;
+extern unsigned int gMscNoveltySearch_Recompute_Sparseness_Each;

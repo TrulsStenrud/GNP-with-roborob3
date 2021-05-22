@@ -208,7 +208,7 @@ bool gMscLogGnpNodeUsage = false;
 
 // GNP++
 int gMscNbNeatNodes = 3;
-int gMscNeatT = 5;
+int gMscNeatT = 1;
 
 
 // MPFA

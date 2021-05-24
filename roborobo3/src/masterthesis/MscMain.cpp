@@ -232,5 +232,5 @@ double gMscNoveltySearch_Pmin_lowering_multiplier = 0.9;
 double gMscNoveltySearch_Pmin_min = 0.05;
 unsigned int gMscNoveltySearch_Quick_Archiving_Min_Evaluations = 8;
 double gMscNoveltySearch_Pmin_raising_multiplier = 1.1;
-unsigned int gMscNoveltySearch_Recompute_Sparseness_Each = 25;
+unsigned int gMscNoveltySearch_Recompute_Sparseness_Each = 10;
 

@@ -131,10 +131,10 @@ void MscMain::processArgument(char c){
         case '[':
             gMscNoveltySearch_Quick_Archiving_Min_Evaluations = stoi(optarg);
             break;
-        case ')':
+        case '}':
             gMscNoveltySearch_Pmin_raising_multiplier = stod(optarg);
             break;
-        case '(':
+        case '{':
             gMscNoveltySearch_Recompute_Sparseness_Each = stoi(optarg);
             break;
 	}

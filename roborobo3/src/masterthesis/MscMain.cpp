@@ -188,8 +188,8 @@ void MscMain::initiateParameters(){
 
 // Simulation parameters
 std::string gMscLogName = "";
-double gMscPheromoneDecay = 0.001;
-double gMscPheromoneEvaporationTreshold = 0.08;
+double gMscPheromoneDecay = 0.002;
+double gMscPheromoneEvaporationTreshold = 0.05;
 
 
 // General evolver parameters.

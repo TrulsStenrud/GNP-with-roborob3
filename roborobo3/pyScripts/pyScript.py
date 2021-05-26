@@ -44,7 +44,7 @@ def groupFiles():
     dic = {}
     
     files = listdir()
-    files = filter(lambda x: x.endswith(".csv") and not x.startswith("result"), files)
+    files = filter(lambda x: x.endswith(".csv") and not x.startswith("result") and not x.startswith("usage"), files)
     
     for fil in files:
         key = fil.split("_")[0]

@@ -87,12 +87,18 @@ GNPEvolver::~GNPEvolver(){
 
 void GNPEvolver::evalDone(DataPacket* dp){
     _pop->AccessGenomeByIndex(_evalIndex).setFitness(dp->fitness);
-
+    
     for(int i = 0; i < _params->nbNEATNodes; i++){
         _neatPopulations[i]->AccessGenomeByIndex(_evalIndex).SetFitness(dp->fitness);
     }
-
-
+    
+    
+    if(dp->fitness > _currentGenBest){
+        _currentGenBest = dp->fitness;
+        _currentGenBestIndex = _evalIndex;
+    }
+        
+    
 //    _pop->AccessGenomeByIndex(_evalIndex).printUsage();
     _logger->log(dp->foragingPercentage);
 
@@ -123,20 +129,23 @@ void GNPEvolver::nextGeneration(){
     
     
     if(gMscLogGnpNodeUsage){
-        std::vector <int> result = std::vector<int>(_pop->AccessGenomeByIndex(0).getNodes().size(), 0);
-        for(int i = 0; i < _params->populationSize; i++){
-            GNP::Genome& genome = _pop->AccessGenomeByIndex(i);
-            auto usage = genome.getNodeUsage();
-            std::transform (result.begin(), result.end(), usage.begin(), result.begin(), std::plus<int>());
+        if(_currentGenBestIndex != -1){
+            std::vector <int> result = _pop->AccessGenomeByIndex(_currentGenBestIndex).getNodeUsage();
+            
+            for(auto value : result){
+                _nodeUsageLogger->log(value);
+            }
+            _nodeUsageLogger->newLine();
+        }
+        else{
+            std::cout << "[WARNING] no current best" << std::endl;
         }
         
-        for(auto value : result){
-            _nodeUsageLogger->log(value);
-        }
-        _nodeUsageLogger->newLine();
         
     }
     
+    _currentGenBestIndex = -1;
+    _currentGenBest=-1;
     
     
     _pop->Epoch();

@@ -27,6 +27,8 @@ private:
     void nextGeneration();
     std::vector<NEAT::Population*> _neatPopulations;
     Logger* _nodeUsageLogger = nullptr;
+    int _currentGenBestIndex = -1;
+    double _currentGenBest = -1;
 
 public:
     GNPEvolver(ControllerEvolver::CONTROLLER);

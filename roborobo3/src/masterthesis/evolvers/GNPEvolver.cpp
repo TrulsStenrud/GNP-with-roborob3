@@ -56,7 +56,7 @@ GNPEvolver::GNPEvolver(ControllerEvolver::CONTROLLER controllerType){
             _neatPopulations.push_back(new NEAT::Population(*_neatGenomeBase, *_neatParams, true, 1.0, 72)); // last argument is seed
         }
     }
-    std::string name = _params->nbNEATNodes > 0 ? "GNP++" : "GNP";
+    std::string name = _params->nbNEATNodes > 0 ? "GIN" : "GNP";
 
     _logger = new Logger(name + std::to_string(gInitialNumberOfRobots));
     

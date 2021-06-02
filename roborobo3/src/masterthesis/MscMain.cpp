@@ -34,6 +34,9 @@ void MscMain::processArgument(char c){
 			else if(optarg == std::string("NEAT")){
 				ForagingTempConfigurationLoader::controllerType = ControllerEvolver::NEAT;
 			}
+            else if(optarg == std::string("HyperNEAT")){
+                ForagingTempConfigurationLoader::controllerType = ControllerEvolver::HyperNEAT;
+            }
 			else if(optarg == std::string("NoveltySearch")){
 				ForagingTempConfigurationLoader::controllerType = ControllerEvolver::NoveltySearch;
 			}

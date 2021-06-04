@@ -116,7 +116,7 @@ void ForagingTempWorldObserver::stepPost(){
                 delete _sampledState;
                 _sampledState = new SampledAverageState();
             }
-            if(gWorld->getIterations() >= gMaxIt){
+            if(gMaxIt != -1 && gWorld->getIterations() >= gMaxIt){
                 DataForwarder::getDataForwarder()->simulationDone();
             }
             
